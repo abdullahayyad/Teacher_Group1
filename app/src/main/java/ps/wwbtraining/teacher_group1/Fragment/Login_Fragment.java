@@ -1,109 +1,177 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import ps.wwbtraining.teacher_group1.Class.CustomToast;
+import ps.wwbtraining.teacher_group1.Class.Utils;
 import ps.wwbtraining.teacher_group1.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Login_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Login_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Login_Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class Login_Fragment extends Fragment implements View.OnClickListener {
+    private static View view;
 
-    private OnFragmentInteractionListener mListener;
+    private static EditText emailid, password;
+    private static Button loginButton;
+    private static TextView forgotPassword, signUp;
+    private static CheckBox show_hide_password;
+    private static LinearLayout loginLayout;
+    private static Animation shakeAnimation;
+    private static FragmentManager fragmentManager;
 
     public Login_Fragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Login_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Login_Fragment newInstance(String param1, String param2) {
-        Login_Fragment fragment = new Login_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.login_layout, container, false);
+        view = inflater.inflate(R.layout.login_layout, container, false);
+        initViews();
+        setListeners();
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    // Initiate Views
+    private void initViews() {
+        fragmentManager = getActivity().getSupportFragmentManager();
+
+        emailid = (EditText) view.findViewById(R.id.login_emailid);
+        password = (EditText) view.findViewById(R.id.login_password);
+        loginButton = (Button) view.findViewById(R.id.loginBtn);
+        forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
+        show_hide_password = (CheckBox) view
+                .findViewById(R.id.show_hide_password);
+        loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
+
+        // Load ShakeAnimation
+        shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.shake);
+
+        // Setting text selector over textviews
+        XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        try {
+            ColorStateList csl = ColorStateList.createFromXml(getResources(),
+                    xrp);
+
+            forgotPassword.setTextColor(csl);
+            show_hide_password.setTextColor(csl);
+            signUp.setTextColor(csl);
+        } catch (Exception e) {
         }
     }
 
+    // Set Listeners
+    private void setListeners() {
+        loginButton.setOnClickListener(this);
+        forgotPassword.setOnClickListener(this);
+
+
+        // Set check listener over checkbox for showing and hiding password
+        show_hide_password
+                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton button,
+                                                 boolean isChecked) {
+
+                        // If it is checkec then show password else hide
+                        // password
+                        if (isChecked) {
+
+                            show_hide_password.setText(R.string.hide_pwd);// change
+                            // checkbox
+                            // text
+
+                            password.setInputType(InputType.TYPE_CLASS_TEXT);
+                            password.setTransformationMethod(HideReturnsTransformationMethod
+                                    .getInstance());// show password
+                        } else {
+                            show_hide_password.setText(R.string.show_pwd);// change
+                            // checkbox
+                            // text
+
+                            password.setInputType(InputType.TYPE_CLASS_TEXT
+                                    | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            password.setTransformationMethod(PasswordTransformationMethod
+                                    .getInstance());// hide password
+
+                        }
+
+                    }
+                });
+    }
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginBtn:
+                checkValidation();
+                break;
+
+            case R.id.forgot_password:
+
+                // Replace forgot password fragment with animation
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer,
+                                new ForgotPassword_Fragment(),
+                                Utils.ForgotPassword_Fragment).commit();
+                break;
+
         }
+
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+    // Check Validation before login
+    private void checkValidation() {
+        // Get email id and password
+        String getEmailId = emailid.getText().toString();
+        String getPassword = password.getText().toString();
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        // Check patter for email id
+        Pattern p = Pattern.compile(Utils.regEx);
+
+        Matcher m = p.matcher(getEmailId);
+
+        // Check for both field is empty or not
+        if (getEmailId.equals("") || getEmailId.length() == 0
+                || getPassword.equals("") || getPassword.length() == 0) {
+            loginLayout.startAnimation(shakeAnimation);
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Enter both credentials.");
+
+        }
+        // Check if email id is valid or not
+        else if (!m.find())
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Your Email Id is Invalid.");
+            // Else do login and do your stuff
+        else
+            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
+                    .show();
+
     }
 }
