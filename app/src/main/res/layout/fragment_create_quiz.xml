@@ -10,36 +10,41 @@
 
     <EditText
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     android:hint="Name Quiz"
     android:id="@+id/nameQuiz"
+        android:layout_weight="1"
 
     />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/description"
         android:hint="Description"
+        android:layout_weight="1"
     />
      <EditText
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="0dp"
          android:id="@+id/questionText"
          android:hint="Question"
+         android:layout_weight="1"
          />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
+        android:layout_height="0dp"
         android:text="Type question :"
         android:textColor="@color/black"
         android:layout_margin="10dp"
         android:textSize="18sp"
+        android:layout_weight="1"
         />
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_margin="10dp"
+        android:layout_weight="1"
         
         >
         <RadioButton
@@ -61,12 +66,102 @@
     <FrameLayout
         android:id="@+id/frameQuestion"
         android:layout_width="match_parent"
-        android:layout_height="281dp">
-        
+        android:layout_height="0dp"
+        android:layout_weight="6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/trueFalse"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+
+                >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/gg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+
+                    />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tru"
+
+                android:orientation="vertical">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width=""
-        android:layout_height=""></LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        >
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Add"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Submit"
+            android:textAllCaps="false" />
+    </LinearLayout>
     
 </LinearLayout>
