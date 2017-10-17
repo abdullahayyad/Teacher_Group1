@@ -1,7 +1,9 @@
-package ps.wwbtraining.teacher_group1;
+package ps.wwbtraining.teacher_group1.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ps.wwbtraining.teacher_group1.R;
 
 public class MainActivity extends AppCompatActivity {
 

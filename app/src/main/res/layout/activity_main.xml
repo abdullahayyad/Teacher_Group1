@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ps.wwbtraining.teacher_group1.MainActivity">
+    tools:context="ps.wwbtraining.teacher_group1.Activity.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
