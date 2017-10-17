@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Replace Login Fragment with animation
     public void replaceLoginFragment() {
         fragmentManager
                 .beginTransaction()

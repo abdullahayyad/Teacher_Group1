@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -24,10 +25,10 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ps.wwbtraining.teacher_group1.Activity.Teacher;
 import ps.wwbtraining.teacher_group1.Class.CustomToast;
 import ps.wwbtraining.teacher_group1.Class.Utils;
 import ps.wwbtraining.teacher_group1.R;
-
 
 public class Login_Fragment extends Fragment implements View.OnClickListener {
     private static View view;
@@ -128,6 +129,8 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.loginBtn:
                 checkValidation();
+                Intent intent =new Intent(getActivity(), Teacher.class);
+                startActivity(intent);
                 break;
 
             case R.id.forgot_password:

@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Teacher"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/manager"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:text="@string/mangeUser"
+        android:textAllCaps="false"
+
+        android:textColor="@color/buttonText"
+
+
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/cQroup"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/ic_group_add_black_24dp"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:text="@string/creat_group"
+        android:textAllCaps="false"
+
+        android:textColor="@color/buttonText"
+
+
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/cQuiz"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/ic_filter_none_black_24dp"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="@string/creat_quiz"
+        android:textAllCaps="false"
+
+        android:textColor="@color/buttonText"
+
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/hiQuiz"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape"
+        android:drawableLeft="@drawable/ic_perm_contact_calendar_black_24dp"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:text="@string/histoery_quiz"
+        android:textAllCaps="false"
+        android:textColor="@color/buttonText"
+        android:textSize="18sp" />
+
+
+</LinearLayout>

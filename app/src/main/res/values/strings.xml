@@ -15,8 +15,12 @@
     <string name="mobileNumber">Mobile Number</string>
     <string name="location">Location</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
-    <string name="signUp">SIGN UP</string>
+    <string name="mangeUser">Mange User</string>
+    <string name="creat_group">Create Group</string>
+    <string name="creat_quiz">Create Quiz</string>
+    <string name="histoery_quiz">History Quiz</string>
+
+
     <string name="already_user">Already have Account? Login here.</string>
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
