@@ -17,7 +17,7 @@ public class Teacher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher);
 
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
 
     }
 

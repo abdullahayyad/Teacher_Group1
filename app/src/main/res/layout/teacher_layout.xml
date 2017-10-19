@@ -32,7 +32,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/cQroup"
+        android:id="@+id/group"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -55,7 +55,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/cQuiz"
+        android:id="@+id/quiz"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -1,167 +1,209 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz"
-    android:orientation="vertical"
-    android:layout_margin="10dp"
-    >
+    android:padding="20dp" >
 
-    <EditText
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:hint="Name Quiz"
-    android:id="@+id/nameQuiz"
-        android:layout_weight="1"
-
-    />
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/description"
-        android:hint="Description"
-        android:layout_weight="1"
-    />
-     <EditText
-         android:layout_width="match_parent"
-         android:layout_height="0dp"
-         android:id="@+id/questionText"
-         android:hint="Question"
-         android:layout_weight="1"
-         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="Type question :"
-        android:textColor="@color/black"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_margin="10dp"
-        android:textSize="18sp"
-        android:layout_weight="1"
-        />
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        
         >
-        <RadioButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="true/false"
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="Name Quiz"
+            android:id="@+id/nameQuiz"
             android:layout_weight="1"
 
             />
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Choose question" />
-    </RadioGroup>
-
-    <FrameLayout
-        android:id="@+id/frameQuestion"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6">
-
-        <LinearLayout
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/trueFalse"
+            android:layout_height="0dp"
+            android:id="@+id/description"
+            android:hint="Description"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/questionText"
+            android:hint="Question"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Type question :"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_margin="10dp"
+            android:layout_weight="1"
 
+            >
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="true/false"
+                android:layout_weight="1"
+
+                />
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Choose question" />
+
+        </RadioGroup>
+
+
+        <FrameLayout
+            android:id="@+id/frameQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <LinearLayout
+                android:id="@+id/trueFalse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
+
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+
+                    >
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+                        />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+
+                        />
+
+                    <RadioButton
+                        android:id="@+id/gg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+                        />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/tru"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
 
             <RadioGroup
                 android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+
+                android:visibility="invisible"
 
                 >
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="2dp"
-                    />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="2dp"
-
+                    android:layout_height="wrap_content"
+                    android:text="true"
                     />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-
-                    />
-
-                <RadioButton
-                    android:id="@+id/gg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-
+                    android:text="false"
                     />
             </RadioGroup>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tru"
+        </FrameLayout>
 
-                android:orientation="vertical">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
 
-            </LinearLayout>
+            >
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="Add"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="Submit"
+                android:textAllCaps="false" />
         </LinearLayout>
 
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-
-        >
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="Add"
-            android:textAllCaps="false" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="Submit"
-            android:textAllCaps="false" />
     </LinearLayout>
-    
-</LinearLayout>
+</ScrollView>

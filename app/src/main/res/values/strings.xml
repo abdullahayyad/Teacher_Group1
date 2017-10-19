@@ -15,7 +15,7 @@
     <string name="mobileNumber">Mobile Number</string>
     <string name="location">Location</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="mangeUser">Mange User</string>
+    <string name="mangeUser">Manage User</string>
     <string name="creat_group">Create Group</string>
     <string name="creat_quiz">Create Quiz</string>
     <string name="histoery_quiz">History Quiz</string>
@@ -36,4 +36,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+    <string-array name="user_status">
+        <item>Approved</item>
+        <item>Not Approved</item>
+        <item>Blocked</item>
+        <item>Rejected</item>
+    </string-array>
 </resources>
