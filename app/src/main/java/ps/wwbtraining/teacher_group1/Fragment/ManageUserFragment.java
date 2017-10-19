@@ -2,16 +2,38 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
+import ps.wwbtraining.teacher_group1.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Model.StudentModel;
+import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.R;
+import ps.wwbtraining.teacher_group1.WebService.TeacherApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ManageUserFragment extends Fragment {
+    RecyclerView recyclerView;
+    ArrayList<User> array = new ArrayList<>();
+    String r;
+    UserManagementAdapter userManagementAdapter ;
+
     Spinner spinner;
+    TeacherApi teacherApi;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +45,96 @@ public class ManageUserFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_manage_user, container, false);
-        spinner = (Spinner)view.findViewById(R.id.spinner);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.user_status, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        return view;
+         teacherApi = ApiTeacher.getAPIService();
+       recyclerView = view.findViewById(R.id.list_user);
 
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                      @Override
+                                      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                       try{
+                                        ArrayList<User> arrayList=getUserName(2);
+
+                                          Log.d("mmmmm",arrayList.size()+""+arrayList.get(i).getUserName());
+                                          userManagementAdapter = new UserManagementAdapter(getActivity(), arrayList,
+                                                 2);
+                                          recyclerView.setAdapter(userManagementAdapter);
+                                           recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                          // recyclerView.setLayoutManager(RecyclerView);
+
+                                      }catch (Exception e){
+                                           Toast.makeText(getActivity(), "size 0", Toast.LENGTH_SHORT).show();
+                                       }}
+
+                                      @Override
+                                      public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                      }
+                                  }
+);
+
+
+
+
+        return view;
     }
 
-}
+    public ArrayList<User> getUserName(int status) {
 
+        teacherApi.getStudName(status).enqueue(new Callback<StudentModel>() {
+            @Override
+            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isResult()) {
+                        array =response.body().getUser();
+                        Log.d("rrr",array.toString());
+                    } else
+                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StudentModel> call, Throwable t) {
+                Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                Log.d("ffff", "fff");
+            }
+        });
+        return array;
+    }
+//    public ArrayList<User> getStudent(final int status) {
+//        returnList = new ArrayList<>();
+//
+//        teacherApi.getStudName(status).enqueue(new Callback<UserName>() {
+//            @Override
+//            public void onResponse(Call<UserName> call, Response<UserName> response) {
+////                Toast.makeText(getActivity(), "sucessfull   " + response.body().toString(), Toast.LENGTH_SHORT).show();
+//                UserName users = response.body();
+////                users.getStatuse();
+//                if (users.isResult()) {
+//                    Toast.makeText(getActivity(), "successful", Toast.LENGTH_SHORT).show();
+//                    returnList.add(users.getUser());
+//
+//                }
+//                else
+//                    Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserName> call, Throwable t) {
+//                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//        });
+//        return returnList;
+//    }
+
+}

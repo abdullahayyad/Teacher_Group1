@@ -38,8 +38,8 @@
     <string name="action_example">Example action</string>
     <string-array name="user_status">
         <item>Approved</item>
+        <item>Rejected</item>
         <item>Not Approved</item>
         <item>Blocked</item>
-        <item>Rejected</item>
     </string-array>
 </resources>
