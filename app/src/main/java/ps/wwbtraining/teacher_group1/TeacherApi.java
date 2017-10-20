@@ -13,6 +13,7 @@ import retrofit2.http.GET;
 public interface TeacherApi {
     @GET("check.php")
     @FormUrlEncoded
+
     Call<User> checkTeacher(@Field("user_password") String user_password,
                             @Field("user_email") String user_email);
 //@POST("Quiz.php")
