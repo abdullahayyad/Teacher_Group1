@@ -1,4 +1,4 @@
-package ps.wwbtraining.teacher_group1;
+package ps.wwbtraining.teacher_group1.WebService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

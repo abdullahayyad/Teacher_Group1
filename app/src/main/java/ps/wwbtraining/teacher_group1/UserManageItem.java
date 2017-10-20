@@ -6,14 +6,14 @@ package ps.wwbtraining.teacher_group1;
 
 public class UserManageItem {
     String UserName;
-    int status;
+    //int status;
 
     public UserManageItem() {
     }
 
-    public UserManageItem(String userName, int status) {
+    public UserManageItem(String userName){//}, int status) {
         UserName = userName;
-        this.status = status;
+      //  this.status = status;
     }
 
     public String getUserName() {
@@ -24,11 +24,11 @@ public class UserManageItem {
         UserName = userName;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+//    public int getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(int status) {
+//        this.status = status;
+//    }
 }

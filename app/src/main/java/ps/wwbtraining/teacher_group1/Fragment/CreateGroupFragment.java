@@ -6,12 +6,13 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 
         import android.os.Bundle;
-        import android.support.v4.app.Fragment;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-        import ps.wwbtraining.teacher_group1.R;
+import ps.wwbtraining.teacher_group1.R;
 
 public class CreateGroupFragment extends Fragment {
 
@@ -26,6 +27,11 @@ public class CreateGroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_group, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.student_name);
+       // ArrayList<User> arrayList=new ArrayList<>();
+       // ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_checked,arrayList);
+
+       // recyclerView.setAdapter(arrayAdapter);
 
         return view;
     }
