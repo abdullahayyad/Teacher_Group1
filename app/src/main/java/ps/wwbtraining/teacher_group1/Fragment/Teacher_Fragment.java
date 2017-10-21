@@ -70,7 +70,7 @@ public class Teacher_Fragment extends Fragment  {
                                               getFragmentManager()
                                                       .beginTransaction()
                                                       .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                                                      .replace(R.id.frameTeacher, new ManageUserFragment()
+                                                      .replace(R.id.frameTeacher, new HistoryFragment()
                                                       ).commit();
                                           }
 

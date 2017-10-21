@@ -36,6 +36,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+    <string name="quiz_name">Quiz Name:</string>
+    <string name="quiz_1">Quiz 1</string>
+    <string name="send_to">Send To:</string>
+    <string name="group_1">Group 1</string>
+    <string name="resend">Resend</string>
+    <string name="history_quiz_s">History Quiz\'s</string>
     <string-array name="user_status">
         <item>Approved</item>
         <item>Rejected</item>

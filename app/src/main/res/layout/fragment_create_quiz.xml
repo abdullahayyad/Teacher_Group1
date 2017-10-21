@@ -2,235 +2,275 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz">
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz"
+    android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
+            android:id="@+id/llcreteGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="2dp"
-            android:textColorHint="@color/buttonText">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/tvnameQuize"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name Quiz"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+                android:background="@color/shadow_back"
+                android:padding="10dp"
+                android:text="Create Quiz"
+                android:textColor="@color/buttonText"
+                android:textSize="20sp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
-            android:textColorHint="@color/buttonText">
-
-            <EditText
-                android:id="@+id/tvDiscription"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Discription"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_margin="6dp"
+                android:textColorHint="@color/buttonText">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
+                <EditText
+                    android:id="@+id/tvnameQuize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name Quiz"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
-            android:layout_weight="1"
-            android:textColorHint="@color/buttonText">
-
-            <EditText
-                android:id="@+id/tvQuestion"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Question"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_margin="6dp"
+                android:textColorHint="@color/buttonText">
 
+                <EditText
+                    android:id="@+id/tvDiscription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Discription"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="Type Question :"
-            android:textColor="@color/buttonText"
-            android:textSize="18sp" />
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/raObtion"
-                android:layout_width="0dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="6dp"
                 android:layout_weight="1"
-                android:text="true/false"
+                android:textColorHint="@color/buttonText">
 
-                android:textColor="@color/buttonText" />
+                <EditText
+                    android:id="@+id/tvQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Question"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
-            <RadioButton
-                android:id="@+id/raChoose"
-                android:layout_width="0dp"
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Choose question"
-                android:textColor="@color/buttonText" />
+                android:layout_margin="6dp"
+                android:text="Type Question :"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-
-        </RadioGroup>
-
-        <FrameLayout
-            android:id="@+id/frameQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/trueFalse"
+            <RadioGroup
+                android:id="@+id/rgType"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/raObtion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="true/false"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/raChoose"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Choose question"
+                    android:textColor="@color/black" />
+
+
+            </RadioGroup>
+
+            <FrameLayout
+                android:id="@+id/frameQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="6dp"
-                    android:orientation="vertical"
-                    android:textColor="@color/buttonText">
+                    android:id="@+id/visibleTF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:visibility="visible">
 
                     <RadioButton
-                        android:id="@+id/rach1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:id="@+id/rbtrue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="true"
                         android:textColor="@color/buttonText" />
 
                     <RadioButton
-                        android:id="@+id/rach2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:id="@+id/rbfalse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="false"
                         android:textColor="@color/buttonText" />
-
-                    <RadioButton
-                        android:id="@+id/rach3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText" />
-
-                    <RadioButton
-                        android:id="@+id/rach4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText"
-
-                        />
                 </RadioGroup>
 
                 <LinearLayout
+                    android:id="@+id/visibleChoose"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp">
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                    <EditText
-                        android:id="@+id/etch1"
+                    <RadioGroup
+                        android:id="@+id/rgChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="6dp"
+                        android:orientation="vertical"
+                        android:textColor="@color/buttonText">
+
+                        <RadioButton
+                            android:id="@+id/rach1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/buttonText" />
+
+                        <RadioButton
+                            android:id="@+id/rach2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/buttonText" />
+
+                        <RadioButton
+                            android:id="@+id/rach3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/buttonText" />
+
+                        <RadioButton
+                            android:id="@+id/rach4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/buttonText"
+
+                            />
+                    </RadioGroup>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/etch2"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText" />
+                        <EditText
+                            android:id="@+id/etch1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:inputType="text"
+                            android:hint="a."
+                            android:textColor="@color/buttonText" />
 
-                    <EditText
-                        android:id="@+id/etch3"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText" />
+                        <EditText
+                            android:id="@+id/etch2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:inputType="text"
+                            android:hint="b."
+                            android:textColor="@color/buttonText" />
 
-                    <EditText
-                        android:id="@+id/etch4"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/buttonText" />
+                        <EditText
+                            android:id="@+id/etch3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:inputType="text"
+                            android:hint="c."
+                            android:textColor="@color/buttonText" />
 
+                        <EditText
+                            android:id="@+id/etch4"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:inputType="text"
+                            android:hint="d."
+                            android:textColor="@color/buttonText" />
+
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:visibility="visible">
-
-                <RadioButton
-                    android:id="@+id/rbtrue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="true"
-                    android:textColor="@color/buttonText" />
-
-                <RadioButton
-                    android:id="@+id/rbfalse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="false"
-
-                    android:textColor="@color/buttonText" />
-            </RadioGroup>
-        </FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/llcreteGroup">
 
-            <Button
-                android:id="@+id/buAdd"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/shape"
-                android:text="ADD"
-                android:textAllCaps="false"
-                android:textColor="@color/buttonText" />
+                android:layout_weight="0.1"
+                android:background="@drawable/edit_text"
+                android:gravity="center">
 
-            <Button
-                android:id="@+id/buSubmit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/shape"
-                android:gravity="center"
-                android:text="Submit"
-                android:textAllCaps="false"
+                <TextView
+                    android:id="@+id/buAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Add"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-                android:textColor="@color/buttonText" />
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#C6C6C6"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/buSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:text="Submit"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

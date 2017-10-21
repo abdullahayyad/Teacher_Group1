@@ -25,10 +25,7 @@
         android:paddingRight="60dp"
         android:text="@string/mangeUser"
         android:textAllCaps="false"
-
         android:textColor="@color/buttonText"
-
-
         android:textSize="18sp" />
 
     <Button
@@ -48,10 +45,7 @@
         android:paddingRight="60dp"
         android:text="@string/creat_group"
         android:textAllCaps="false"
-
         android:textColor="@color/buttonText"
-
-
         android:textSize="18sp" />
 
     <Button
@@ -61,7 +55,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="30dp"
-
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/shape"
@@ -72,9 +65,7 @@
         android:paddingRight="70dp"
         android:text="@string/creat_quiz"
         android:textAllCaps="false"
-
         android:textColor="@color/buttonText"
-
         android:textSize="18sp" />
 
     <Button
@@ -96,6 +87,4 @@
         android:textAllCaps="false"
         android:textColor="@color/buttonText"
         android:textSize="18sp" />
-
-
 </LinearLayout>
