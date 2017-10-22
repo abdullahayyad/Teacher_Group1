@@ -6,22 +6,40 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 
         import android.os.Bundle;
-        import android.support.annotation.Nullable;
-        import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-        import android.view.KeyEvent;
+import android.support.v4.app.Fragment;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
         import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+        import android.widget.Toast;
 
-import ps.wwbtraining.teacher_group1.R;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.List;
+
+        import ps.wwbtraining.teacher_group1.Adapter.AdapterAddGroup;
+        import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
+        import ps.wwbtraining.teacher_group1.ApiTeacher;
+        import ps.wwbtraining.teacher_group1.Model.StudentModel;
+        import ps.wwbtraining.teacher_group1.Model.User;
+        import ps.wwbtraining.teacher_group1.R;
+        import ps.wwbtraining.teacher_group1.WebService.TeacherApi;
+        import retrofit2.Call;
+        import retrofit2.Callback;
+        import retrofit2.Response;
 
 public class CreateGroupFragment extends Fragment {
-
-
+    TeacherApi teacherApi;
+    ArrayList<User> array=new ArrayList<>();
+    AdapterAddGroup  userManagementAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        teacherApi = ApiTeacher.getAPIService();
+
+
     }
 
 
@@ -29,35 +47,49 @@ public class CreateGroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_group, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.student_name);
-       // ArrayList<User> arrayList=new ArrayList<>();
-       // ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_checked,arrayList);
+        final RecyclerView recyclerView = view.findViewById(R.id.listStudentAddGroup);
+        recyclerView.setHasFixedSize(true);
+        teacherApi.getStudName(2).enqueue(new Callback<StudentModel>() {
 
-       // recyclerView.setAdapter(arrayAdapter);
+            @Override
+            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+                array.clear();
+                if (response.isSuccessful()) {
+                    if (response.body().isResult()) {
+
+                        List<User> list =response.body().getUser();
+                        array.addAll(list);
+                        Log.d("rrr",array.toString());
+                        Log.d("gg", array + "");
+                        userManagementAdapter = new AdapterAddGroup(getActivity(), array);
+                        Log.d("gg", "ff");
+                        recyclerView.setAdapter(userManagementAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        Log.d("gg", "hhh");
+
+                        Toast.makeText(getActivity(),array.toString()+ "", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else
+                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StudentModel> call, Throwable t) {
+                Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                Log.d("ffff", "fff");
+            }
+        });
+        Toast.makeText(getActivity(),array+ "ll", Toast.LENGTH_SHORT).show();
+       try {
+
+}catch (Exception e){
+
+}
+
+        Toast.makeText(getActivity(),array.toString()+ "nnnn", Toast.LENGTH_SHORT).show();
 
         return view;
     }
-
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    getFragmentManager().beginTransaction()  .setCustomAnimations(R.anim.left_enter, R.anim.right_out).
-                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
-                    return true;
-
-                }
-                return false;
-            }
-        });
-    }
-
 }
