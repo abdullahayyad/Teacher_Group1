@@ -2,6 +2,7 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ps.wwbtraining.teacher_group1.Adapter.ShowGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
@@ -25,6 +27,7 @@ public class ShowGroupFragment extends Fragment {
 
     TeacherApi teacherApi;
     ArrayList<GroupItem> result1 = new ArrayList<>();
+    ShowGroupAdapter showGroupAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,11 @@ public class ShowGroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_show_group, container, false);
         teacherApi = ApiTeacher.getAPIService();
         RecyclerView list_group = (RecyclerView) view.findViewById(R.id.list_group);
+        ArrayList<GroupItem>array = new ArrayList<>();
+        array = showGroup();
+        showGroupAdapter = new ShowGroupAdapter(getActivity(),array );
+        list_group.setAdapter(showGroupAdapter);
+        list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
         return view;
