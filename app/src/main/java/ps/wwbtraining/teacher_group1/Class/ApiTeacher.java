@@ -1,7 +1,7 @@
-package ps.wwbtraining.teacher_group1;
+package ps.wwbtraining.teacher_group1.Class;
 
 import ps.wwbtraining.teacher_group1.WebService.RetrofitClient;
-import ps.wwbtraining.teacher_group1.WebService.TeacherApi;
+import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 
 /**
  * Created by Hanan Dawod on 18/10/17.

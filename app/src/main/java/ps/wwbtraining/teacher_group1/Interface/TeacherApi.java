@@ -1,4 +1,4 @@
-package ps.wwbtraining.teacher_group1.WebService;
+package ps.wwbtraining.teacher_group1.Interface;
 
 
 import ps.wwbtraining.teacher_group1.Model.StudentModel;

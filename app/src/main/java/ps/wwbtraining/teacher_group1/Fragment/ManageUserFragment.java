@@ -16,11 +16,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
-import ps.wwbtraining.teacher_group1.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.R;
-import ps.wwbtraining.teacher_group1.WebService.TeacherApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,33 +52,33 @@ public class ManageUserFragment extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-         teacherApi = ApiTeacher.getAPIService();
-       recyclerView = view.findViewById(R.id.list_user);
+        teacherApi = ApiTeacher.getAPIService();
+        recyclerView = view.findViewById(R.id.list_user);
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                      @Override
-                                      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                       try{
-                                        ArrayList<User> arrayList=getUserName(2);
+                                              @Override
+                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                                  try{
+                                                      ArrayList<User> arrayList=getUserName(2);
 
-                                          Log.d("mmmmm",arrayList.size()+""+arrayList.get(i).getUserName());
-                                          userManagementAdapter = new UserManagementAdapter(getActivity(), arrayList,
-                                                 2);
-                                          recyclerView.setAdapter(userManagementAdapter);
-                                           recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                          // recyclerView.setLayoutManager(RecyclerView);
+                                                      Log.d("mmmmm",arrayList.size()+""+arrayList.get(i).getUserName());
+                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), arrayList,
+                                                              2);
+                                                      recyclerView.setAdapter(userManagementAdapter);
+                                                      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                                      // recyclerView.setLayoutManager(RecyclerView);
 
-                                      }catch (Exception e){
-                                           Toast.makeText(getActivity(), "size 0", Toast.LENGTH_SHORT).show();
-                                       }}
+                                                  }catch (Exception e){
+                                                      Toast.makeText(getActivity(), "size 0", Toast.LENGTH_SHORT).show();
+                                                  }}
 
-                                      @Override
-                                      public void onNothingSelected(AdapterView<?> adapterView) {
+                                              @Override
+                                              public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                      }
-                                  }
-);
+                                              }
+                                          }
+        );
 
 
 
