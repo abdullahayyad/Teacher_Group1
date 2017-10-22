@@ -2,13 +2,10 @@ package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,9 +13,7 @@ import java.util.ArrayList;
 import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.R;
 
-/**
- * Created by مركز الخبراء on 10/20/2017.
- */
+
 
 public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHolder> {
 
@@ -66,7 +61,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             super(view);
 
             mView = view;
-            student_name = (TextView) view.findViewById(R.id.student_name);
+            student_name = (TextView) view.findViewById(R.id.nameStudentAddGroup);
             checkBox = (CheckBox) view.findViewById(R.id.checkboxStudentAddGroup);
 
 

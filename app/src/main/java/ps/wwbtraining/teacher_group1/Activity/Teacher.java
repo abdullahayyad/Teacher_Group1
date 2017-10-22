@@ -12,12 +12,13 @@ public class Teacher extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher);
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
+       //     getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
 
     }
 

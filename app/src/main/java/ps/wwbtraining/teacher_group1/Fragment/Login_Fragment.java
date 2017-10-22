@@ -25,7 +25,7 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ps.wwbtraining.teacher_group1.Activity.Teacher;
+import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Class.CustomToast;
 import ps.wwbtraining.teacher_group1.Class.Utils;
 import ps.wwbtraining.teacher_group1.R;
@@ -129,7 +129,7 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.loginBtn:
                 checkValidation();
-                Intent intent =new Intent(getActivity(), Teacher.class);
+                Intent intent =new Intent(getActivity(), TeacherActivity.class);
                 startActivity(intent);
                 break;
 

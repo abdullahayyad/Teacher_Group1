@@ -48,7 +48,7 @@ public class ManageUserFragment extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.user_status, android.R.layout.simple_spinner_item);
+                R.array.user_status, R.layout.textview_with_font_change);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

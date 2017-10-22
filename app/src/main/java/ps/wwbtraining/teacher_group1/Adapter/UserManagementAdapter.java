@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,16 +45,18 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = userManageItems.get(position);
-//        holder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup,  int i) {
-//
-//               // positionItem =i;
-//
-//               // holder.radioButtonn.setChecked(true);
-//
-//            }
-//        });
+        holder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup,  int i) {
+
+               positionItem =i;
+
+                Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
+
+               holder.radioButtonn.setChecked(true);
+
+            }
+        });
 
         holder.student_name.setText(userManageItems.get(position).getUserName());
 
@@ -77,7 +80,7 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
 
             mView = view;
             student_name = (TextView) view.findViewById(R.id.student_name);
-            radioGroup = (RadioGroup)view.findViewById(R.id.radio);
+            radioGroup = (RadioGroup)view.findViewById(R.id.groupStu);
             radioButtonn =(RadioButton)view.findViewById(positionItem);
 
 
