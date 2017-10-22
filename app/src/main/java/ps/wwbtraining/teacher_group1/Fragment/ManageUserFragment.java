@@ -29,7 +29,7 @@ public class ManageUserFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<User> array = new ArrayList<>();
     String r;
-    UserManagementAdapter userManagementAdapter ;
+    UserManagementAdapter userManagementAdapter;
 
     Spinner spinner;
     TeacherApi teacherApi;
@@ -59,19 +59,39 @@ public class ManageUserFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                               @Override
                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  try{
-                                                      ArrayList<User> arrayList=getUserName(2);
+                                                  try {
 
-                                                      Log.d("mmmmm",arrayList.size()+""+arrayList.get(i).getUserName());
-                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), arrayList,
-                                                              2);
-                                                      recyclerView.setAdapter(userManagementAdapter);
-                                                      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                                      teacherApi.getStudName(spinner.getSelectedItemPosition() + 2).enqueue(new Callback<StudentModel>() {
+                                                          @Override
+
+                                                          public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+                                                              if (response.isSuccessful()) {
+                                                                  if (response.body().isResult()) {
+                                                                      array = response.body().getUser();
+                                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), array, 2);
+                                                                      recyclerView.setAdapter(userManagementAdapter);
+                                                                      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                                                      Log.d("rrr", array.toString());
+                                                                  } else
+                                                                      Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+                                                              }
+                                                          }
+
+                                                          @Override
+
+                                                          public void onFailure(Call<StudentModel> call, Throwable t) {
+                                                              Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                                                              Log.d("ffff", "fff");
+                                                          }
+                                                      });
+
+
                                                       // recyclerView.setLayoutManager(RecyclerView);
 
-                                                  }catch (Exception e){
+                                                  } catch (Exception e) {
                                                       Toast.makeText(getActivity(), "size 0", Toast.LENGTH_SHORT).show();
-                                                  }}
+                                                  }
+                                              }
 
                                               @Override
                                               public void onNothingSelected(AdapterView<?> adapterView) {
@@ -81,33 +101,33 @@ public class ManageUserFragment extends Fragment {
         );
 
 
-
-
         return view;
     }
 
-    public ArrayList<User> getUserName(int status) {
-
-        teacherApi.getStudName(status).enqueue(new Callback<StudentModel>() {
-            @Override
-            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().isResult()) {
-                        array =response.body().getUser();
-                        Log.d("rrr",array.toString());
-                    } else
-                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StudentModel> call, Throwable t) {
-                Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
-                Log.d("ffff", "fff");
-            }
-        });
-        return array;
-    }
+//    public ArrayList<User> getUserName(int status) {
+//
+//        teacherApi.getStudName(status).enqueue(new Callback<StudentModel>() {
+//            @Override
+//            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+//                if (response.isSuccessful()) {
+//                    if (response.body().isResult()) {
+//                        array =response.body().getUser();
+//
+//                        Log.d("rrr",array.toString());
+//                    } else
+//                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//
+//            public void onFailure(Call<StudentModel> call, Throwable t) {
+//                Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+//                Log.d("ffff", "fff");
+//            }
+//        });
+//        return array;
+//    }
 //    public ArrayList<User> getStudent(final int status) {
 //        returnList = new ArrayList<>();
 //
