@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,47 +9,68 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/shadow_back"
-            android:padding="10dp"
-            android:text="Manage Student"
-            android:textColor="@color/buttonText"
-            android:textSize="20dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:background="@color/shadow_back">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_toLeftOf="@+id/spinner"
-                android:layout_toStartOf="@+id/spinner"
-                android:text="Student Status"
-                android:textColor="#009688"
-                android:textSize="20sp" />
-
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="Manage Student"
+                android:textColor="@color/buttonText"
+                android:textSize="20dp" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/buttonText" />
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:layout_weight="1">
 
             </Spinner>
         </LinearLayout>
+
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="10dp">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginEnd="40dp"-->
+        <!--android:layout_marginRight="40dp"-->
+        <!--android:layout_toLeftOf="@+id/spinner"-->
+        <!--android:layout_toStartOf="@+id/spinner"-->
+        <!--android:text="Student Status"-->
+        <!--android:textColor="#009688"-->
+        <!--android:textSize="20sp" />-->
+
+        <!--<Spinner-->
+        <!--android:id="@+id/spinner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--</Spinner>-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_text"
+            android:gravity="center"
             android:orientation="horizontal">
 
 
@@ -62,6 +84,11 @@
                 android:enabled="false"
                 android:text="App." />
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#C6C6C6" />
+
             <RadioButton
                 android:id="@+id/radioButton3"
                 android:layout_width="0dp"
@@ -72,6 +99,11 @@
                 android:enabled="false"
                 android:text="Not." />
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#C6C6C6" />
+
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -80,6 +112,11 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Blo." />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#C6C6C6" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -91,6 +128,14 @@
                 android:text="Rej." />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Students:"
+            android:textColor="#009688"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_user"

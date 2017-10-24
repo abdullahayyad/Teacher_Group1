@@ -7,7 +7,7 @@
         android:bottomLeftRadius="20dp">
     </corners>
     <stroke
-        android:width="3dp"
+        android:width="1dp"
         android:color="@color/background_color">
     </stroke>
     <gradient

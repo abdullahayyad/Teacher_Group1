@@ -68,9 +68,10 @@ public class ManageUserFragment extends Fragment {
                                                               if (response.isSuccessful()) {
                                                                   if (response.body().isResult()) {
                                                                       array = response.body().getUser();
-                                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), array, 2);
+                                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), array, spinner.getSelectedItemPosition() + 2);
                                                                       recyclerView.setAdapter(userManagementAdapter);
                                                                       recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                                                      userManagementAdapter.SelectAll(spinner.getSelectedItemPosition()+2);
                                                                       Log.d("rrr", array.toString());
                                                                   } else
                                                                       Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
