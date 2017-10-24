@@ -82,7 +82,7 @@ public class ManageUserFragment extends Fragment {
                                                           @Override
 
                                                           public void onFailure(Call<StudentModel> call, Throwable t) {
-                                                              Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                                                              Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
                                                               Log.d("ffff", "fff");
                                                           }
                                                       });

@@ -14,12 +14,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Adapter.ShowGroupAdapter;
-import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
-import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +31,7 @@ public class ShowGroupFragment extends Fragment {
     ShowGroupAdapter showGroupAdapter;
     RecyclerView list_group;
     FloatingActionButton addGroup;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,15 +43,15 @@ public class ShowGroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_show_group, container, false);
+        View view = inflater.inflate(R.layout.fragment_show_group, null, false);
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);
         addGroup = (FloatingActionButton)view.findViewById(R.id.addGroup);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.show_group, new CreateGroupFragment()
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .add(R.id.show_group, new CreateGroupFragment()
                         ).commit();
 
             }
@@ -67,8 +66,7 @@ public class ShowGroupFragment extends Fragment {
                     if (response.body().isResult()) {
 
                         array = response.body().getGroup();
-                        Toast.makeText(getActivity(), array + "  1233", Toast.LENGTH_SHORT).show();
-                        showGroupAdapter = new ShowGroupAdapter(getParentFragment(), array);
+                        showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
                         list_group.setAdapter(showGroupAdapter);
                         list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
                     } else
@@ -83,6 +81,7 @@ public class ShowGroupFragment extends Fragment {
                 Log.d("ffff", "fff");
             }
         });
+
 
 
         return view;

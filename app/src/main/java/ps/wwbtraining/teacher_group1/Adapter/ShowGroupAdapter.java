@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import ps.wwbtraining.teacher_group1.Fragment.EditGroupFragment;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
 import ps.wwbtraining.teacher_group1.R;
-
 
 
 public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.ViewHolder> {
@@ -42,14 +42,17 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         holder.mItem = arrayList.get(position);
         holder.group_name.setText(arrayList.get(position).getgroup_name());
         holder.description.setText(arrayList.get(position).getDescription());
+        final int group_id = arrayList.get(position).getGroup_id();
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putString("group_name",holder.group_name.getText().toString());
+                Log.d("nameee",holder.group_name.getText().toString());
+                Log.d("description",holder.description.getText().toString());
                 args.putString("group_description",holder.description.getText().toString());
+                args.putInt("group_id",group_id);
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-
                 newFragment = new EditGroupFragment();
                 newFragment.setArguments(args);
                 transaction.add(R.id.show_group, newFragment);
