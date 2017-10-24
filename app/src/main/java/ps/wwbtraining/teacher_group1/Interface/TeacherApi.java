@@ -23,7 +23,6 @@ public interface TeacherApi {
 
 
     @GET("showGroup.php")
-    @FormUrlEncoded
     Call<GroupModel> showGroup();
 
 

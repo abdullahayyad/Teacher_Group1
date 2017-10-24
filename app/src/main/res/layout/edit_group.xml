@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/llcreteGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/shadow_back"
+            android:padding="10dp"
+            android:text="Create Group"
+            android:textColor="@color/buttonText"
+            android:textSize="20sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:textColorHint="@color/buttonText">
+
+            <EditText
+                android:id="@+id/tvnameGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name Group"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:textColorHint="@color/buttonText">
+
+            <EditText
+                android:id="@+id/tvDiscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Discription"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_student"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:padding="5dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/edit_text"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/buAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#C6C6C6"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/buCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+</RelativeLayout><!--</ScrollView>-->

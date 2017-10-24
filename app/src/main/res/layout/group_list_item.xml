@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_mode_edit_black_24dp"
-                android:backgroundTint="@color/cardview_dark_background"
+                android:backgroundTint="@color/background_color"
                 android:textColor="@color/button_selectorcolor" />
             <ImageButton
                 android:id="@+id/delete"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_delete_black_24dp"
-                android:backgroundTint="@color/cardview_dark_background"
+                android:backgroundTint="@color/background_color"
                 android:textColor="@color/button_selectorcolor" />
         </LinearLayout>
     </LinearLayout>
