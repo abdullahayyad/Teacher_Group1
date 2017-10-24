@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Adapter.AdapterAddGroup;
+import ps.wwbtraining.teacher_group1.Adapter.EditGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
@@ -43,8 +44,8 @@ public class EditGroupFragment extends Fragment {
     AdapterAddGroup userManagementAdapter;
     EditText name,description;
     int group_id;
+    EditGroupAdapter editGroupAdapter;
     ArrayList<String>arrayId = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +97,11 @@ public class EditGroupFragment extends Fragment {
                                                         array1 = response.body().getUser();
                                                         for(int i = 0;i<array1.size();i++){
                                                        arrayId.add(array1.get(i).getUserId());
-
-
                                                        }
-                                                        Log.d("mmmmnnnn", array1.toString());
+                                                       editGroupAdapter = new EditGroupAdapter(getActivity(),array,arrayId);
+
+
+                                                       Log.d("mmmmnnnn", array1.toString());
 
                                                         Log.d("hhhhhhhhhhh", arrayId.toString());
                                                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -116,7 +118,6 @@ public class EditGroupFragment extends Fragment {
 
                                         }
                                     });
-                                    Log.d("111111", array1.toString());
 
                                 } catch (Exception e) {
                                 }
