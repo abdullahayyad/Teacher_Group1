@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ManageUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manage_user, container, false);
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.user_status, R.layout.textview_with_font_change);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -100,8 +101,17 @@ public class ManageUserFragment extends Fragment {
                                               }
                                           }
         );
+        TextView textView =(TextView)view.findViewById(R.id.buAdd);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+
+           ArrayList <User> arrayList =userManagementAdapter.arrayUser();
 
 
+       }
+   });
         return view;
     }
 

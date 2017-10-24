@@ -13,7 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.HashMap;
+
+import ps.wwbtraining.teacher_group1.Class.AnwerQuestion;
 import ps.wwbtraining.teacher_group1.R;
 
 
@@ -41,10 +45,14 @@ public class CreateQuiz extends Fragment {
     private RadioGroup visibleTF;
     private RadioGroup rgChoose;
     private RadioGroup rgType;
+    HashMap<Integer,AnwerQuestion>map;
+    int index =0 ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        map =new HashMap<>() ;
     }
 
     @Override
@@ -83,6 +91,8 @@ public class CreateQuiz extends Fragment {
         buAdd = (TextView) view.findViewById(R.id.buAdd);
         buSubmit = (TextView) view.findViewById(R.id.buSubmit);
 
+        rgType.check(R.id.raObtion);
+
         rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -97,6 +107,42 @@ public class CreateQuiz extends Fragment {
                 }
             }
         });
+
+        buAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameQuiz =tvnameQuize.getText().toString() ;
+                String description = tvDiscription.getText().toString();
+                String questionName = tvQuestion.getText().toString();
+                String ans1 =rach1.getText().toString();
+                String ans2 =rach2.getText().toString();
+                String ans3 =rach3.getText().toString();
+                String ans4 =rach4.getText().toString();
+              if (rgType.getCheckedRadioButtonId()==R.id.raChoose) {
+                  if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty() || ans1.isEmpty() || ans2.isEmpty()
+                          || ans3.isEmpty() || ans4.isEmpty() || raChoose.isSelected())) {
+                      tvnameQuize.setEnabled(false);
+                      tvDiscription.setEnabled(false);
+
+                      map.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
+                      index++;
+
+
+                  } else {
+                      Toast.makeText(getActivity(), "Add all fields", Toast.LENGTH_SHORT).show();
+                  }
+
+              }else{
+                  Toast.makeText(getActivity(), "Add ", Toast.LENGTH_SHORT).show();
+
+                  if (rgChoose.isSelected()){
+
+              }
+              }
+
+            }
+        });
+
     }
 
 
