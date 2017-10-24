@@ -60,10 +60,15 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
             public void onCheckedChanged(RadioGroup radioGroup,  int i) {
                int cc = holder.radioGroup.getCheckedRadioButtonId();
                 if (i ==R.id.approved){
-                   userManageItems.get(position).setStatusId(2+"");
-                }else if (i ==R.id.approved){
                     userManageItems.get(position).setStatusId(2+"");
+                }else if (i ==R.id.blocked){
+                    userManageItems.get(position).setStatusId(3+"");
+                }else if (i ==R.id.notApproved){
+                    userManageItems.get(position).setStatusId(4+"");
+                }else {
+                    userManageItems.get(position).setStatusId(5+"");
                 }
+
                 Toast.makeText(context,cc+ "", Toast.LENGTH_SHORT).show();
                 map.put(position,cc);
 
@@ -81,9 +86,6 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
       }
 
 
-
-
-
         holder.student_name.setText(userManageItems.get(position).getUserName());
 
     }
@@ -96,8 +98,8 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
     }
 
 
-    public HashMap Array (){
-        return map;
+    public ArrayList<User> arrayUser (){
+        return userManageItems;
     }
     @Override
     public int getItemCount() {
