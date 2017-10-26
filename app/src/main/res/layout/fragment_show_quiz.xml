@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/show_quiz"
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:drawableLeft="@drawable/ic_filter_none_black_24dp"        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        app:elevation="0dp"
+        android:layout_margin="50dp"
+        android:id="@+id/addQuiz"
+        />
+</RelativeLayout>
