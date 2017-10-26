@@ -70,7 +70,8 @@ public class CreateGroupFragment extends Fragment {
                         if (response.body().isResult()) {
                             try {
                                 array = response.body().getUser();
-                                userManagementAdapter = new AdapterAddGroup(getActivity(), array);
+                                ArrayList<String>array_id = new ArrayList<String>();
+                                userManagementAdapter = new AdapterAddGroup(getActivity(), array,array_id);
                                 recyclerView.setAdapter(userManagementAdapter);
                                 Log.d("arrayyy", array.toString());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
