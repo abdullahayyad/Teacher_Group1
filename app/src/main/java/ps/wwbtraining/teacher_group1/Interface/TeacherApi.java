@@ -5,6 +5,7 @@ import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
+import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
 import ps.wwbtraining.teacher_group1.Model.Users;
 import retrofit2.Call;
@@ -54,5 +55,8 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<InsertIntoGroup> deleteGroupUser(@Field("group_id") int group_id);
 
-
+    @POST("updateStatus.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateStatus(@Field("user_id") String user_id,
+                                  @Field("status_id") String status_id);
 }

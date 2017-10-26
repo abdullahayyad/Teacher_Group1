@@ -20,6 +20,7 @@ import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
+import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
@@ -31,7 +32,6 @@ public class ManageUserFragment extends Fragment {
     ArrayList<User> array = new ArrayList<>();
     String r;
     UserManagementAdapter userManagementAdapter;
-
     Spinner spinner;
     TeacherApi teacherApi;
 
@@ -101,17 +101,46 @@ public class ManageUserFragment extends Fragment {
                                               }
                                           }
         );
-        TextView textView =(TextView)view.findViewById(R.id.buAdd);
+        TextView save =(TextView)view.findViewById(R.id.buAdd);
+        TextView back =(TextView)view.findViewById(R.id.buCancel);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+
+        save.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View v) {
 
-           ArrayList <User> arrayList =userManagementAdapter.arrayUser();
+           final ArrayList <User> arrayList =userManagementAdapter.arrayUser();
+           for (int i = 0 ; i <arrayList.size() ;i++){
+               final int finalI = i;
+               teacherApi.updateStatus(arrayList.get(i).getUserId(),arrayList.get(i).getStatusId()).enqueue(new Callback<UpdateStatus>() {
+               @Override
+               public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
+                   if(response.isSuccessful()) {
+                       Toast.makeText(getActivity(), "sucess   ", Toast.LENGTH_SHORT).show();
+                       if (arrayList.get(finalI).getStatusId().equals(spinner.getSelectedItemPosition()+2)){
+                           arrayList.remove(finalI);
+                           userManagementAdapter.notifyDataSetChanged();
 
+                       }
 
-       }
-   });
+                   }
+               }
+               @Override
+               public void onFailure(Call<UpdateStatus> call, Throwable t) {
+                   Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+
+               }});
+       }}}
+   );
+  back.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+          getFragmentManager().popBackStack();
+
+      }
+  });
+
         return view;
     }
 

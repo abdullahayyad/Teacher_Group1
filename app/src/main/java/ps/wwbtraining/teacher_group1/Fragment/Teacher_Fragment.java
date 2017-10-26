@@ -33,7 +33,7 @@ public class Teacher_Fragment extends Fragment  {
         manageUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    getFragmentManager().beginTransaction()
+                    getFragmentManager().beginTransaction().addToBackStack(null)
                             .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                             .replace(R.id.frameTeacher, new ManageUserFragment()
                                    ).commit();
@@ -46,7 +46,7 @@ public class Teacher_Fragment extends Fragment  {
                                           @Override
                                           public void onClick(View view) {
                                               getFragmentManager()
-                                                      .beginTransaction()
+                                                      .beginTransaction().addToBackStack(null)
                                                       .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                                                       .replace(R.id.frameTeacher, new CreateGroupFragment()
                                                       ).commit();
@@ -58,7 +58,7 @@ public class Teacher_Fragment extends Fragment  {
                                           @Override
                                           public void onClick(View view) {
                                               getFragmentManager()
-                                                      .beginTransaction()
+                                                      .beginTransaction().addToBackStack(null)
                                                       .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                                                       .replace(R.id.frameTeacher, new CreateQuiz()
                                                       ).commit();
@@ -70,7 +70,7 @@ public class Teacher_Fragment extends Fragment  {
                                           @Override
                                           public void onClick(View view) {
                                               getFragmentManager()
-                                                      .beginTransaction()
+                                                      .beginTransaction().addToBackStack(null)
                                                       .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                                                       .replace(R.id.frameTeacher, new HistoryFragment()
                                                       ).commit();
