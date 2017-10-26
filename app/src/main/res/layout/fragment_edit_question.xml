@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    >
+
+
+
+
+
+    <ScrollView
+        android:id="@+id/activity_expandable_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <ExpandableListView
+
+            android:paddingTop="2dp"
+            android:id="@+id/exListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#000000"
+            android:dividerHeight="2dp"
+            android:scrollbars="horizontal|vertical"
+            style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
+
+
+        </ExpandableListView>
+
+    </ScrollView>
+</LinearLayout>
