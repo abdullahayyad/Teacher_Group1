@@ -31,10 +31,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// nameGroup = getArguments().getString("group_name");
-//         group_description = getArguments().getString("group_description");
-
-
 public class EditGroupFragment extends Fragment {
     String nameGroup, group_description;
     TeacherApi teacherApi;
@@ -44,7 +40,6 @@ public class EditGroupFragment extends Fragment {
     AdapterAddGroup userManagementAdapter;
     EditText name, description;
     int group_id;
-
     ArrayList<String> arrayId = new ArrayList<>();
 
     @Override
@@ -53,7 +48,6 @@ public class EditGroupFragment extends Fragment {
         nameGroup = getArguments().getString("group_name");
         group_description = getArguments().getString("group_description");
         group_id = getArguments().getInt("group_id");
-
         teacherApi = ApiTeacher.getAPIService();
 
 
@@ -81,7 +75,7 @@ public class EditGroupFragment extends Fragment {
                             try {
                                 array = response.body().getUser();
                                 arrayId = new ArrayList<String>();
-                                userManagementAdapter = new AdapterAddGroup(getActivity(), array,arrayId);
+                                userManagementAdapter = new AdapterAddGroup(getActivity(), array, arrayId);
                                 recyclerView.setAdapter(userManagementAdapter);
                                 Log.d("arrayyy", array.toString());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -127,7 +121,7 @@ public class EditGroupFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<StudentModel> call, Throwable t) {
-                    Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -149,7 +143,7 @@ public class EditGroupFragment extends Fragment {
                     String nameg = name.getText().toString();
                     String des = description.getText().toString();
                     if (!nameg.isEmpty() && !des.isEmpty()) {
-                        teacherApi.updateGroup(group_id,nameg, des).enqueue(new Callback<InsertIntoGroup>() {
+                        teacherApi.updateGroup(group_id, nameg, des).enqueue(new Callback<InsertIntoGroup>() {
                             @Override
 
                             public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
@@ -157,31 +151,53 @@ public class EditGroupFragment extends Fragment {
                                 if (response.isSuccessful()) {
                                     if (response.body().isResult()) {
                                         Log.d("size0", array1.size() + " ");
-                                        deleteUser(group_id);
-//                                       for (int i = 0; i < array1.size(); i++) {
-//                                            Log.d("list0 ", array1.toString());
-//                                            teacherApi.addUserGroup(group_id , Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
-//                                                @Override
+                                        teacherApi.deleteGroupUser(group_id).enqueue(new Callback<InsertIntoGroup>() {
+                                            @Override
+                                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                if (response.body().isResult()) {
+                                                    Log.d("delete","sucess");
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                                        Log.d("arraysize",array1.size()+"");
+                                        for (int i = 0; i < array1.size(); i++) {
+                                            Log.d("list0 ", array1.toString());
+                                            try {
+                                                teacherApi.addUserGroup(group_id, Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
+                                                    @Override
+
+                                                    public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                        if (response.isSuccessful()) {
+                                                            if (response.body().isResult()) {
+                                                                Log.d("adduser", "add");
+
+                                                                Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
 //
-//                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-//                                                    if (response.isSuccessful()) {
-//                                                        if (response.body().isResult()) {
-//                                                            Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
-//
-//                                                        } else
-//                                                            Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-//                                                        // userManagementAdapter.notifyS);
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-//                                                    Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-//
-//                                                }
-//                                            });
-//
-//                                        }
+                                                            } else
+                                                                Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
+                                                            // userManagementAdapter.notifyS);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                        Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                });
+                                            }catch (Exception e){
+
+                                                Log.d("catch","catch");
+                                            }
+
+                                        }
                                         Toast.makeText(getContext(), "Edit group", Toast.LENGTH_SHORT).show();
                                         array.clear();
                                         userManagementAdapter.notifyDataSetChanged();
@@ -201,7 +217,6 @@ public class EditGroupFragment extends Fragment {
                     }
 
 
-
                 } catch (Exception e) {
 
 
@@ -213,20 +228,4 @@ public class EditGroupFragment extends Fragment {
 
         return view;
     }
-    public void deleteUser(final int group_id) {
-        teacherApi.deleteGroupUser(group_id).enqueue(new Callback<InsertIntoGroup>() {
-            @Override
-            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                if (response.body().isResult()) {
-                    Log.d("delete","sucess");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }}
+}

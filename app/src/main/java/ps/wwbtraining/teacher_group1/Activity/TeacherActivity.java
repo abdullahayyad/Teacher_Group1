@@ -63,9 +63,7 @@ public class TeacherActivity extends AppCompatActivity
         }
         else if (id == R.id.profile) {
 
-        } else if (id == R.id.student) {
-
-        } else if (id == R.id.group) {
+        }  else if (id == R.id.group) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new ShowGroupFragment()).commit();
 
 

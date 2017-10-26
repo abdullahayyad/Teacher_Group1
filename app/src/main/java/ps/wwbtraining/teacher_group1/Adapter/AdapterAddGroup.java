@@ -53,12 +53,14 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    map.put(position,usersAddToGroup.get(position));
+                try {
+                    if (isChecked) {
+                        map.put(position, usersAddToGroup.get(position));
+                    } else
+                        map.remove(position);
+                }catch (Exception e){
+                    Log.d("ggg","error");
                 }
-                else
-                    map.remove(position);
-
                 // usersAddToGroup.get(holder.getAdapterPosition()).setSelect(isChecked);
             }
         });

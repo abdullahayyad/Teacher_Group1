@@ -10,10 +10,7 @@
             android:id="@+id/profile"
             android:icon="@drawable/ic_perm_identity_black_24dp"
             android:title="Profile" />
-        <item
-            android:id="@+id/student"
-            android:icon="@drawable/ic_school_black_24dp"
-            android:title="Student" />
+
         <item
             android:id="@+id/group"
             android:icon="@drawable/ic_group_black_24dp"
