@@ -44,5 +44,15 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<UserFromGroupModel> userFromGroup(@Field("group_id") int group_id);
 
+    @POST("UpdateGroup.php")
+    @FormUrlEncoded
+    Call<InsertIntoGroup> updateGroup(@Field("group_id") int group_id,
+                                      @Field("group_name") String group_name,
+                                      @Field("description") String description
+    );
+    @POST("deleteGroupUser.php")
+    @FormUrlEncoded
+    Call<InsertIntoGroup> deleteGroupUser(@Field("group_id") int group_id);
+
 
 }

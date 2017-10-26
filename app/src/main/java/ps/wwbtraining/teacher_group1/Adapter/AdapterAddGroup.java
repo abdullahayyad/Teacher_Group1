@@ -2,12 +2,14 @@ package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,15 +22,18 @@ import ps.wwbtraining.teacher_group1.R;
 public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHolder> {
 
     private final ArrayList<User> usersAddToGroup;
+    private final ArrayList<String>array_id;
     Context context;
-HashMap<Integer,User>map=new HashMap<>();
-    public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup ) {
 
-        this.context = context;
+    HashMap<Integer,User>map=new HashMap<>();
+
+    public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id ) {
         this.usersAddToGroup = usersAddToGroup;
+        this.context = context;
+        this.array_id = array_id;
+        Log.d("array_id",array_id.toString());
 
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,9 +59,22 @@ HashMap<Integer,User>map=new HashMap<>();
                 else
                     map.remove(position);
 
-               // usersAddToGroup.get(holder.getAdapterPosition()).setSelect(isChecked);
+                // usersAddToGroup.get(holder.getAdapterPosition()).setSelect(isChecked);
             }
         });
+
+        try {
+            if (!array_id.isEmpty()) {
+                Toast.makeText(context, "123" + array_id.size(), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < array_id.size(); i++) {
+                    Log.d("hanan123", usersAddToGroup.get(position).getUserId().equals(array_id.get(i)) + "");
+                    if (usersAddToGroup.get(position).getUserId().equals(array_id.get(i))) {
+                        holder.checkBox.setChecked(true);
+                    }
+                }
+            }
+        }
+        catch (Exception e ){}
 
     }
 
@@ -72,7 +90,7 @@ HashMap<Integer,User>map=new HashMap<>();
     }
 
 
-   public  class ViewHolder extends RecyclerView.ViewHolder {
+    public  class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView student_name;
         public final CheckBox checkBox;
@@ -88,4 +106,4 @@ HashMap<Integer,User>map=new HashMap<>();
 
 
         }
-}}
+    }}
