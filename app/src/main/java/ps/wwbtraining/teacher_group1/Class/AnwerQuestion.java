@@ -1,8 +1,5 @@
 package ps.wwbtraining.teacher_group1.Class;
 
-/**
- * Created by مركز الخبراء on 10/24/2017.
- */
 
 public class AnwerQuestion {
 

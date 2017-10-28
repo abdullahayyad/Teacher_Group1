@@ -16,8 +16,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Adapter.AdapterAddGroup;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
@@ -37,7 +41,7 @@ import retrofit2.Response;
 public class CreateGroupFragment extends Fragment {
     TeacherApi teacherApi;
     ArrayList<User> array = new ArrayList<>();
-    ArrayList<User> array1 = new ArrayList<>();
+    ArrayList<Integer> array1 = new ArrayList<>();
     private RecyclerView recyclerView;
     AdapterAddGroup userManagementAdapter;
     EditText name,description;
@@ -118,30 +122,57 @@ public class CreateGroupFragment extends Fragment {
                                         Log.d("group_id", group_id + "");
                                         array1.addAll(userManagementAdapter.getArray().values());
                                         Log.d("size0", array1.size() + " ");
-                                        for (int i = 0; i < array1.size(); i++) {
-                                            Log.d("list0 ", array1.toString());
-                                            teacherApi.addUserGroup(group_id , Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
-                                                @Override
-
-                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                                                    if (response.isSuccessful()) {
-                                                        if (response.body().isResult()) {
-                                                            Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
-
-                                                        } else
-                                                            Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-                                                        // userManagementAdapter.notifyS);
+                                        HashMap testMap = new HashMap<String,String>();
+                                        testMap.put("group_id", group_id);
+                                        //
+                                        testMap.put("user_id",array1);
+                                        Log.d("testMap", testMap + " ");
+                                        JSONObject jsonObject=new JSONObject(testMap);
+                                        Log.d("jsonObject", jsonObject + " ");
+                                        //RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj.toString());
+                                        teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject))).enqueue(new Callback<InsertIntoGroup>() {
+                                            @Override
+                                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                if (response.isSuccessful()) {
+                                                    Log.d("//////", response.body().toString());
+                                                }else{
+                                                    Log.d("//////", response.body().toString());
+//                                                        // userManagementAdapter.notifyS);
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                                    Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+                                            }
 
-                                                }
-                                            });
+                                            @Override
+                                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                Log.d("//////",t.toString());
 
-                                        }
+                                            }
+                                        });
+
+//                                        for (int i = 0; i < array1.size(); i++) {
+//                                            Log.d("list0 ", array1.toString());
+//                                            teacherApi.addUserGroup(group_id , Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
+//                                                @Override
+//
+//                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+//                                                    if (response.isSuccessful()) {
+//                                                        if (response.body().isResult()) {
+//                                                            Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
+//
+//                                                        } else
+//                                                            Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
+//                                                        // userManagementAdapter.notifyS);
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+//                                                    Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+//
+//                                                }
+//                                            });
+//
+//                                        }
                                     } else
                                         Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
                                     // userManagementAdapter.notifyS);

@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group1.Interface;
 
 
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
@@ -9,6 +10,7 @@ import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
 import ps.wwbtraining.teacher_group1.Model.Users;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -39,7 +41,9 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<InsertIntoGroup> addUserGroup(@Field("group_id") int group_id,
                                        @Field("user_id") int user_id);
-
+//    @FormUrlEncoded
+    @POST("addUserGroup.php")
+    Call<InsertIntoGroup> addArrayUserGroup(@Body RequestBody requestBody);
 
     @POST("UserFromGroup.php")
     @FormUrlEncoded

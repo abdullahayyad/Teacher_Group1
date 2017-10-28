@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +24,8 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     private final ArrayList<String>array_id;
     Context context;
 
-    HashMap<Integer,User>map=new HashMap<>();
-
+//    HashMap<Integer,User>map=new HashMap<>();
+HashMap<Integer,Integer>map=new HashMap<>();
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id ) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
@@ -55,7 +54,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
                     if (isChecked) {
-                        map.put(position, usersAddToGroup.get(position));
+                        map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
                     } else
                         map.remove(position);
                 }catch (Exception e){
@@ -67,10 +66,8 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
         try {
             if (!array_id.isEmpty()) {
-                Toast.makeText(context, "123" + array_id.size(), Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < array_id.size(); i++) {
-                    Log.d("hanan123", usersAddToGroup.get(position).getUserId().equals(array_id.get(i)) + "");
-                    if (usersAddToGroup.get(position).getUserId().equals(array_id.get(i))) {
+                  for (int i = 0; i < array_id.size(); i++) {
+                      if (usersAddToGroup.get(position).getUserId().equals(array_id.get(i))) {
                         holder.checkBox.setChecked(true);
                     }
                 }

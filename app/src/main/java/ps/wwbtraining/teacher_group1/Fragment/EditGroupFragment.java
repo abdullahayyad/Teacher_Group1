@@ -88,6 +88,7 @@ public class EditGroupFragment extends Fragment {
                                             if (response.isSuccessful()) {
 
 
+
                                                 try {
                                                     array1 = response.body().getUser();
                                                     for (int i = 0; i < array1.size(); i++) {
@@ -104,7 +105,7 @@ public class EditGroupFragment extends Fragment {
 
                                         @Override
                                         public void onFailure(Call<UserFromGroupModel> call, Throwable t) {
-                                            Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
 
                                         }
                                     });
@@ -121,6 +122,9 @@ public class EditGroupFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<StudentModel> call, Throwable t) {
+
+
+
                     Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
 
                 }
@@ -156,6 +160,49 @@ public class EditGroupFragment extends Fragment {
                                             public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
                                                 if (response.body().isResult()) {
                                                     Log.d("delete","sucess");
+                                                   // userManagementAdapter=new AdapterAddGroup(getActivity(),array,arrayId);
+                                                    array1.clear();
+                                       array1.addAll(userManagementAdapter.getArray().values());
+                                                    Log.d("uuuuuu",array1+"");
+
+                                        Log.d("arraysize",array1.size()+"");
+                                                    if(!array.get(0).isResult()){
+                                        for (int i = 0; i < array1.size(); i++) {
+                                            Log.d("list0 ", array1.toString());
+                                            try {
+                                                teacherApi.addUserGroup(group_id, Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
+
+                                                    @Override
+
+                                                    public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                        Log.d("call123", "add");
+                                                        if (response.isSuccessful()) {
+                                                            Log.d("response", "add");
+                                                            if (response.body().isResult()) {
+                                                                Log.d("adduser", "add");
+
+                                                                Toast.makeText(getActivity(), array1.toString(), Toast.LENGTH_SHORT).show();
+//
+                                                            } else {
+                                                                Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
+                                                            Log.d("else","elser");
+                                                            }// userManagementAdapter.notifyS);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                        Log.d("failure", "add");
+                                                        Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                });
+                                            }catch (Exception e){
+
+                                                Log.d("catch","catch");
+                                            }
+
+                                        }}
                                                 }
 
                                             }
@@ -166,44 +213,12 @@ public class EditGroupFragment extends Fragment {
 
                                             }
                                         });
-                                        Log.d("arraysize",array1.size()+"");
-                                        for (int i = 0; i < array1.size(); i++) {
-                                            Log.d("list0 ", array1.toString());
-                                            try {
-                                                teacherApi.addUserGroup(group_id, Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
-                                                    @Override
-
-                                                    public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                                                        if (response.isSuccessful()) {
-                                                            if (response.body().isResult()) {
-                                                                Log.d("adduser", "add");
-
-                                                                Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
-//
-                                                            } else
-                                                                Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-                                                            // userManagementAdapter.notifyS);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                                        Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                });
-                                            }catch (Exception e){
-
-                                                Log.d("catch","catch");
-                                            }
-
-                                        }
-                                        Toast.makeText(getContext(), "Edit group", Toast.LENGTH_SHORT).show();
-                                        array.clear();
+                                        Toast.makeText(getActivity(), "Edit group", Toast.LENGTH_SHORT).show();
+//                                        array.clear();
                                         userManagementAdapter.notifyDataSetChanged();
 
                                     } else
-                                        Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
                                     // userManagementAdapter.notifyS);
                                 }
                             }
