@@ -11,7 +11,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -50,6 +53,8 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     TeacherApi teacherApi;
     ArrayList<GroupItem> array;
     ArrayList<String> groupName = new ArrayList<>();
+    private ActionMode mActionmode;
+
 
     public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList) {
         this.context = context;
@@ -61,6 +66,10 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quize_list, parent, false);
         teacherApi = ApiTeacher.getAPIService();
+
+
+
+
         array = new ArrayList<>();
         return new ViewHolder(view);
     }
@@ -158,7 +167,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         return size;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         public final View mView;
         public final TextView quiz_name;
         public final TextView description;
@@ -176,6 +185,51 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
 
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Toast.makeText(context.getActivity(), "kkkkkkkkk", Toast.LENGTH_SHORT).show();
+            ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    context.getActivity().getMenuInflater().inflate(R.menu.menu, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.delete:
+
+                            mode.finish();
+                            break;
+
+                        case R.id.update:
+
+                            mode.finish();
+                            break;
+
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    mActionmode = null;
+                }
+            };
+            mActionmode = context.getActivity().startActionMode(mActionModeCallback)
+            return false;
+        }
+
     }
+
 }
 
