@@ -4,9 +4,10 @@
     <color name="colorPrimaryDark">#023d37</color>
     <color name="colorAccent">#023d37</color>
     <color name="background_color">#009688</color>
-    <color name="shadow_back">#33023d37</color>
+    <color name="shadow_back">#1b6b4b</color>
     <color name="buttonText">#023d37</color>
     <color name="white">#FFFFFF</color>
+
     <color name="black">#000000</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="text">#FF04CAB8</color>

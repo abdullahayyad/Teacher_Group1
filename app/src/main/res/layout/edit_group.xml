@@ -18,7 +18,7 @@
             android:background="@color/shadow_back"
             android:padding="10dp"
             android:text="Create Group"
-            android:textColor="@color/buttonText"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <android.support.design.widget.TextInputLayout

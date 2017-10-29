@@ -57,32 +57,39 @@ public class ShowGroupFragment extends Fragment {
             }
         });
 
-        //array = showGroup();
-        teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
-            @Override
+        //array = showGroup();y
+        try {
 
-            public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().isResult()) {
 
-                        array = response.body().getGroup();
-                        showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
-                        list_group.setAdapter(showGroupAdapter);
-                        list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    } else
-                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+            teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
+                @Override
+
+                public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body().isResult()) {
+
+                            array = response.body().getGroup();
+                            showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
+                            list_group.setAdapter(showGroupAdapter);
+                            list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        } else
+                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
+                @Override
 
-            public void onFailure(Call<GroupModel> call, Throwable t) {
-                Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-                Log.d("ffff", "fff");
-            }
-        });
+                public void onFailure(Call<GroupModel> call, Throwable t) {
+                    Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                    Log.d("ffff", "fff");
+                }
+            });
+        }catch (Exception e)
+        {
 
+            Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
+        }
 
         return view;
     }

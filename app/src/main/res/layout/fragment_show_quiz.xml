@@ -1,29 +1,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_quiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/show_quiz"
+    android:background="@color/white"
     tools:context="ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_quiz"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="@color/white"
+        android:padding="10dp">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addQuiz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:drawableLeft="@drawable/ic_filter_none_black_24dp"        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        app:elevation="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="50dp"
-        android:id="@+id/addQuiz"
+        android:padding="10dp"
+        android:src="@drawable/ic_filter_none_black_whit_24dp"
+        app:elevation="0dp"
+
         />
 </RelativeLayout>

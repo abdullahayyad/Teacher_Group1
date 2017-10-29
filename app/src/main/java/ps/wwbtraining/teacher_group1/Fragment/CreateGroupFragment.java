@@ -112,7 +112,10 @@ public class CreateGroupFragment extends Fragment {
                     String nameg = name.getText().toString();
                     String des = description.getText().toString();
                     if (!nameg.isEmpty() && !des.isEmpty()) {
+                 //try{
+
                         teacherApi.addGroup(nameg, des).enqueue(new Callback<GroupInsert>() {
+
                             @Override
 
                             public void onResponse(Call<GroupInsert> call, Response<GroupInsert> response) {
@@ -182,7 +185,8 @@ public class CreateGroupFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<GroupInsert> call, Throwable t) {
-                                Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+
 
                             }
                         });
@@ -192,6 +196,7 @@ public class CreateGroupFragment extends Fragment {
 
 
                 } catch (Exception e) {
+                    Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
 
                 }

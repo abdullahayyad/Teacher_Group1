@@ -18,7 +18,7 @@
             android:background="@color/shadow_back"
             android:padding="10dp"
             android:text="@string/history_quiz_s"
-            android:textColor="@color/buttonText"
+            android:textColor="@color/white"
             android:textSize="20dp" />
 
         <android.support.v7.widget.RecyclerView
@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:background="@color/shadow_end"
             android:padding="10dp">
 

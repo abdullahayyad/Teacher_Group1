@@ -4,11 +4,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/show_group"
+    android:background="@color/white"
     tools:context="ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_group"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +21,7 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_group_add_black_24dp"
+        android:src="@drawable/ic_group_add_black_white_24dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

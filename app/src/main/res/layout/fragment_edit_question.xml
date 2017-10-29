@@ -5,31 +5,30 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="15dp"
     android:fillViewport="true"
     android:orientation="vertical"
-    >
-
-
-
+    android:padding="10dp">
 
 
     <ScrollView
         android:id="@+id/activity_expandable_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        >
+        android:fillViewport="true">
 
         <ExpandableListView
 
-            android:paddingTop="2dp"
             android:id="@+id/exListView"
+            style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:divider="#000000"
             android:dividerHeight="2dp"
-            android:scrollbars="horizontal|vertical"
-            style="@android:style/Widget.DeviceDefault.Light.ActionButton.Overflow">
+            android:padding="5dp"
+            android:paddingTop="2dp"
+            android:scrollbars="horizontal|vertical">
 
 
         </ExpandableListView>

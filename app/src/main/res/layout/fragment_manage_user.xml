@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,19 +24,24 @@
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:text="Manage Student"
-                android:textColor="@color/buttonText"
-                android:textSize="20dp" />
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/buttonText" />
+                android:background="@color/white" />
+
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:padding="10dp"
-                android:layout_weight="1">
+                android:dropDownSelector="@color/white"
+
+                >
 
             </Spinner>
         </LinearLayout>
@@ -82,12 +90,13 @@
                 android:buttonTint="#03e237"
                 android:checked="true"
                 android:enabled="false"
-                android:text="App." />
+                android:text="App."
+                android:textColor="@color/background_color" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#C6C6C6" />
+                android:background="@color/background_color" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
@@ -97,12 +106,13 @@
                 android:buttonTint="#f9ef94"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Not." />
+                android:text="Not."
+                android:textColor="@color/background_color" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#C6C6C6" />
+                android:background="@color/background_color" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -111,12 +121,13 @@
                 android:buttonTint="#fc101f"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Blo." />
+                android:text="Blo."
+                android:textColor="@color/background_color" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#C6C6C6" />
+                android:background="@color/background_color" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -125,23 +136,25 @@
                 android:buttonTint="#0d0001"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Rej." />
+                android:text="Rej."
+                android:textColor="@color/background_color" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:text="Students:"
-            android:textColor="#009688"
-            android:textSize="20sp" />
+            android:textColor="@color/background_color"
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_margin="5dp"
+            android:padding="5dp">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -162,8 +175,9 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
+
             android:text="Save"
-            android:textColor="@color/black"
+            android:textColor="@color/background_color"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -171,7 +185,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="#C6C6C6"
+            android:background="@color/background_color"
             android:orientation="vertical" />
 
         <TextView
@@ -182,7 +196,7 @@
             android:layout_weight="0.8"
             android:gravity="center"
             android:text="Cancel"
-            android:textColor="@color/black"
+            android:textColor="@color/background_color"
             android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

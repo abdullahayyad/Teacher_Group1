@@ -43,7 +43,10 @@
     <string name="resend">Resend</string>
     <string name="history_quiz_s">History Quiz\'s</string>
     <string-array name="user_status">
-        <item>Approved</item>
+        <item>Approved
+
+
+        </item>
         <item>Rejected</item>
         <item>Not Approved</item>
         <item>Blocked</item>
