@@ -82,7 +82,7 @@ public class ManageUserFragment extends Fragment {
                                                           @Override
 
                                                           public void onFailure(Call<StudentModel> call, Throwable t) {
-                                                              Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                                                              Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
                                                               Log.d("ffff", "fff");
                                                           }
@@ -92,7 +92,7 @@ public class ManageUserFragment extends Fragment {
                                                       // recyclerView.setLayoutManager(RecyclerView);
 
                                                   } catch (Exception e) {
-                                                      Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                                                      Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
                                                   }
                                               }
 

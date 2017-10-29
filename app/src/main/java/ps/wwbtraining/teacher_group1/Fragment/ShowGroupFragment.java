@@ -87,7 +87,7 @@ public class ShowGroupFragment extends Fragment {
         }catch (Exception e)
         {
 
-            Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
         }
 

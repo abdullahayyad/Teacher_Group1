@@ -105,7 +105,7 @@ public class EditGroupFragment extends Fragment {
 
                                         @Override
                                         public void onFailure(Call<UserFromGroupModel> call, Throwable t) {
-                                            Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
                                         }
                                     });
@@ -113,11 +113,11 @@ public class EditGroupFragment extends Fragment {
                                 } catch (Exception e) {
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(getContext(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
                             }
                         } else
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
                         // userManagementAdapter.notifyS);
                     }
                 }
@@ -127,11 +127,14 @@ public class EditGroupFragment extends Fragment {
 
 
 
-                    Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+
 
                 }
             });
         } catch (Exception e) {
+            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+
         }
 
         // recyclerView.setLayoutManager(RecyclerView);
