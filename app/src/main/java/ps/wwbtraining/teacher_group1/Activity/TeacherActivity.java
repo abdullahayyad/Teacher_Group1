@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment;
+import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment;
 import ps.wwbtraining.teacher_group1.R;
 
@@ -59,15 +61,16 @@ public class TeacherActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.home){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher,new Teacher_Fragment()).commit();
         }
         else if (id == R.id.profile) {
 
         }  else if (id == R.id.group) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher,new ShowGroupFragment()).commit();
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher,new ShowGroupFragment()).commit();
 
 
         } else if (id == R.id.quiz) {
+            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher,new ShowQuizFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
