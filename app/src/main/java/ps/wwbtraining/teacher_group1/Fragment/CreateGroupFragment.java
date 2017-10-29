@@ -44,8 +44,8 @@ public class CreateGroupFragment extends Fragment {
     ArrayList<Integer> array1 = new ArrayList<>();
     private RecyclerView recyclerView;
     AdapterAddGroup userManagementAdapter;
-    EditText name,description;
-    int group_id =0;
+    EditText name, description;
+    int group_id = 0;
     int user_id = 0;
 
     @Override
@@ -74,8 +74,8 @@ public class CreateGroupFragment extends Fragment {
                         if (response.body().isResult()) {
                             try {
                                 array = response.body().getUser();
-                                ArrayList<String>array_id = new ArrayList<String>();
-                                userManagementAdapter = new AdapterAddGroup(getActivity(), array,array_id);
+                                ArrayList<String> array_id = new ArrayList<String>();
+                                userManagementAdapter = new AdapterAddGroup(getActivity(), array, array_id);
                                 recyclerView.setAdapter(userManagementAdapter);
                                 Log.d("arrayyy", array.toString());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -122,29 +122,30 @@ public class CreateGroupFragment extends Fragment {
                                         Log.d("group_id", group_id + "");
                                         array1.addAll(userManagementAdapter.getArray().values());
                                         Log.d("size0", array1.size() + " ");
-                                        HashMap testMap = new HashMap<String,String>();
+                                        HashMap testMap = new HashMap<String, String>();
                                         testMap.put("group_id", group_id);
                                         //
-                                        testMap.put("user_id",array1);
+                                        testMap.put("user_id", array1);
                                         Log.d("testMap", testMap + " ");
-                                        JSONObject jsonObject=new JSONObject(testMap);
+                                        JSONObject jsonObject = new JSONObject(testMap);
                                         Log.d("jsonObject", jsonObject + " ");
                                         //RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj.toString());
-                                        teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject))).enqueue(new Callback<InsertIntoGroup>() {
+                                        teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject)))
+                                                .enqueue(new Callback<InsertIntoGroup>() {
                                             @Override
                                             public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
                                                 if (response.isSuccessful()) {
                                                     Log.d("//////", response.body().toString());
-                                                }else{
+                                                } else {
                                                     Log.d("//////", response.body().toString());
 //                                                        // userManagementAdapter.notifyS);
-                                                    }
+                                                }
 
                                             }
 
                                             @Override
                                             public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                                Log.d("//////",t.toString());
+                                                Log.d("//////", t.toString());
 
                                             }
                                         });
