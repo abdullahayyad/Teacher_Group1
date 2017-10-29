@@ -5,6 +5,7 @@ import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
+import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
@@ -63,4 +64,8 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<UpdateStatus> updateStatus(@Field("user_id") String user_id,
                                   @Field("status_id") String status_id);
+
+    @GET("showQuiz.php")
+    Call<QuizModel> showQuiz();
+
 }

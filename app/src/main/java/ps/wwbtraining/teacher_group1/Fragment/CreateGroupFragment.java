@@ -190,12 +190,14 @@ public class CreateGroupFragment extends Fragment {
                     // Toast.makeText(getActivity(), userManagementAdapter.getArray().values().toString(), Toast.LENGTH_SHORT).show();
 
 
+
                 } catch (Exception e) {
 
 
                 }
                 name.setText("");
                 description.setText("");
+                userManagementAdapter.setCheck();
 
             }
         });

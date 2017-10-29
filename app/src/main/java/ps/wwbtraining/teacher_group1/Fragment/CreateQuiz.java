@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group1.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +46,19 @@ public class CreateQuiz extends Fragment {
     private RadioGroup visibleTF;
     private RadioGroup rgChoose;
     private RadioGroup rgType;
-    HashMap<Integer,AnwerQuestion>map;
+    HashMap<Integer,AnwerQuestion>answerMap;
+    HashMap<Integer,String>correctMap;
     int index =0 ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        map =new HashMap<>() ;
+        answerMap =new HashMap<>() ;
+        correctMap =new HashMap<>() ;
+
+
+
     }
 
     @Override
@@ -111,34 +117,52 @@ public class CreateQuiz extends Fragment {
         buAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String nameQuiz =tvnameQuize.getText().toString() ;
                 String description = tvDiscription.getText().toString();
                 String questionName = tvQuestion.getText().toString();
-                String ans1 =rach1.getText().toString();
-                String ans2 =rach2.getText().toString();
-                String ans3 =rach3.getText().toString();
-                String ans4 =rach4.getText().toString();
-              if (rgType.getCheckedRadioButtonId()==R.id.raChoose) {
-                  if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty() || ans1.isEmpty() || ans2.isEmpty()
-                          || ans3.isEmpty() || ans4.isEmpty() || raChoose.isSelected())) {
+                String ans1 =etch1.getText().toString();
+                String ans2 =etch2.getText().toString();
+                String ans3 =etch3.getText().toString();
+                String ans4 =etch4.getText().toString();
+                Log.d("fffff",ans1+ans2+ans3+ans4);
+
+                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty())){
+                if (rgType.getCheckedRadioButtonId()==R.id.raChoose) {
+                  if (!( ans1.isEmpty()||ans2.isEmpty()||ans3.isEmpty()||ans4.isEmpty())&&
+                          (rach1.isChecked()||rach2.isChecked()||rach3.isChecked()||rach4.isChecked())){
+
                       tvnameQuize.setEnabled(false);
                       tvDiscription.setEnabled(false);
+                      rgType.setEnabled(false);
 
-                      map.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
+                      answerMap.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
                       index++;
 
+                      tvQuestion.setText("");
+                      etch1.setText("");
+                      etch2.setText("");
+                      etch3.setText("");
+                      etch4.setText("");
+
+                      rgChoose.clearCheck();
+                      Toast.makeText(getActivity(), index+"", Toast.LENGTH_SHORT).show();
 
                   } else {
                       Toast.makeText(getActivity(), "Add all fields", Toast.LENGTH_SHORT).show();
                   }
 
+              }else {
+
+                  if (visibleChoose.isSelected()) {
+                      index++;
+                      rgType.clearCheck();
+                      tvQuestion.setText("");
+                  }
+              }
               }else{
-                  Toast.makeText(getActivity(), "Add ", Toast.LENGTH_SHORT).show();
-
-                  if (rgChoose.isSelected()){
-
-              }
-              }
+                    Toast.makeText(getActivity(), "vvvv", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -165,5 +189,6 @@ public class CreateQuiz extends Fragment {
                 return false;
             }
         });
+
     }
 }

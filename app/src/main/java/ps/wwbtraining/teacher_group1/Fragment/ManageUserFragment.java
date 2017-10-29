@@ -34,6 +34,7 @@ public class ManageUserFragment extends Fragment {
     UserManagementAdapter userManagementAdapter;
     Spinner spinner;
     TeacherApi teacherApi;
+    int ppp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class ManageUserFragment extends Fragment {
                                               public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                                   try {
 
+                                                      ppp =spinner.getSelectedItemPosition() + 2;
                                                       teacherApi.getStudName(spinner.getSelectedItemPosition() + 2).enqueue(new Callback<StudentModel>() {
                                                           @Override
 
@@ -110,91 +112,45 @@ public class ManageUserFragment extends Fragment {
        public void onClick(View v) {
 
            final ArrayList <User> arrayList =userManagementAdapter.arrayUser();
+
            for (int i = 0 ; i <arrayList.size() ;i++){
                final int finalI = i;
                teacherApi.updateStatus(arrayList.get(i).getUserId(),arrayList.get(i).getStatusId()).enqueue(new Callback<UpdateStatus>() {
                @Override
                public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
                    if(response.isSuccessful()) {
-                       Toast.makeText(getActivity(), "sucess   ", Toast.LENGTH_SHORT).show();
-                       if (arrayList.get(finalI).getStatusId().equals(spinner.getSelectedItemPosition()+2)){
-                           arrayList.remove(finalI);
-                           userManagementAdapter.notifyDataSetChanged();
+                       Toast.makeText(getActivity(), "Success.", Toast.LENGTH_SHORT).show();
+                       try{
+                           boolean b = Integer.parseInt(arrayList.get(finalI).getStatusId())==ppp;
+                           if(b){
+                               arrayList.remove(finalI);
 
-                       }
-
+                           }
+                           }
+                       catch (Exception e){}
+                       //if (Integer.parseInt(arrayList.get(finalI).getStatusId())==ppp){
+                        //   arrayList.remove(finalI);
+                      // }
                    }
                }
                @Override
                public void onFailure(Call<UpdateStatus> call, Throwable t) {
                    Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
 
-               }});
-       }}}
+               }
+
+               });
+       }userManagementAdapter.notifyDataSetChanged();
+       }}
    );
   back.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
           getFragmentManager().popBackStack();
-
       }
   });
 
         return view;
     }
-
-//    public ArrayList<User> getUserName(int status) {
-//
-//        teacherApi.getStudName(status).enqueue(new Callback<StudentModel>() {
-//            @Override
-//            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
-//                if (response.isSuccessful()) {
-//                    if (response.body().isResult()) {
-//                        array =response.body().getUser();
-//
-//                        Log.d("rrr",array.toString());
-//                    } else
-//                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//
-//            public void onFailure(Call<StudentModel> call, Throwable t) {
-//                Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
-//                Log.d("ffff", "fff");
-//            }
-//        });
-//        return array;
-//    }
-//    public ArrayList<User> getStudent(final int status) {
-//        returnList = new ArrayList<>();
-//
-//        teacherApi.getStudName(status).enqueue(new Callback<UserName>() {
-//            @Override
-//            public void onResponse(Call<UserName> call, Response<UserName> response) {
-////                Toast.makeText(getActivity(), "sucessfull   " + response.body().toString(), Toast.LENGTH_SHORT).show();
-//                UserName users = response.body();
-////                users.getStatuse();
-//                if (users.isResult()) {
-//                    Toast.makeText(getActivity(), "successful", Toast.LENGTH_SHORT).show();
-//                    returnList.add(users.getUser());
-//
-//                }
-//                else
-//                    Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserName> call, Throwable t) {
-//                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//        });
-//        return returnList;
-//    }
 
 }

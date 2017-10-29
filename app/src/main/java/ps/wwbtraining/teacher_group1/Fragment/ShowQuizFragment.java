@@ -1,12 +1,16 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -33,10 +37,12 @@ import retrofit2.Response;
 public class ShowQuizFragment extends Fragment {
 
     TeacherApi teacherApi;
-     RecyclerView list_quiz;
+    RecyclerView list_quiz;
     FloatingActionButton addQuiz;
-    ArrayList<QuizItem>array = new ArrayList<>();
-   ShowQuizAdapter showQuizAdapter;
+    ArrayList<QuizItem> array = new ArrayList<>();
+    ShowQuizAdapter showQuizAdapter;
+    private ActionMode mActionmode;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,13 +57,13 @@ public class ShowQuizFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_show_quiz, null, false);
         teacherApi = ApiTeacher.getAPIService();
         list_quiz = (RecyclerView) view.findViewById(R.id.list_quiz);
-        addQuiz = (FloatingActionButton)view.findViewById(R.id.addQuiz);
+        addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
+
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.show_quiz, new CreateQuiz()
-                        ).commit();
+                        .add(R.id.show_quiz, new CreateQuiz()).commit();
 
             }
         });
@@ -70,9 +76,11 @@ public class ShowQuizFragment extends Fragment {
                     if (response.body().isResult()) {
 
                         array = response.body().getGroup();
-                    showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array);
-  list_quiz.setAdapter(showQuizAdapter);
+                        showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array);
+                        list_quiz.setAdapter(showQuizAdapter);
                         list_quiz.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
                     } else
                         Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
                 }
@@ -84,10 +92,47 @@ public class ShowQuizFragment extends Fragment {
                 Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
 
             }
+
         });
+
 
         return view;
     }
 
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            getActivity().getMenuInflater().inflate(R.menu.menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+
+                    mode.finish();
+                    break;
+
+                case R.id.update:
+
+                    mode.finish();
+                    break;
+
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionmode = null;
+        }
+    };
 }

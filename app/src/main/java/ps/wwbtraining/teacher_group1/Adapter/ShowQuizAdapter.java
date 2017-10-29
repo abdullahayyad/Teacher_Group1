@@ -14,8 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,10 +46,10 @@ import retrofit2.Response;
 public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHolder> {
 
     private final ArrayList<QuizItem> arrayList;
-   Fragment context;
+    Fragment context;
     TeacherApi teacherApi;
-    ArrayList<GroupItem>array ;
-    ArrayList<String>groupName = new ArrayList<>();
+    ArrayList<GroupItem> array;
+    ArrayList<String> groupName = new ArrayList<>();
 
     public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList) {
         this.context = context;
@@ -56,7 +60,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quize_list, parent, false);
-        teacherApi= ApiTeacher.getAPIService();
+        teacherApi = ApiTeacher.getAPIService();
         array = new ArrayList<>();
         return new ViewHolder(view);
     }
@@ -79,22 +83,37 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
                         if (response.isSuccessful()) {
                             if (response.body().isResult()) {
 
+
                                 array = response.body().getGroup();
                                 for (int i = 0; i < array.size(); i++) {
                                     groupName.add(array.get(i).getgroup_name());
 
                                 }
+                                ArrayAdapter arrayAdapter = new ArrayAdapter(context.getActivity(), android.R.layout.simple_list_item_checked, groupName);
+
 
                                 final Dialog dialog = new Dialog(context.getActivity());
                                 dialog.setContentView(R.layout.group_dialog);
                                 dialog.setTitle("Group");
+                                ListView listView = (ListView) dialog.findViewById(R.id.listGroupDialog);
+                                listView.setAdapter(arrayAdapter);
 
+                                listView.setTextFilterEnabled(true);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        CheckedTextView checkedTextView = (CheckedTextView) view;
+                                        checkedTextView.setChecked(!checkedTextView.isChecked());
+
+                                    }
+                                });
                                 Button quizSend = (Button) dialog.findViewById(R.id.send);
                                 quizSend.setOnClickListener(new View.OnClickListener() {
 
                                     @Override
                                     public void onClick(View view) {
                                         dialog.cancel();
+
                                     }
                                 });
 
@@ -111,7 +130,8 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
                             } else
                                 Toast.makeText(context.getActivity(), "error123", Toast.LENGTH_SHORT).show();
-                        }}
+                        }
+                    }
 
                     @Override
                     public void onFailure(Call<GroupModel> call, Throwable t) {
@@ -119,23 +139,20 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
                         Log.d("ffff", "fff");
                     }
                 });
-            }});
-
-
-
-
-
-
+            }
+        });
 
 
     }
-    int size =0;
+
+    int size = 0;
+
     @Override
     public int getItemCount() {
-        try{ size = arrayList.size();
+        try {
+            size = arrayList.size();
 
-        }
-        catch (Exception e ){
+        } catch (Exception e) {
 
         }
         return size;
@@ -146,7 +163,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         public final TextView quiz_name;
         public final TextView description;
 
-        public final FloatingActionButton send;
+        public final ImageButton send;
         public QuizItem mItem;
 
         public ViewHolder(View view) {
@@ -156,7 +173,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             mView = view;
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
-            send = (FloatingActionButton)view.findViewById(R.id.sendQuiz);
+            send = (ImageButton) view.findViewById(R.id.sendQuiz);
 
         }
     }

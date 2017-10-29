@@ -19,7 +19,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:text="Manage Student"
                 android:textColor="@color/buttonText"
                 android:textSize="20dp" />
@@ -153,6 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/edit_text"
+        android:id="@+id/addLayout"
         android:gravity="center">
 
         <TextView

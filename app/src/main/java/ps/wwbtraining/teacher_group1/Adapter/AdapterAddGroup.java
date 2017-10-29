@@ -17,20 +17,20 @@ import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.R;
 
 
-
 public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHolder> {
 
     private final ArrayList<User> usersAddToGroup;
-    private final ArrayList<String>array_id;
+    private final ArrayList<String> array_id;
     Context context;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    boolean check ;
 
-//    HashMap<Integer,User>map=new HashMap<>();
-HashMap<Integer,Integer>map=new HashMap<>();
-    public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id ) {
+    public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
         this.array_id = array_id;
-        Log.d("array_id",array_id.toString());
+        Log.d("array_id", array_id.toString());
+        check = true ;
 
     }
 
@@ -52,28 +52,33 @@ HashMap<Integer,Integer>map=new HashMap<>();
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                check= true;
                 try {
                     if (isChecked) {
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
                     } else
                         map.remove(position);
-                }catch (Exception e){
-                    Log.d("ggg","error");
+                } catch (Exception e) {
+                    Log.d("ggg", "error");
                 }
                 // usersAddToGroup.get(holder.getAdapterPosition()).setSelect(isChecked);
             }
         });
 
+        if (check==false)
+            holder.checkBox.setChecked(false);
+
+
         try {
             if (!array_id.isEmpty()) {
-                  for (int i = 0; i < array_id.size(); i++) {
-                      if (usersAddToGroup.get(position).getUserId().equals(array_id.get(i))) {
+                for (int i = 0; i < array_id.size(); i++) {
+                    if (usersAddToGroup.get(position).getUserId().equals(array_id.get(i))) {
                         holder.checkBox.setChecked(true);
                     }
                 }
             }
+        } catch (Exception e) {
         }
-        catch (Exception e ){}
 
     }
 
@@ -84,12 +89,12 @@ HashMap<Integer,Integer>map=new HashMap<>();
     }
 
 
-    public HashMap getArray (){
+    public HashMap getArray() {
         return map;
     }
 
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView student_name;
         public final CheckBox checkBox;
@@ -105,4 +110,11 @@ HashMap<Integer,Integer>map=new HashMap<>();
 
 
         }
-    }}
+    }
+
+    public void setCheck() {
+
+        this.check = false;
+        notifyDataSetChanged();
+    }
+}
