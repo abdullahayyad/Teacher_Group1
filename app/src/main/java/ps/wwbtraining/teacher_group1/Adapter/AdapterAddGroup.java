@@ -23,14 +23,12 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     private final ArrayList<String> array_id;
     Context context;
     HashMap<Integer, Integer> map = new HashMap<>();
-    boolean check ;
+    private boolean selectAll;
 
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
         this.array_id = array_id;
-        Log.d("array_id", array_id.toString());
-        check = true ;
 
     }
 
@@ -49,24 +47,35 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         holder.mItem = usersAddToGroup.get(position);
         holder.student_name.setText(usersAddToGroup.get(position).getUserName());
 
+
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                check= true;
+                selectAll = false;
                 try {
                     if (isChecked) {
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
                     } else
                         map.remove(position);
                 } catch (Exception e) {
-                    Log.d("ggg", "error");
+
                 }
-                // usersAddToGroup.get(holder.getAdapterPosition()).setSelect(isChecked);
             }
         });
 
-        if (check==false)
+        if (selectAll) {
+
             holder.checkBox.setChecked(false);
+            map.remove(usersAddToGroup.get(position).getUserId());
+
+        } else {
+
+            if (map.containsKey(usersAddToGroup.get(position).getUserId())) {
+                holder.checkBox.setChecked(true);
+            } else {
+                holder.checkBox.setChecked(false);
+            }
+        }
 
 
         try {
@@ -112,9 +121,9 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         }
     }
 
-    public void setCheck() {
+    public void toggleSelectAll() {
 
-        this.check = false;
+        this.selectAll = true;
         notifyDataSetChanged();
     }
 }

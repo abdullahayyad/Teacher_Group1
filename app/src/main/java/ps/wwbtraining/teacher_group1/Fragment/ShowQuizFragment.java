@@ -80,7 +80,6 @@ public class ShowQuizFragment extends Fragment {
                         list_quiz.setAdapter(showQuizAdapter);
                         list_quiz.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
                     } else
                         Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
                 }
@@ -94,7 +93,13 @@ public class ShowQuizFragment extends Fragment {
             }
 
         });
-
+        list_quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Hanan", Toast.LENGTH_SHORT).show();
+                //mActionmode = getActivity().startActionMode(mActionModeCallback);
+            }
+        });
 
         return view;
     }
