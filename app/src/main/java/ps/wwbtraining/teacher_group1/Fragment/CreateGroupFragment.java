@@ -197,7 +197,7 @@ public class CreateGroupFragment extends Fragment {
                 }
                 name.setText("");
                 description.setText("");
-                userManagementAdapter.setCheck();
+                userManagementAdapter.toggleSelectAll();
 
             }
         });
