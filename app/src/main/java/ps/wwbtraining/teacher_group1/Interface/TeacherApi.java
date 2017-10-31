@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group1.Interface;
 
 import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Model.AnswerAddModel;
+import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
@@ -97,45 +98,21 @@ public interface TeacherApi {
                                      @Field("question_id")int questionId
                                 );
 
+    @POST("insertUserIntoGroup.php")
+    @FormUrlEncoded
+    Call<InsertIntoGroup> insertUserIntoGroup(@Field("group_id") int group_id,
+                                              @Field("user_id") int user_id);
+
+    @POST("deleteUserFromGroup.php")
+    @FormUrlEncoded
+    Call<InsertIntoGroup> deleteUserFromGroup(@Field("group_id") int group_id,
+                                              @Field("user_id") int user_id);
+
+
+    @POST("countStudent.php")
+    @FormUrlEncoded
+    Call<CountStudentModel> getCount(@Field("group_id") int group_id);
+
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
