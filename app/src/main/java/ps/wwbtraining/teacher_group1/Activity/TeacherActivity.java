@@ -20,7 +20,6 @@ import ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment;
 import ps.wwbtraining.teacher_group1.R;
 import ps.wwbtraining.teacher_group1.WebService.SharedPrefUtil;
 
-
 public class TeacherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public  static Toolbar  toolbar;
