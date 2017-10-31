@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
@@ -41,6 +42,7 @@ public class ShowQuizFragment extends Fragment {
     ArrayList<QuizItem> array = new ArrayList<>();
     ShowQuizAdapter showQuizAdapter;
     private ActionMode mActionmode;
+    private int myPosition;
 
 
     @Override
@@ -75,7 +77,14 @@ public class ShowQuizFragment extends Fragment {
                     if (response.body().isResult()) {
 
                         array = response.body().getGroup();
-                        showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array);
+                        showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array, new OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClicked(int position) {
+                                myPosition = position;
+                                mActionmode = getActivity().startActionMode(mActionModeCallback);
+                                return true;
+                            }
+                        });
                         list_quiz.setAdapter(showQuizAdapter);
                         list_quiz.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -103,71 +112,10 @@ public class ShowQuizFragment extends Fragment {
         return view;
     }
 
-//    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-//
-//        @Override
-//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-//            getActivity().getMenuInflater().inflate(R.menu.menu, menu);
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//            return false;
-//        }
-//
-//        @Override
-//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.delete:
-//
-//                    mode.finish();
-//                    break;
-//
-//                case R.id.update:
-//
-//                    mode.finish();
-//                    break;
-//
-//            }
-//
-//            return false;
-//        }
-//
-//        @Override
-//        public void onDestroyActionMode(ActionMode mode) {
-//            mActionmode = null;
-//        }
-//    };
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
-                    if (navigationView.isDrawerOpen(GravityCompat.START))
-                        navigationView.closeDrawers();
-                    else
-                    getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                            .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
-                    return true;
-
-                }
-                return false;
-            }
-        });
-
-    }
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-      //      getMenuInflater().inflate(R.menu.menu_quize, menu);
+            getActivity().getMenuInflater().inflate(R.menu.menu_quize, menu);
             return true;
         }
 
@@ -180,23 +128,21 @@ public class ShowQuizFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.delete:
-//                    int del = db_sqlit.deleteStd(arrayList.get(myPosition).getId());
-//
-//                    Log.i("+++",del+"");
-//                    if (del ==1) {
-////                        Toast.makeText(MainActivity.this, " Delete Done", Toast.LENGTH_SHORT).show();
-////                        arrayList.clear();
-////                        adapter.notifyDataSetChanged();
-////                        recyclerView.setAdapter(adapter);
-                        mode.finish();
-                //    }
 
+
+//                    if (del ==1) {
+//
+//                        mode.finish();
+//                    }
+//
 //                    else {
+//
 //                        mode.finish();
 //                    }
                     break;
                 case R.id.update:
 
+                    mode.finish();
                     break;
             }
             return false;
@@ -207,4 +153,31 @@ public class ShowQuizFragment extends Fragment {
             mActionmode = null;
         }
     };
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    DrawerLayout navigationView = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                    if (navigationView.isDrawerOpen(GravityCompat.START))
+                        navigationView.closeDrawers();
+                    else
+                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
+    }
+
+
 }

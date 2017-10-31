@@ -43,12 +43,12 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     ArrayList<GroupItem> array;
     ArrayList<String> groupName = new ArrayList<>();
     private ActionMode mActionmode;
-OnItemLongClickListener listener;
+    OnItemLongClickListener listener;
 
-    public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList,OnItemLongClickListener listener) {
+    public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList, OnItemLongClickListener listener) {
         this.context = context;
         this.arrayList = arrayList;
-       this.listener=listener;
+        this.listener = listener;
     }
 
     @Override
@@ -56,8 +56,6 @@ OnItemLongClickListener listener;
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quize_list, parent, false);
         teacherApi = ApiTeacher.getAPIService();
-
-
 
 
         array = new ArrayList<>();
@@ -185,4 +183,5 @@ OnItemLongClickListener listener;
 
         }
 
-    }}
+    }
+}
