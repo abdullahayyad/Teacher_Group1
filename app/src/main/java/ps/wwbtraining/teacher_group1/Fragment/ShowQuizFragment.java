@@ -68,7 +68,6 @@ public class ShowQuizFragment extends Fragment {
 
             }
         });
-
                 teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
             @Override
 
