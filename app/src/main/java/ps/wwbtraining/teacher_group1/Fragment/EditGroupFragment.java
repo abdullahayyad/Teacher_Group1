@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ps.wwbtraining.teacher_group1.Adapter.AdapterAddGroup;
+import ps.wwbtraining.teacher_group1.Adapter.EditGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
@@ -36,8 +36,9 @@ public class EditGroupFragment extends Fragment {
     TeacherApi teacherApi;
     ArrayList<User> array = new ArrayList<>();
     ArrayList<UserItem> array1 = new ArrayList<>();
+    ArrayList<Integer>checkedArray = new ArrayList<>();
     private RecyclerView recyclerView;
-    AdapterAddGroup userManagementAdapter;
+    EditGroupAdapter userManagementAdapter;
     EditText name, description;
     int group_id;
     ArrayList<String> arrayId = new ArrayList<>();
@@ -50,9 +51,7 @@ public class EditGroupFragment extends Fragment {
         group_id = getArguments().getInt("group_id");
         teacherApi = ApiTeacher.getAPIService();
 
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +74,7 @@ public class EditGroupFragment extends Fragment {
                             try {
                                 array = response.body().getUser();
                                 arrayId = new ArrayList<String>();
-                                userManagementAdapter = new AdapterAddGroup(getActivity(), array, arrayId);
+                                userManagementAdapter = new EditGroupAdapter(getActivity(), array, arrayId,group_id);
                                 recyclerView.setAdapter(userManagementAdapter);
                                 Log.d("arrayyy", array.toString());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -94,7 +93,7 @@ public class EditGroupFragment extends Fragment {
                                                     for (int i = 0; i < array1.size(); i++) {
                                                         arrayId.add(array1.get(i).getUserId());
                                                     }
-                                                    userManagementAdapter = new AdapterAddGroup(getActivity(), array, arrayId);
+                                                    userManagementAdapter = new EditGroupAdapter(getActivity(), array, arrayId,group_id);
                                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                                 } catch (Exception e) {
                                                 }
@@ -105,7 +104,7 @@ public class EditGroupFragment extends Fragment {
 
                                         @Override
                                         public void onFailure(Call<UserFromGroupModel> call, Throwable t) {
-                                            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
 
                                         }
                                     });
@@ -113,11 +112,9 @@ public class EditGroupFragment extends Fragment {
                                 } catch (Exception e) {
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
-
                             }
                         } else
-                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
                         // userManagementAdapter.notifyS);
                     }
                 }
@@ -127,20 +124,15 @@ public class EditGroupFragment extends Fragment {
 
 
 
-                    Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
 
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
-
         }
 
-        // recyclerView.setLayoutManager(RecyclerView);
 
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_student);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(userManagementAdapter);
@@ -159,87 +151,24 @@ public class EditGroupFragment extends Fragment {
 
                                 if (response.isSuccessful()) {
                                     if (response.body().isResult()) {
-                                        Log.d("size0", array1.size() + " ");
-                                        teacherApi.deleteGroupUser(group_id).enqueue(new Callback<InsertIntoGroup>() {
-                                            @Override
-                                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                                                if (response.body().isResult()) {
-                                                    Log.d("delete","sucess");
-                                                   // userManagementAdapter=new AdapterAddGroup(getActivity(),array,arrayId);
-                                                    array1.clear();
-                                       array1.addAll(userManagementAdapter.getArray().values());
-                                                    Log.d("uuuuuu",array1+"");
-
-                                        Log.d("arraysize",array1.size()+"");
-                                                    if(!array.get(0).isResult()){
-                                        for (int i = 0; i < array1.size(); i++) {
-                                            Log.d("list0 ", array1.toString());
-                                            try {
-                                                teacherApi.addUserGroup(group_id, Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
-
-                                                    @Override
-
-                                                    public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                                                        Log.d("call123", "add");
-                                                        if (response.isSuccessful()) {
-                                                            Log.d("response", "add");
-                                                            if (response.body().isResult()) {
-                                                                Log.d("adduser", "add");
-
-                                                                Toast.makeText(getActivity(), array1.toString(), Toast.LENGTH_SHORT).show();
-//
-                                                            } else {
-                                                                Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-                                                            Log.d("else","elser");
-                                                            }// userManagementAdapter.notifyS);
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                                        Log.d("failure", "add");
-                                                        Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                });
-                                            }catch (Exception e){
-
-                                                Log.d("catch","catch");
-                                            }
-
-                                        }}
-                                                }
-
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-                                            }
-                                        });
                                         Toast.makeText(getActivity(), "Edit group", Toast.LENGTH_SHORT).show();
-//                                        array.clear();
-                                        userManagementAdapter.notifyDataSetChanged();
 
-                                    } else
-                                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
-                                    // userManagementAdapter.notifyS);
+                                        userManagementAdapter.setCheck();
+
+
+
+
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
                                 Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
-
                             }
                         });
                     }
-
-
                 } catch (Exception e) {
-
-
                 }
 
             }

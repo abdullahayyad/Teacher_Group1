@@ -92,6 +92,8 @@ public class Teacher_Fragment extends Fragment  {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+//                    Intent intent =new Intent(getActivity(), MainActivity.class);
+//                    startActivity(intent);
                     getActivity().finish();
                     return true;
 
@@ -100,4 +102,5 @@ public class Teacher_Fragment extends Fragment  {
             }
         });
     }
+
 }

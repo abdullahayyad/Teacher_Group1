@@ -1,11 +1,14 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.ShowGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
@@ -22,6 +26,8 @@ import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
 
 
 public class ShowGroupFragment extends Fragment {
@@ -72,8 +78,10 @@ public class ShowGroupFragment extends Fragment {
                             showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
                             list_group.setAdapter(showGroupAdapter);
                             list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        } else
+                        } else {
+                            NoInternetAlert(getActivity());
                             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -81,18 +89,41 @@ public class ShowGroupFragment extends Fragment {
 
                 public void onFailure(Call<GroupModel> call, Throwable t) {
                     Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+                    NoInternetAlert(getActivity());
                     Log.d("ffff", "fff");
                 }
             });
         }catch (Exception e)
         {
-
+            NoInternetAlert(getActivity());
             Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
 
         }
 
         return view;
     }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    Intent intent =new Intent(getActivity(), TeacherActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+
+                    return true;
+
+                }
+                return false;
+            }
+        });
+    }
+
 
 
 }

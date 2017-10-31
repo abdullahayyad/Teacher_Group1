@@ -19,6 +19,11 @@
             android:id="@+id/quiz"
             android:icon="@drawable/ic_mode_edit_black_24dp"
             android:title="Quiz" />
+        <item
+            android:id="@+id/log_out"
+            android:icon="@drawable/ic_arrow_back_black_24dp"
+            android:title="Log Out" />
+
     </group>
 
 

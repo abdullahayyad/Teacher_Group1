@@ -7,7 +7,8 @@
     <color name="shadow_back">#1b6b4b</color>
     <color name="buttonText">#023d37</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="shadow_center">#efedec</color>
+    <color name="shadow_start">#c1bcb9</color>
     <color name="black">#000000</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="text">#FF04CAB8</color>
