@@ -60,7 +60,6 @@ public class ShowQuizFragment extends Fragment {
         teacherApi = ApiTeacher.getAPIService();
         list_quiz = (RecyclerView) view.findViewById(R.id.list_quiz);
         addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
-        TeacherActivity.toolbar.setVisibility(View.VISIBLE);
 
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +69,15 @@ public class ShowQuizFragment extends Fragment {
 
             }
         });
-                teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
+        list_quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Hanan", Toast.LENGTH_SHORT).show();
+                //mActionmode = getActivity().startActionMode(mActionModeCallback);
+            }
+        });
+
+        teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
             @Override
 
             public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
@@ -102,13 +109,6 @@ public class ShowQuizFragment extends Fragment {
             }
 
         });
-        list_quiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Hanan", Toast.LENGTH_SHORT).show();
-                //mActionmode = getActivity().startActionMode(mActionModeCallback);
-            }
-        });
 
         return view;
     }
@@ -139,7 +139,7 @@ public class ShowQuizFragment extends Fragment {
 //
 //                    else {
 //
-                        mode.finish();
+                    mode.finish();
                     TeacherActivity.toolbar.setVisibility(View.VISIBLE);
 
 //                    }

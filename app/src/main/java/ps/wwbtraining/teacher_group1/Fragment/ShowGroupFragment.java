@@ -42,7 +42,6 @@ public class ShowGroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -59,17 +58,13 @@ public class ShowGroupFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .add(R.id.show_group, new CreateGroupFragment()
                         ).commit();
-
             }
         });
 
         //array = showGroup();y
         try {
-
-
-            teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
+          teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
                 @Override
-
                 public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
                     if (response.isSuccessful()) {
                         if (response.body().isResult()) {
@@ -86,7 +81,6 @@ public class ShowGroupFragment extends Fragment {
                 }
 
                 @Override
-
                 public void onFailure(Call<GroupModel> call, Throwable t) {
                     Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
                     NoInternetAlert(getActivity());
@@ -115,9 +109,7 @@ public class ShowGroupFragment extends Fragment {
                     Intent intent =new Intent(getActivity(), TeacherActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-
                     return true;
-
                 }
                 return false;
             }
