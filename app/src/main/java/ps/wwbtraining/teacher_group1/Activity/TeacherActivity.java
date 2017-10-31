@@ -23,14 +23,14 @@ import ps.wwbtraining.teacher_group1.WebService.SharedPrefUtil;
 
 public class TeacherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    public  static Toolbar  toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher2);
         getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 

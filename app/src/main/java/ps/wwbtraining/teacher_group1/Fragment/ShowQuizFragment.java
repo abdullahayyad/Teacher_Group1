@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
@@ -59,6 +60,7 @@ public class ShowQuizFragment extends Fragment {
         teacherApi = ApiTeacher.getAPIService();
         list_quiz = (RecyclerView) view.findViewById(R.id.list_quiz);
         addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
+        TeacherActivity.toolbar.setVisibility(View.VISIBLE);
 
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,7 @@ public class ShowQuizFragment extends Fragment {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             getActivity().getMenuInflater().inflate(R.menu.menu_quize, menu);
+            TeacherActivity.toolbar.setVisibility(View.GONE);
             return true;
         }
 
@@ -136,7 +139,7 @@ public class ShowQuizFragment extends Fragment {
 //
 //                    else {
 //
-//                        mode.finish();
+                        mode.finish();
 //                    }
                     break;
                 case R.id.update:
