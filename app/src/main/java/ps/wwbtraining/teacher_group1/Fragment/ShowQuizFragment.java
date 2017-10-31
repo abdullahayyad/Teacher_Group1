@@ -140,11 +140,14 @@ public class ShowQuizFragment extends Fragment {
 //                    else {
 //
                         mode.finish();
+                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+
 //                    }
                     break;
                 case R.id.update:
 
                     mode.finish();
+                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
                     break;
             }
             return false;
