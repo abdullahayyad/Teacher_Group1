@@ -69,7 +69,7 @@ public class ShowQuizFragment extends Fragment {
             }
         });
 
-        teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
+                teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
             @Override
 
             public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
