@@ -21,7 +21,7 @@ import ps.wwbtraining.teacher_group1.R;
  * Created by Hanan Dawod on 17/10/17.
  */
 
-public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAdapter.ViewHolder> {
+public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAdapter.ViewHolder>{
 
     private final  ArrayList<User> userManageItems;
     int positionItem ;
@@ -69,6 +69,7 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                 }
 
                 map.put(position,cc);
+                Log.d("wwwwwww",userManageItems.toString());
 
             }
         });
@@ -123,5 +124,9 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
             radioGroup = (RadioGroup)view.findViewById(R.id.groupStu);
             radioButtonn =(RadioButton)view.findViewById(positionItem);
 
-        }}
+        }
+
+
+
+    }
 }

@@ -55,8 +55,8 @@ public class QuizItem{
     public String toString(){
         return
                 "UserItem{" +
-                        "group_id = '" + quiz_id + '\'' +
-                        ",group_name = '" + quiz_name + '\'' +
+                        "quiz_id = '" + quiz_id + '\'' +
+                        ",quiz_name = '" + quiz_name + '\'' +
                         ",description = '" + discription + '\'' +
                         "}";
     }}

@@ -6,10 +6,14 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +125,8 @@ public class CreateGroupFragment extends Fragment {
                                         group_id = response.body().getId();
                                         Log.d("group_id", group_id + "");
                                         array1.addAll(userManagementAdapter.getArray().values());
-                                        Log.d("size0", array1.size() + " ");
+
+                                        Log.d("size0", array + " ");
                                         HashMap testMap = new HashMap<String,String>();
                                         testMap.put("group_id", group_id);
                                         //
@@ -149,33 +154,8 @@ public class CreateGroupFragment extends Fragment {
                                             }
                                         });
 
-//                                        for (int i = 0; i < array1.size(); i++) {
-//                                            Log.d("list0 ", array1.toString());
-//                                            teacherApi.addUserGroup(group_id , Integer.parseInt(array1.get(i).getUserId())).enqueue(new Callback<InsertIntoGroup>() {
-//                                                @Override
-//
-//                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-//                                                    if (response.isSuccessful()) {
-//                                                        if (response.body().isResult()) {
-//                                                            Toast.makeText(getContext(), array1.toString(), Toast.LENGTH_SHORT).show();
-//
-//                                                        } else
-//                                                            Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-//                                                        // userManagementAdapter.notifyS);
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-//                                                    Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-//
-//                                                }
-//                                            });
-//
-//                                        }
                                     } else
                                         Toast.makeText(getContext(), "error123", Toast.LENGTH_SHORT).show();
-                                    // userManagementAdapter.notifyS);
                                 }
                             }
 
@@ -203,4 +183,29 @@ public class CreateGroupFragment extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+                    if (navigationView.isDrawerOpen(GravityCompat.START))
+                        navigationView.closeDrawers();
+                    else
+                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+
+                    return true;
+
+                }
+                return false;
+            }
+        });
+}
 }

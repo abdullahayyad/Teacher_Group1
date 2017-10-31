@@ -23,6 +23,8 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     private final ArrayList<String> array_id;
     Context context;
     HashMap<Integer, Integer> map = new HashMap<>();
+    HashMap<Integer, Integer> checkMap = new HashMap<>();
+
     private boolean selectAll;
 
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
@@ -47,7 +49,6 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         holder.mItem = usersAddToGroup.get(position);
         holder.student_name.setText(usersAddToGroup.get(position).getUserName());
 
-
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -55,8 +56,13 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
                 try {
                     if (isChecked) {
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
+                        checkMap.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
+
                     } else
                         map.remove(position);
+                        checkMap.remove(position);
+
+
                 } catch (Exception e) {
 
                 }
@@ -66,17 +72,18 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         if (selectAll) {
 
             holder.checkBox.setChecked(false);
-            map.remove(usersAddToGroup.get(position).getUserId());
+            checkMap.remove(position);
+            selectAll =false;
 
         } else {
+            Log.d("bbbbbb",map.toString());
 
-            if (map.containsKey(usersAddToGroup.get(position).getUserId())) {
+            if (checkMap.containsKey(position)) {
                 holder.checkBox.setChecked(true);
             } else {
                 holder.checkBox.setChecked(false);
             }
         }
-
 
         try {
             if (!array_id.isEmpty()) {
@@ -90,7 +97,6 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         }
 
     }
-
 
     @Override
     public int getItemCount() {
@@ -116,8 +122,6 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             mView = view;
             student_name = (TextView) view.findViewById(R.id.nameStudentAddGroup);
             checkBox = (CheckBox) view.findViewById(R.id.checkboxStudentAddGroup);
-
-
         }
     }
 

@@ -214,9 +214,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
                             mode.finish();
                             break;
-
                     }
-
                     return false;
                 }
 
@@ -225,8 +223,9 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
                     mActionmode = null;
                 }
             };
-            mActionmode = context.getActivity().startActionMode(mActionModeCallback)
-            return false;
+            mActionmode = context.getActivity().startActionMode(mActionModeCallback);
+
+            return true;
         }
 
     }

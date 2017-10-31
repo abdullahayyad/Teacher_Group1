@@ -20,11 +20,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         // If savedinstnacestate is null then replace login fragment
-        if (savedInstanceState == null) {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frameContainer, new Login_Fragment(),
-                            Utils.Login_Fragment).commit();
+        if (savedInstanceState== null) {
+            fragmentManager.beginTransaction().replace(R.id.frameContainer, new Login_Fragment()).commit();
         }
 
         // On close icon click finish activity
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void replaceLoginFragment() {
         fragmentManager
-                .beginTransaction()
+                .beginTransaction().addToBackStack(null)
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                 .replace(R.id.frameContainer, new Login_Fragment(),
                         Utils.Login_Fragment).commit();
@@ -56,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 .findFragmentByTag(Utils.ForgotPassword_Fragment);
 
 
-      if (ForgotPassword_Fragment != null)
+        if (ForgotPassword_Fragment != null)
             replaceLoginFragment();
         else
             super.onBackPressed();

@@ -3,6 +3,8 @@ package ps.wwbtraining.teacher_group1.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,7 +21,14 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 import ps.wwbtraining.teacher_group1.Class.AnwerQuestion;
+import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
+import ps.wwbtraining.teacher_group1.Model.QuestionItem;
+import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CreateQuiz extends Fragment {
@@ -46,17 +55,29 @@ public class CreateQuiz extends Fragment {
     private RadioGroup visibleTF;
     private RadioGroup rgChoose;
     private RadioGroup rgType;
-    HashMap<Integer,AnwerQuestion>answerMap;
-    HashMap<Integer,String>correctMap;
-    int index =0 ;
+
+    HashMap<Integer, AnwerQuestion> answerMap;
+    HashMap<Integer, String> correctMap;
+    HashMap<Integer, String> questionMap;
+    HashMap<Integer, Integer> stateQuestion;
+    HashMap<Integer, QuestionItem> questionItemHashMap;
+
+    int index = 0;
+
+    TeacherApi teacherApi;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        answerMap =new HashMap<>() ;
-        correctMap =new HashMap<>() ;
 
+        answerMap = new HashMap<>();
+        correctMap = new HashMap<>();
+        questionMap = new HashMap<>();
+        stateQuestion = new HashMap<>();
+        questionItemHashMap = new HashMap<>();
+        teacherApi = ApiTeacher.getAPIService();
 
 
     }
@@ -68,7 +89,6 @@ public class CreateQuiz extends Fragment {
         findViews(view);
         visibleTF.setVisibility(View.VISIBLE);
         visibleChoose.setVisibility(View.GONE);
-        //enabelView();
 
         return view;
     }
@@ -118,55 +138,143 @@ public class CreateQuiz extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String nameQuiz =tvnameQuize.getText().toString() ;
+                String nameQuiz = tvnameQuize.getText().toString();
                 String description = tvDiscription.getText().toString();
+                String deadLine = "";
                 String questionName = tvQuestion.getText().toString();
-                String ans1 =etch1.getText().toString();
-                String ans2 =etch2.getText().toString();
-                String ans3 =etch3.getText().toString();
-                String ans4 =etch4.getText().toString();
-                Log.d("fffff",ans1+ans2+ans3+ans4);
+                String ans1 = etch1.getText().toString();
+                String ans2 = etch2.getText().toString();
+                String ans3 = etch3.getText().toString();
+                String ans4 = etch4.getText().toString();
 
-                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty())){
-                if (rgType.getCheckedRadioButtonId()==R.id.raChoose) {
-                  if (!( ans1.isEmpty()||ans2.isEmpty()||ans3.isEmpty()||ans4.isEmpty())&&
-                          (rach1.isChecked()||rach2.isChecked()||rach3.isChecked()||rach4.isChecked())){
 
-                      tvnameQuize.setEnabled(false);
-                      tvDiscription.setEnabled(false);
-                      rgType.setEnabled(false);
+                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty())) {
+                    if (rgType.getCheckedRadioButtonId() == R.id.raChoose) {
+                        if (!(ans1.isEmpty() || ans2.isEmpty() || ans3.isEmpty() || ans4.isEmpty()) &&
+                                (rach1.isChecked() || rach2.isChecked() || rach3.isChecked() || rach4.isChecked())) {
 
-                      answerMap.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
-                      index++;
+                            if (index == 0) {
 
-                      tvQuestion.setText("");
-                      etch1.setText("");
-                      etch2.setText("");
-                      etch3.setText("");
-                      etch4.setText("");
+                                teacherApi.addQuiz(nameQuiz, description).enqueue(new Callback<QuizModel>() {
+                                    @Override
+                                    public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
+                                        if (response.isSuccessful()) {
+                                            Toast.makeText(getActivity(), response.body()+"", Toast.LENGTH_SHORT).show();
 
-                      rgChoose.clearCheck();
-                      Toast.makeText(getActivity(), index+"", Toast.LENGTH_SHORT).show();
+                                            if (response.body().isResult()) {
+                                                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
 
-                  } else {
-                      Toast.makeText(getActivity(), "Add all fields", Toast.LENGTH_SHORT).show();
-                  }
+                                            } else {
+                                                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
 
-              }else {
+                                            }
+                                        }
+                                    }
 
-                  if (visibleChoose.isSelected()) {
-                      index++;
-                      rgType.clearCheck();
-                      tvQuestion.setText("");
-                  }
-              }
-              }else{
-                    Toast.makeText(getActivity(), "vvvv", Toast.LENGTH_SHORT).show();
+                                    @Override
+                                    public void onFailure(Call<QuizModel> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Sorry..internet disconnect", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
+                            }
+
+                            tvnameQuize.setEnabled(false);
+                            tvDiscription.setEnabled(false);
+
+                            answerMap.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
+                            questionMap.put(index, questionName);
+                            stateQuestion.put(index, 0);
+
+                            if (rgChoose.getCheckedRadioButtonId() == R.id.rach1)
+                                correctMap.put(index, 1 + "");
+                            else if (rgChoose.getCheckedRadioButtonId() == R.id.rach2)
+                                correctMap.put(index, 2 + "");
+                            else if (rgChoose.getCheckedRadioButtonId() == R.id.rach3)
+                                correctMap.put(index, 3 + "");
+                            else
+                                correctMap.put(index, 4 + "");
+
+
+                            tvQuestion.setText("");
+                            etch1.setText("");
+                            etch2.setText("");
+                            etch3.setText("");
+                            etch4.setText("");
+                            rgChoose.clearCheck();
+                            index++;
+
+                        } else {
+                            Toast.makeText(getActivity(), "Add all fields", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+
+                        if (rbtrue.isChecked() || rbfalse.isChecked()) {
+
+
+                            tvnameQuize.setEnabled(false);
+                            tvDiscription.setEnabled(false);
+                            rgType.setEnabled(false);
+
+                            if (visibleTF.getCheckedRadioButtonId() == R.id.rbtrue)
+                                correctMap.put(index, "true");
+                            else
+                                correctMap.put(index, "false");
+
+                            questionMap.put(index, tvQuestion.getText().toString());
+                            stateQuestion.put(index, 1);
+
+                            visibleTF.clearCheck();
+                            tvQuestion.setText("");
+                            index++;
+
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "Sorry...write all :(", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
+        buSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("correct", correctMap.toString());
+                Log.d("answer", answerMap.toString());
+                Log.d("question", questionMap.toString());
+
+                getFragmentManager().popBackStack();
+
+//                for (int i = 0; i < questionMap.size(); i++) {
+//                    teacherApi.addQuestion(questionMap.get(i), ).enqueue(new Callback<QuizModel>() {
+//                        @Override
+//                        public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
+//
+//                            if (response.isSuccessful()) {
+//                                if (response.body().isResult()) {
+//
+//                                } else {
+//                                    Toast.makeText(getContext(), "Sorry..internet disconnect", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<QuizModel> call, Throwable t) {
+//
+//                        }
+//                    });
+//
+//                }
+
+            }
+        });
     }
 
 
@@ -181,8 +289,13 @@ public class CreateQuiz extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
-                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
+                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+                    if (navigationView.isDrawerOpen(GravityCompat.START))
+                        navigationView.closeDrawers();
+                    else
+                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+
                     return true;
 
                 }
