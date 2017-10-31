@@ -36,16 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/colorAccent" />
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end"
-                android:layout_marginLeft="200dp"
-                android:background="@drawable/circle_shape_white"
-                android:gravity="center"
-                android:textColor="@color/background_color"
-                android:textSize="16dp" />
+
         </LinearLayout>
 
         <LinearLayout

@@ -2,11 +2,13 @@ package ps.wwbtraining.teacher_group1.Interface;
 
 
 import okhttp3.RequestBody;
+import ps.wwbtraining.teacher_group1.Model.Answer;
 import ps.wwbtraining.teacher_group1.Model.AnswerAddModel;
 import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
+import ps.wwbtraining.teacher_group1.Model.QuesItem;
 import ps.wwbtraining.teacher_group1.Model.QuestionModel;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
@@ -112,6 +114,15 @@ public interface TeacherApi {
     @POST("countStudent.php")
     @FormUrlEncoded
     Call<CountStudentModel> getCount(@Field("group_id") int group_id);
+
+
+    @POST("showQues.php")
+    @FormUrlEncoded
+    Call<QuesItem> showQues(@Field("quiz_id") int quiz_id);
+
+    @POST("showAnswer.php")
+    @FormUrlEncoded
+    Call<Answer> showAnswer(@Field("question_id") int question_id);
 
 
 

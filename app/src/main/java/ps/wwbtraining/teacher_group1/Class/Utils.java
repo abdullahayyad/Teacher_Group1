@@ -1,6 +1,9 @@
 package ps.wwbtraining.teacher_group1.Class;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 
 import java.util.Timer;
@@ -40,5 +43,13 @@ public class Utils {
 
     }
 
+    public static boolean isOnline(Context context) {
+
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+
+    }
 }
 

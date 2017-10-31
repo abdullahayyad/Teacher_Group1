@@ -23,10 +23,13 @@ public class SharedPrefUtil {
     }
 
     public void saveString(String key, String value) {
+        try{
         mSharedPreferences = mContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
         mEditor.putString(key, value);
         mEditor.commit();
+    }
+    catch (Exception e){}
     }
 
     public void saveInt(String key, int value) {

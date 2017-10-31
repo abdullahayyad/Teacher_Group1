@@ -1,6 +1,5 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +8,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,12 +19,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ps.wwbtraining.teacher_group1.Adapter.ShowGroupAdapter;
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
-import ps.wwbtraining.teacher_group1.Model.GroupItem;
-import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.R;
@@ -108,42 +103,42 @@ public class ShowQuizFragment extends Fragment {
         return view;
     }
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            getActivity().getMenuInflater().inflate(R.menu.menu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.delete:
-
-                    mode.finish();
-                    break;
-
-                case R.id.update:
-
-                    mode.finish();
-                    break;
-
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionmode = null;
-        }
-    };
+//    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+//
+//        @Override
+//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//            getActivity().getMenuInflater().inflate(R.menu.menu, menu);
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//            return false;
+//        }
+//
+//        @Override
+//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.delete:
+//
+//                    mode.finish();
+//                    break;
+//
+//                case R.id.update:
+//
+//                    mode.finish();
+//                    break;
+//
+//            }
+//
+//            return false;
+//        }
+//
+//        @Override
+//        public void onDestroyActionMode(ActionMode mode) {
+//            mActionmode = null;
+//        }
+//    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -169,4 +164,47 @@ public class ShowQuizFragment extends Fragment {
         });
 
     }
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+      //      getMenuInflater().inflate(R.menu.menu_quize, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+//                    int del = db_sqlit.deleteStd(arrayList.get(myPosition).getId());
+//
+//                    Log.i("+++",del+"");
+//                    if (del ==1) {
+////                        Toast.makeText(MainActivity.this, " Delete Done", Toast.LENGTH_SHORT).show();
+////                        arrayList.clear();
+////                        adapter.notifyDataSetChanged();
+////                        recyclerView.setAdapter(adapter);
+                        mode.finish();
+                //    }
+
+//                    else {
+//                        mode.finish();
+//                    }
+                    break;
+                case R.id.update:
+
+                    break;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionmode = null;
+        }
+    };
 }

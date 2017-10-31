@@ -10,30 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Fragment.EditGroupFragment;
-import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
-import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
-import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.ViewHolder> {
 
     private final ArrayList<GroupItem> arrayList;
-    CountStudentModel countStudentModel = new CountStudentModel();
     int positionItem ;
     Fragment context;
     EditGroupFragment newFragment;
-    private TeacherApi techerApi;
 
     public ShowGroupAdapter(Fragment context, ArrayList<GroupItem> arrayList) {
         this.context = context;
@@ -44,14 +34,12 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.group_list_item, parent, false);
-        techerApi = ApiTeacher.getAPIService();
         return new ShowGroupAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = arrayList.get(position);
-       holder.count.setText(countStudentModel.getCountStudent());
         holder.group_name.setText(arrayList.get(position).getgroup_name());
         holder.description.setText(arrayList.get(position).getDescription());
         final int group_id = arrayList.get(position).getGroup_id();
@@ -93,7 +81,6 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         public final ImageButton edit;
         public final ImageButton delete;
         public GroupItem mItem;
-        TextView count ;
 
         public ViewHolder(View view) {
 
@@ -104,25 +91,7 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
             description = (TextView) view.findViewById(R.id.description);
             edit = (ImageButton)view.findViewById(R.id.edit);
             delete = (ImageButton)view.findViewById(R.id.delete);
-            count = (TextView)view.findViewById(R.id.count);
 
         }
     }
-    public void DeleteUserGroup(int group_id, int user_id) {
-        techerApi.deleteUserFromGroup(group_id, user_id).enqueue(new Callback<InsertIntoGroup>() {
-            @Override
-            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                if (response.body().isResult()) {
-                    Log.d("insert", "insert");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
 }

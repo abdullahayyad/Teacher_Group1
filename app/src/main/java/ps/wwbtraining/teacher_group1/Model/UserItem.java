@@ -1,7 +1,8 @@
 package ps.wwbtraining.teacher_group1.Model;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("com.robohorse.robopojogenerator")
 public class UserItem{
@@ -106,18 +107,18 @@ public class UserItem{
 	}
 
 	@Override
- 	public String toString(){
-		return 
-			"UserItem{" + 
-			"result = '" + result + '\'' + 
-			",user_email = '" + userEmail + '\'' + 
-			",user_password = '" + userPassword + '\'' + 
-			",status_id = '" + statusId + '\'' + 
-			",user_id = '" + userId + '\'' + 
-			",user_mobile = '" + userMobile + '\'' + 
-			",group_id = '" + groupId + '\'' + 
-			",user_name = '" + userName + '\'' + 
-			",token = '" + token + '\'' + 
-			"}";
-		}
+	public String toString(){
+		return
+				"UserItem{" +
+						"result = '" + result + '\'' +
+						",user_email = '" + userEmail + '\'' +
+						",user_password = '" + userPassword + '\'' +
+						",status_id = '" + statusId + '\'' +
+						",user_id = '" + userId + '\'' +
+						",user_mobile = '" + userMobile + '\'' +
+						",group_id = '" + groupId + '\'' +
+						",user_name = '" + userName + '\'' +
+						",token = '" + token + '\'' +
+						"}";
+	}
 }

@@ -1,20 +1,12 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,12 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
-import ps.wwbtraining.teacher_group1.Class.Utils;
-import ps.wwbtraining.teacher_group1.Fragment.EditGroupFragment;
-import ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment;
+import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
@@ -54,11 +43,12 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     ArrayList<GroupItem> array;
     ArrayList<String> groupName = new ArrayList<>();
     private ActionMode mActionmode;
+OnItemLongClickListener listener;
 
-
-    public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList) {
+    public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList,OnItemLongClickListener listener) {
         this.context = context;
         this.arrayList = arrayList;
+       this.listener=listener;
     }
 
     @Override
@@ -80,6 +70,13 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         holder.quiz_name.setText(arrayList.get(position).getQuiz_name());
         holder.description.setText(arrayList.get(position).getDescription());
         final int quiz_id = arrayList.get(position).getQuiz_id();
+        holder.cr.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onItemLongClicked(position);
+                return true;
+            }
+        });
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,12 +164,13 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         return size;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView quiz_name;
         public final TextView description;
 
         public final ImageButton send;
+        private final CardView cr;
         public QuizItem mItem;
 
         public ViewHolder(View view) {
@@ -183,52 +181,8 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
+            cr = (CardView) view.findViewById(R.id.cardView_quize);
 
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            Toast.makeText(context.getActivity(), "kkkkkkkkk", Toast.LENGTH_SHORT).show();
-            ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-                @Override
-                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    context.getActivity().getMenuInflater().inflate(R.menu.menu, menu);
-                    return true;
-                }
-
-                @Override
-                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                    return false;
-                }
-
-                @Override
-                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.delete:
-
-                            mode.finish();
-                            break;
-
-                        case R.id.update:
-
-                            mode.finish();
-                            break;
-                    }
-                    return false;
-                }
-
-                @Override
-                public void onDestroyActionMode(ActionMode mode) {
-                    mActionmode = null;
-                }
-            };
-            mActionmode = context.getActivity().startActionMode(mActionModeCallback);
-
-            return true;
-        }
-
-    }
-
-}
-
+    }}

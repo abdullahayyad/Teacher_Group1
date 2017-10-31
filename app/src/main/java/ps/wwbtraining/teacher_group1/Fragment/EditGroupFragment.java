@@ -121,10 +121,7 @@ public class EditGroupFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<StudentModel> call, Throwable t) {
-
-
-
-                    Toast.makeText(getActivity(), "faaa", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
 
                 }
             });
