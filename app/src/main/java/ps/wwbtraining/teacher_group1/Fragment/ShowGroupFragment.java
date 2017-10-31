@@ -1,10 +1,12 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
-import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.ShowGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
@@ -27,17 +29,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
-
 
 public class ShowGroupFragment extends Fragment {
 
     TeacherApi teacherApi;
-    ArrayList<GroupItem>array = new ArrayList<>();
+    ArrayList<GroupItem> array = new ArrayList<>();
     ShowGroupAdapter showGroupAdapter;
     RecyclerView list_group;
     FloatingActionButton addGroup;
-    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class ShowGroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_show_group, null, false);
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);
-        addGroup = (FloatingActionButton)view.findViewById(R.id.addGroup);
+        addGroup = (FloatingActionButton) view.findViewById(R.id.addGroup);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,45 +62,34 @@ public class ShowGroupFragment extends Fragment {
             }
         });
 
-        //array = showGroup();y
-        try {
+        teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
+            @Override
 
+            public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isResult()) {
 
-            teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
-                @Override
-
-                public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
-                    if (response.isSuccessful()) {
-                        if (response.body().isResult()) {
-
-                            array = response.body().getGroup();
-                            showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
-                            list_group.setAdapter(showGroupAdapter);
-                            list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        } else {
-                            NoInternetAlert(getActivity());
-                            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                        array = response.body().getGroup();
+                        showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
+                        list_group.setAdapter(showGroupAdapter);
+                        list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    } else
+                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
+            @Override
 
-                public void onFailure(Call<GroupModel> call, Throwable t) {
-                    Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
-                    NoInternetAlert(getActivity());
-                    Log.d("ffff", "fff");
-                }
-            });
-        }catch (Exception e)
-        {
-            NoInternetAlert(getActivity());
-            Toast.makeText(getActivity(), "NO Enternt Connection", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<GroupModel> call, Throwable t) {
+                Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
+                Log.d("ffff", "fff");
+            }
+        });
 
-        }
 
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -112,18 +100,21 @@ public class ShowGroupFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    Intent intent =new Intent(getActivity(), TeacherActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    DrawerLayout navigationView = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                    if (navigationView.isDrawerOpen(GravityCompat.START))
+                        navigationView.closeDrawers();
+                    else
+                        getFragmentManager().beginTransaction().addToBackStack(null)
+                                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
 
                     return true;
-
                 }
                 return false;
             }
         });
-    }
 
+    }
 
 
 }

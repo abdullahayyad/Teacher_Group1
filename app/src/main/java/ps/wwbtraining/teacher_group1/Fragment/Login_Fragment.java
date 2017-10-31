@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,23 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
-import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Class.CustomToast;
 import ps.wwbtraining.teacher_group1.Class.Utils;
-import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
-import ps.wwbtraining.teacher_group1.Model.Users;
 import ps.wwbtraining.teacher_group1.R;
-import ps.wwbtraining.teacher_group1.WebService.SharedPrefUtil;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static ps.wwbtraining.teacher_group1.Class.Utils.EMAIL_SHARED_PREF;
-import static ps.wwbtraining.teacher_group1.Class.Utils.MOBIL_SHARED_PREF;
-import static ps.wwbtraining.teacher_group1.Class.Utils.NAME_SHARED_PREF;
-import static ps.wwbtraining.teacher_group1.Class.Utils.RESULT_SHARED_PREF;
-import static ps.wwbtraining.teacher_group1.Class.Utils.STATUS_SHARED_PREF;
 
 public class Login_Fragment extends Fragment implements View.OnClickListener {
     private static View view;
@@ -49,7 +40,6 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     private static TextView forgotPassword, signUp;
     private static CheckBox show_hide_password;
     private static LinearLayout loginLayout;
-    TeacherApi teacherApi;
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
 
@@ -68,8 +58,6 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
 
     // Initiate Views
     private void initViews() {
-        teacherApi = ApiTeacher.getAPIService();
-
         fragmentManager = getActivity().getSupportFragmentManager();
 
         emailid = (EditText) view.findViewById(R.id.login_emailid);
@@ -142,19 +130,10 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                String getEmailId = emailid.getText().toString().trim();
-                String getPassword = password.getText().toString().trim();
-                if (checkValidation()) {
-
-                    checkLogin(getEmailId, getPassword);
-
-                } else {
-                    new CustomToast().Show_Toast(getActivity(), view,
-                            "Something Error");
-                }
+                checkValidation();
+                Intent intent =new Intent(getActivity(), TeacherActivity.class);
+                startActivity(intent);
                 break;
-
-
 
             case R.id.forgot_password:
 
@@ -172,73 +151,49 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     }
 
     // Check Validation before login
-    private boolean checkValidation() {
-        boolean valid = true;
+    private void checkValidation() {
         // Get email id and password
-        String getEmailId = emailid.getText().toString().trim();
-        String getPassword = password.getText().toString().trim();
+        String getEmailId = emailid.getText().toString();
+        String getPassword = password.getText().toString();
+
+        // Check patter for email id
+        Pattern p = Pattern.compile(Utils.regEx);
+
+        Matcher m = p.matcher(getEmailId);
 
         // Check for both field is empty or not
-        if (getEmailId.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(getEmailId).matches()) {
-            emailid.setError("Enter a valid email address");
+        if (getEmailId.equals("") || getEmailId.length() == 0
+                || getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Enter both credentials.");
 
-            valid = false;
-        } else {
-            emailid.setError(null);
         }
-
-        if (getPassword.equals("") || getPassword.length() == 0) {
-            loginLayout.startAnimation(shakeAnimation);
-            password.setError("Enter your Password");
-            valid = false;
-        } else {
-            password.setError(null);
-        }
-
-
-//            checkLogin(getEmailId, getPassword);
-        Toast.makeText(getActivity(), "Do loginnnnn.", Toast.LENGTH_SHORT)
-                .show();
-        emailid.setText("");
-        password.setText("");
-
-
-        return valid;
+        // Check if email id is valid or not
+        else if (!m.find())
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "Your Email Id is Invalid.");
+            // Else do login and do your stuff
+        else
+            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
+                    .show();
 
     }
-    public void checkLogin(final String user_email, final String user_password) {
-        teacherApi.checkLogin(user_email, user_password).enqueue(new Callback<Users>() {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+
             @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
-//                Toast.makeText(getActivity(), "sucessfull   " + response.body().toString(), Toast.LENGTH_SHORT).show();
-                Users users = response.body();
-//                users.getStatuse();
-                if( users.getStatuse().equals("1")){
-                    Toast.makeText(getActivity(), "successful" , Toast.LENGTH_SHORT).show();
-                    SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
-
-                    sharedPrefUtil.saveString(NAME_SHARED_PREF, users.getUser().getUserName());
-                    sharedPrefUtil.saveString(STATUS_SHARED_PREF, users.getUser().getStatusId());
-                    sharedPrefUtil.saveString(MOBIL_SHARED_PREF, users.getUser().getUserMobile());
-                    sharedPrefUtil.saveBoolean(RESULT_SHARED_PREF, users.getUser().isResult());
-                    sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
-
-                    Intent intent =new Intent(getActivity(), TeacherActivity.class);
-                    startActivity(intent);
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                     getActivity().finish();
+                    return true;
+
                 }
-//                Log.i("sucessfull1",user_email+"    "+user_password);
-
-
-                Log.i("sucessfull", response.body() + "");
-            }
-
-            @Override
-            public void onFailure(Call<Users> call, Throwable t) {
-                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
+                return false;
             }
         });
-
 }}

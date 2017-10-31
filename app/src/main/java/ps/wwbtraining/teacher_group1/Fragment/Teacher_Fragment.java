@@ -3,6 +3,8 @@ package ps.wwbtraining.teacher_group1.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,8 +94,10 @@ public class Teacher_Fragment extends Fragment  {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-//                    Intent intent =new Intent(getActivity(), MainActivity.class);
-//                    startActivity(intent);
+                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+                    if (navigationView.isDrawerOpen(GravityCompat.START))
+                        navigationView.closeDrawers();
+                    else
                     getActivity().finish();
                     return true;
 
@@ -102,5 +106,4 @@ public class Teacher_Fragment extends Fragment  {
             }
         });
     }
-
 }

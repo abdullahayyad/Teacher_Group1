@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import ps.wwbtraining.teacher_group1.R;
  * Created by Hanan Dawod on 17/10/17.
  */
 
-public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAdapter.ViewHolder> {
+public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAdapter.ViewHolder>{
 
     private final  ArrayList<User> userManageItems;
     int positionItem ;
@@ -69,8 +68,8 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                     userManageItems.get(position).setStatusId(5+"");
                 }
 
-                Toast.makeText(context,cc+ "", Toast.LENGTH_SHORT).show();
                 map.put(position,cc);
+                Log.d("wwwwwww",userManageItems.toString());
 
             }
         });
@@ -93,7 +92,6 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
     public void SelectAll(int i) {
 
        positionItem =i;
-       Log.d("poooo",positionItem+"");
        notifyDataSetChanged();
     }
 
@@ -126,5 +124,9 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
             radioGroup = (RadioGroup)view.findViewById(R.id.groupStu);
             radioButtonn =(RadioButton)view.findViewById(positionItem);
 
-        }}
+        }
+
+
+
+    }
 }

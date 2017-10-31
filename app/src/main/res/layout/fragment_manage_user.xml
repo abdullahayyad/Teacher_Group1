@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,29 +18,22 @@
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:text="Manage Student"
-                android:textColor="@color/white"
-                android:textSize="17dp" />
-
+                android:textColor="@color/buttonText"
+                android:textSize="20dp" />
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/white" />
-
+                android:background="@color/buttonText" />
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:dropDownSelector="@color/white"
                 android:padding="10dp"
-
-                >
+                android:layout_weight="1">
 
             </Spinner>
         </LinearLayout>
@@ -92,13 +82,12 @@
                 android:buttonTint="#03e237"
                 android:checked="true"
                 android:enabled="false"
-                android:text="App."
-                android:textColor="@color/background_color" />
+                android:text="App." />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background_color" />
+                android:background="#C6C6C6" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
@@ -108,13 +97,12 @@
                 android:buttonTint="#f9ef94"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Not."
-                android:textColor="@color/background_color" />
+                android:text="Not." />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background_color" />
+                android:background="#C6C6C6" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -123,13 +111,12 @@
                 android:buttonTint="#fc101f"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Blo."
-                android:textColor="@color/background_color" />
+                android:text="Blo." />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background_color" />
+                android:background="#C6C6C6" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -138,25 +125,23 @@
                 android:buttonTint="#0d0001"
                 android:checked="true"
                 android:enabled="false"
-                android:text="Rej."
-                android:textColor="@color/background_color" />
+                android:text="Rej." />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:text="Students:"
-            android:textColor="@color/background_color"
-            android:textSize="18sp" />
+            android:textColor="#009688"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:padding="5dp">
+            android:padding="10dp">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -168,6 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/edit_text"
+        android:id="@+id/addLayout"
         android:gravity="center">
 
         <TextView
@@ -177,9 +163,8 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
-
             android:text="Save"
-            android:textColor="@color/background_color"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -187,7 +172,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_color"
+            android:background="#C6C6C6"
             android:orientation="vertical" />
 
         <TextView
@@ -198,7 +183,7 @@
             android:layout_weight="0.8"
             android:gravity="center"
             android:text="Cancel"
-            android:textColor="@color/background_color"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
