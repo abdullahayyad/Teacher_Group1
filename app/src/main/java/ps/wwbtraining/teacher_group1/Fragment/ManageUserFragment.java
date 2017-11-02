@@ -1,13 +1,15 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,13 +32,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
+
 public class ManageUserFragment extends Fragment {
-    RecyclerView recyclerView;
-    ArrayList<User> array = new ArrayList<>();
-    String r;
-    UserManagementAdapter userManagementAdapter;
-    Spinner spinner;
-    TeacherApi teacherApi;
+    private RecyclerView recyclerView;
+    private ArrayList<User> array = new ArrayList<>();
+    private String r;
+    private UserManagementAdapter userManagementAdapter;
+    private Spinner spinner;
+    private TeacherApi teacherApi;
+    private ArrayAdapter<CharSequence> adapter;
+    private Snackbar snackbar;
+    private TextView tvNoItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,102 +55,85 @@ public class ManageUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_manage_user, container, false);
+        final View view = inflater.inflate(R.layout.fragment_manage_user, container, false);
         spinner = (Spinner) view.findViewById(R.id.spinner);
 
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.user_status, R.layout.textview_with_font_change);
-
+        tvNoItems = (TextView) view.findViewById(R.id.tvNoItems);
+        tvNoItems.setVisibility(View.GONE);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         teacherApi = ApiTeacher.getAPIService();
         recyclerView = view.findViewById(R.id.list_user);
+        spinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, final View view, int i, long l) {
+                        if (!isOnline(getActivity())) {
+                            recyclerView.setVisibility(View.GONE);
+                            reloadData(view);
+                        } else getData(view);
+                    }
 
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                              @Override
-                                              public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                  try {
-
-                                                      teacherApi.getStudName(spinner.getSelectedItemPosition() + 2).enqueue(new Callback<StudentModel>() {
-                                                          @Override
-
-                                                          public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
-                                                              if (response.isSuccessful()) {
-                                                                  if (response.body().isResult()) {
-                                                                      array = response.body().getUser();
-                                                                      userManagementAdapter = new UserManagementAdapter(getActivity(), array, spinner.getSelectedItemPosition() + 2);
-                                                                      recyclerView.setAdapter(userManagementAdapter);
-                                                                      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                                                      userManagementAdapter.SelectAll(spinner.getSelectedItemPosition()+2);
-                                                                      Log.d("rrr", array.toString());
-                                                                  } else
-                                                                      Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
-                                                              }
-                                                          }
-
-                                                          @Override
-
-                                                          public void onFailure(Call<StudentModel> call, Throwable t) {
-                                                              Toast.makeText(getContext(), "faaa", Toast.LENGTH_SHORT).show();
-                                                              Log.d("ffff", "fff");
-                                                          }
-                                                      });
-
-
-                                                      // recyclerView.setLayoutManager(RecyclerView);
-
-                                                  } catch (Exception e) {
-                                                      Toast.makeText(getActivity(), "size 0", Toast.LENGTH_SHORT).show();
-                                                  }
-                                              }
-
-                                              @Override
-                                              public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                              }
-                                          }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                }
         );
-        TextView save =(TextView)view.findViewById(R.id.buAdd);
-        TextView back =(TextView)view.findViewById(R.id.buCancel);
+        TextView save = (TextView) view.findViewById(R.id.buAdd);
+        TextView back = (TextView) view.findViewById(R.id.buCancel);
 
+        save.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final ProgressDialog pd = new ProgressDialog(getActivity());
+                        pd.setMessage("Saving Group ....");
+                        pd.setCancelable(false);
+                        pd.show();
+//                        final ArrayList<User> arrayList = userManagementAdapter.arrayUser();
+                        for (int i = 0; i < array.size(); i++) {
+                            final int finalI = i;
+                            teacherApi
+                                    .updateStatus(array.get(i).getUserId(), array.get(i).getStatusId())
+                                    .enqueue(new Callback<UpdateStatus>() {
+                                        @Override
+                                        public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                                            if (response.isSuccessful()) {
+                                                if (pd != null && pd.isShowing())
+                                                    pd.dismiss();
+//                                                customSnackBare(view,"Saving Data ....","Dismiss");
+                                                // userManagementAdapter(getActivity(),array,)
+//                                                    getData(view);
+//                                                array.remove(finalI);
+                                                userManagementAdapter.notifyDataSetChanged();
+                                            } else {
+                                                if (pd != null && pd.isShowing())
+                                                    pd.dismiss();
+                                            }
+                                        }
 
-                final ArrayList <User> arrayList =userManagementAdapter.arrayUser();
-                for (int i = 0 ; i <arrayList.size() ;i++){
-                    final int finalI = i;
-                    teacherApi.updateStatus(arrayList.get(i).getUserId(),arrayList.get(i).getStatusId()).enqueue(new Callback<UpdateStatus>() {
-                        @Override
-                        public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
-                            if(response.isSuccessful()) {
-                                Toast.makeText(getActivity(), "sucess   ", Toast.LENGTH_SHORT).show();
-                                if (arrayList.get(finalI).getStatusId().equals(spinner.getSelectedItemPosition()+2)){
-                                    arrayList.remove(finalI);
-                                    userManagementAdapter.notifyDataSetChanged();
-
-                                }
-
-                            }
+                                        @Override
+                                        public void onFailure(Call<UpdateStatus> call, Throwable t) {
+                                            if (pd != null && pd.isShowing())
+                                                pd.dismiss();
+                                            reloadData(view);
+                                        }
+                                    });
                         }
-                        @Override
-                        public void onFailure(Call<UpdateStatus> call, Throwable t) {
-                            Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-                        }});
-                }}}
+                    }
+                }
         );
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getFragmentManager().popBackStack();
-
             }
         });
+
         return view;
     }
 
@@ -158,7 +147,7 @@ public class ManageUserFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+                    DrawerLayout navigationView = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
                     if (navigationView.isDrawerOpen(GravityCompat.START))
                         navigationView.closeDrawers();
                     else
@@ -171,5 +160,79 @@ public class ManageUserFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+
+    private void getData(final View view) {
+
+        teacherApi.getStudName(spinner.getSelectedItemPosition() + 2).enqueue(new Callback<StudentModel>() {
+            @Override
+            public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().isResult()) {
+                        getUser(response);
+                    } else {
+                        recyclerView.setVisibility(View.GONE);
+                        tvNoItems.setVisibility(View.VISIBLE);
+//                            customSnackBareReload(view, response, "Something Error :(");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StudentModel> call, Throwable t) {
+                reloadData(view);
+            }
+        });
+
+    }
+
+    private void getUser(Response<StudentModel> response) {
+        array = response.body().getUser();
+        if (array != null && !(array.isEmpty()) && array.size() != 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+            userManagementAdapter = new UserManagementAdapter(getActivity(), array, spinner.getSelectedItemPosition() + 2);
+            recyclerView.setAdapter(userManagementAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            userManagementAdapter.SelectAll(spinner.getSelectedItemPosition() + 2);
+            tvNoItems.setVisibility(View.GONE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            tvNoItems.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void customSnackBareReload(View view, final Response<StudentModel> response, String message) {
+        final Snackbar snackbar;
+        snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Reload", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getUser(response);
+                snackbar.dismiss();
+            }
+        }).setActionTextColor(Color.WHITE);
+        ;
+        snackbar.show();
+    }
+
+    private void reloadData(View view) {
+        final Snackbar snackbar;
+        snackbar = Snackbar.make(view, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Reload", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getData(view);
+                snackbar.dismiss();
+            }
+        })
+//                .setAction("Dissmis", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                snackbar.dismiss();
+//            }
+//        })
+                .setActionTextColor(Color.WHITE);
+        snackbar.show();
     }
 }

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,5 +51,18 @@ public class Utils {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+    public static void customSnackBare(View view,String message/*,String action*/){
+        final Snackbar snackbar;
+        snackbar= Snackbar.make(view,message,Snackbar.LENGTH_LONG);
+//        snackbar.setAction(action, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                snackbar.dismiss();
+//            }
+//        }).setActionTextColor(Color.WHITE);
+        snackbar.show();
+   }
+
+
 }
 

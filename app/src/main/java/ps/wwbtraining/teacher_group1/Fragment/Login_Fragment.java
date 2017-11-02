@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +39,7 @@ import static ps.wwbtraining.teacher_group1.Class.Utils.MOBIL_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.NAME_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.RESULT_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.STATUS_SHARED_PREF;
+import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
 public class Login_Fragment extends Fragment implements View.OnClickListener {
     private static View view;
@@ -79,17 +79,14 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
         show_hide_password = (CheckBox) view
                 .findViewById(R.id.show_hide_password);
         loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
-
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.shake);
-
         // Setting text selector over textviews
         XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
-
             forgotPassword.setTextColor(csl);
             show_hide_password.setTextColor(csl);
             signUp.setTextColor(csl);
@@ -101,39 +98,23 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     private void setListeners() {
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
-
-
-        // Set check listener over checkbox for showing and hiding password
         show_hide_password
                 .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
                     @Override
                     public void onCheckedChanged(CompoundButton button,
                                                  boolean isChecked) {
-
-                        // If it is checkec then show password else hide
-                        // password
                         if (isChecked) {
-
                             show_hide_password.setText(R.string.hide_pwd);// change
-                            // checkbox
-                            // text
-
                             password.setInputType(InputType.TYPE_CLASS_TEXT);
                             password.setTransformationMethod(HideReturnsTransformationMethod
                                     .getInstance());// show password
                         } else {
                             show_hide_password.setText(R.string.show_pwd);// change
-                            // checkbox
-                            // text
-
                             password.setInputType(InputType.TYPE_CLASS_TEXT
                                     | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             password.setTransformationMethod(PasswordTransformationMethod
                                     .getInstance());// hide password
-
                         }
-
                     }
                 });
     }
@@ -144,20 +125,14 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
             case R.id.loginBtn:
                 String getEmailId = emailid.getText().toString().trim();
                 String getPassword = password.getText().toString().trim();
-                if (checkValidation()) {
-
+                if (checkValidation()&&isOnline(getActivity())) {
                     checkLogin(getEmailId, getPassword);
-
                 } else {
                     new CustomToast().Show_Toast(getActivity(), view,
-                            "Something Error");
+                            "No Internet Connection");
                 }
                 break;
-
-
-
             case R.id.forgot_password:
-
                 // Replace forgot password fragment with animation
                 fragmentManager
                         .beginTransaction()
@@ -166,9 +141,7 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
                                 new ForgotPassword_Fragment(),
                                 Utils.ForgotPassword_Fragment).commit();
                 break;
-
         }
-
     }
 
     // Check Validation before login
@@ -182,12 +155,10 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
         if (getEmailId.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(getEmailId).matches()) {
             emailid.setError("Enter a valid email address");
             loginLayout.startAnimation(shakeAnimation);
-
             valid = false;
         } else {
             emailid.setError(null);
         }
-
         if (getPassword.equals("") || getPassword.length() == 0) {
             loginLayout.startAnimation(shakeAnimation);
             password.setError("Enter your Password");
@@ -195,41 +166,34 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
         } else {
             password.setError(null);
         }
-
         return valid;
-
     }
-    public void checkLogin(final String user_email, final String user_password) {
 
+    private void checkLogin(final String user_email, final String user_password) {
         teacherApi.checkLogin(user_email, user_password).enqueue(new Callback<Users>() {
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
-             Users users = response.body();
-                if( users.getStatuse().equals("1")){
-                     SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
+                Users users = response.body();
+                if (users.getStatuse().equals("1")) {
+                    SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
                     sharedPrefUtil.saveString(NAME_SHARED_PREF, users.getUser().getUserName());
                     sharedPrefUtil.saveString(STATUS_SHARED_PREF, users.getUser().getStatusId());
                     sharedPrefUtil.saveString(MOBIL_SHARED_PREF, users.getUser().getUserMobile());
                     sharedPrefUtil.saveBoolean(RESULT_SHARED_PREF, users.getUser().isResult());
                     sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
-
-                    Intent intent =new Intent(getActivity(), TeacherActivity.class);
+                    Intent intent = new Intent(getActivity(), TeacherActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                } else {
+                    Toast.makeText(getActivity(), "Not Allow to login", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Toast.makeText(getActivity(), "User is forbidden ", Toast.LENGTH_SHORT).show();
-
-                }
-
-                Log.i("sucessfull", response.body() + "");
+//                Log.i("sucessfull", response.body() + "");
             }
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
-                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
             }
         });
-
-    }}
+    }
+}

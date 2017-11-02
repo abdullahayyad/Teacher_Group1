@@ -149,7 +149,16 @@
             android:text="Students:"
             android:textColor="@color/background_color"
             android:textSize="18sp" />
-
+        <TextView
+            android:id="@+id/tvNoItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="No Students..."
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_user"
             android:layout_width="match_parent"
