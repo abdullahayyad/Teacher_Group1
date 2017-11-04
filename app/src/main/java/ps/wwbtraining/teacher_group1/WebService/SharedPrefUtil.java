@@ -12,7 +12,7 @@ public class SharedPrefUtil {
     /**
      * Name of the preference file
      */
-    public static String PREFS = "salem'sMarket";
+    public static String PREFS = "App";
 
     private Context mContext;
     private SharedPreferences mSharedPreferences;

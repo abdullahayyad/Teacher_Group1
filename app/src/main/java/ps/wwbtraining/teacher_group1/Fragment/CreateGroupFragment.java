@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -58,6 +60,9 @@ public class CreateGroupFragment extends Fragment {
     private int user_id = 0;
     private TextView back;
     private static Animation shakeAnimation;
+    private ProgressBar progress;
+    private View view;
+    private RelativeLayout customView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,10 @@ public class CreateGroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_create_group, null, false);
+        view = inflater.inflate(R.layout.fragment_create_group, container, false);
+        customView=(RelativeLayout)view.findViewById(R.id.relayout);
+        progress = (ProgressBar) view.findViewById(R.id.progress);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         name = (EditText) view.findViewById(R.id.tvnameGroup);
         description = (EditText) view.findViewById(R.id.tvDiscription);
@@ -82,11 +90,12 @@ public class CreateGroupFragment extends Fragment {
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.shake);
 
-        if (isOnline(getActivity())) {
-            getStudant(view);
-        } else {
-            reloadData(view);
-        }
+
+//        if (isOnline(getActivity())) {
+//            getStudant(view);
+//        } else {
+//            reloadData(view.getRootView());
+//        }
 
         // recyclerView.setLayoutManager(RecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -163,6 +172,7 @@ public class CreateGroupFragment extends Fragment {
 
                                     @Override
                                     public void onFailure(Call<GroupInsert> call, Throwable t) {
+                                        if(getView() != null)
                                         customSnackBare(view, "No Internet Connection ....");
                                     }
                                 });
@@ -199,9 +209,15 @@ public class CreateGroupFragment extends Fragment {
                 return false;
             }
         });
+        if (!isOnline(getActivity())) {
+            recyclerView.setVisibility(View.GONE);
+            reloadData(customView);
+        } else getStudant(view);
     }
 
     public void getStudant(final View view) {
+        progress.setVisibility(View.VISIBLE);
+
         teacherApi
                 .getStudName(2)
                 .enqueue(new Callback<StudentModel>() {
@@ -210,6 +226,8 @@ public class CreateGroupFragment extends Fragment {
                         if (response.isSuccessful()) {
                             if (response.body().isResult()) {
                                 try {
+                                    progress.setVisibility(View.GONE);
+
                                     array = response.body().getUser();
                                     ArrayList<String> array_id = new ArrayList<String>();
                                     userManagementAdapter = new AdapterAddGroup(getActivity(), array, array_id);
@@ -217,27 +235,29 @@ public class CreateGroupFragment extends Fragment {
 //                                Log.d("arrayyy", array.toString());
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                                 } catch (Exception e) {
-                                    customSnackBare(view, "Something Error");
+                                    customSnackBare(
+                                            view, "Something Error");
                                 }
                             } else
+
                                 reloadData(view);
                             // userManagementAdapter.notifyS);
-                        }
+                        } else reloadData(view);
                     }
 
                     @Override
                     public void onFailure(Call<StudentModel> call, Throwable t) {
-                        reloadData(view);
+                        getStudant(view);
                     }
                 });
     }
 
-    public void reloadData(View view) {
+    public void reloadData(final View view) {
         final Snackbar snackbar;
         snackbar = Snackbar.make(view, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 getStudant(view);
                 snackbar.dismiss();
             }

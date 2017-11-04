@@ -6,6 +6,7 @@
     android:background="@color/white">
 
     <RelativeLayout
+        android:id="@+id/creatQuiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

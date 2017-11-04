@@ -1,10 +1,9 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Class.AnwerQuestion;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
@@ -65,6 +65,7 @@ public class CreateQuiz extends Fragment {
     int index = 0;
 
     TeacherApi teacherApi;
+    private View customView;
 
 
     @Override
@@ -86,6 +87,8 @@ public class CreateQuiz extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_create_quiz, container, false);
+        customView = view.findViewById(R.id.creatQuiz);
+
         findViews(view);
         visibleTF.setVisibility(View.VISIBLE);
         visibleChoose.setVisibility(View.GONE);
@@ -159,7 +162,7 @@ public class CreateQuiz extends Fragment {
                                     @Override
                                     public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
                                         if (response.isSuccessful()) {
-                                            Toast.makeText(getActivity(), response.body()+"", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), response.body() + "", Toast.LENGTH_SHORT).show();
 
                                             if (response.body().isResult()) {
                                                 Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
@@ -278,7 +281,6 @@ public class CreateQuiz extends Fragment {
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -289,19 +291,16 @@ public class CreateQuiz extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    DrawerLayout navigationView =(DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
-                    if (navigationView.isDrawerOpen(GravityCompat.START))
-                        navigationView.closeDrawers();
-                    else
-                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
-
+                    Intent intent = new Intent(getActivity(), TeacherActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+//                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
+//                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
                     return true;
 
                 }
                 return false;
             }
         });
-
     }
 }

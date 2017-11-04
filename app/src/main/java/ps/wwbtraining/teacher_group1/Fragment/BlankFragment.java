@@ -68,7 +68,7 @@ public class BlankFragment extends Fragment {
                     else
                         getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                                 .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
-
+                    getActivity().finish();
                     return true;
 
                 }

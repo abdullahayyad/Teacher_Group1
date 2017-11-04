@@ -1,13 +1,12 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -17,13 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
-import ps.wwbtraining.teacher_group1.Class.Utils;
 import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
@@ -34,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
+import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
 /**
  * Created by مركز الخبراء on 10/26/2017.
@@ -48,7 +49,9 @@ public class ShowQuizFragment extends Fragment {
     private ShowQuizAdapter showQuizAdapter;
     private ActionMode mActionmode;
     private int myPosition;
-    View view;
+    private View view;
+    private RelativeLayout customView;
+    private ProgressBar progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,22 +63,21 @@ public class ShowQuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_show_quiz, null, false);
+        view = inflater.inflate(R.layout.fragment_show_quiz, container, false);
         teacherApi = ApiTeacher.getAPIService();
         list_quiz = (RecyclerView) view.findViewById(R.id.list_quiz);
         addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
+        customView = (RelativeLayout)view.findViewById(R.id.show_quiz);
+        progress = (ProgressBar) view.findViewById(R.id.progress);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        if (Utils.isOnline(getActivity())) {
-            getQuizzes();
-        } else {
-            reloadData(view);
-        }
 
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .add(R.id.show_quiz, new CreateQuiz()).commit();
+                        .replace(R.id.show_quiz, new CreateQuiz()).commit();
+//                getActivity().finish();
 
             }
         });
@@ -95,6 +97,7 @@ public class ShowQuizFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -102,18 +105,26 @@ public class ShowQuizFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    DrawerLayout navigationView = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-                    if (navigationView.isDrawerOpen(GravityCompat.START))
-                        navigationView.closeDrawers();
-                    else
-                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+                    Intent intent = new Intent(getActivity(), TeacherActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+
+
+//                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
+//                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
                     return true;
 
                 }
                 return false;
             }
         });
+        if (!isOnline(getActivity())) {
+            progress.setVisibility(View.VISIBLE);
+            list_quiz.setVisibility(View.GONE);
+            reloadData();
+        } else {
+            getQuizzes();
+        }
 
     }
 
@@ -164,13 +175,14 @@ public class ShowQuizFragment extends Fragment {
     };
 
     private void getQuizzes() {
+        progress.setVisibility(View.VISIBLE);
         try {
             teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
                 @Override
                 public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
                     if (response.isSuccessful()) {
                         if (response.body().isResult()) {
-
+                            progress.setVisibility(View.GONE);
                             array = response.body().getGroup();
                             showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array, new OnItemLongClickListener() {
                                 @Override
@@ -182,14 +194,18 @@ public class ShowQuizFragment extends Fragment {
                             });
                             list_quiz.setAdapter(showQuizAdapter);
                             list_quiz.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        } else
+                        } else{
                             customSnackBare(view, "Something Error ....");
-                    }
+                            progress.setVisibility(View.GONE);
+                        }
+                    } else reloadData();
                 }
 
                 @Override
                 public void onFailure(Call<QuizModel> call, Throwable t) {
-                    reloadData(view);
+                    if(getView() != null)
+                        progress.setVisibility(View.VISIBLE);
+                    reloadData();
                 }
             });
         } catch (Exception e) {
@@ -197,12 +213,12 @@ public class ShowQuizFragment extends Fragment {
         }
     }
 
-    private void reloadData(View view) {
+    private void reloadData() {
         final Snackbar snackbar;
-        snackbar = Snackbar.make(view, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(customView, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 getQuizzes();
                 snackbar.dismiss();
             }

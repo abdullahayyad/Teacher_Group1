@@ -20,7 +20,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
@@ -125,9 +124,10 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
             case R.id.loginBtn:
                 String getEmailId = emailid.getText().toString().trim();
                 String getPassword = password.getText().toString().trim();
-                if (checkValidation()&&isOnline(getActivity())) {
+                if (checkValidation() && isOnline(getActivity())) {
                     checkLogin(getEmailId, getPassword);
                 } else {
+                    loginLayout.startAnimation(shakeAnimation);
                     new CustomToast().Show_Toast(getActivity(), view,
                             "No Internet Connection");
                 }
@@ -170,30 +170,44 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void checkLogin(final String user_email, final String user_password) {
-        teacherApi.checkLogin(user_email, user_password).enqueue(new Callback<Users>() {
-            @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
-                Users users = response.body();
-                if (users.getStatuse().equals("1")) {
-                    SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
-                    sharedPrefUtil.saveString(NAME_SHARED_PREF, users.getUser().getUserName());
-                    sharedPrefUtil.saveString(STATUS_SHARED_PREF, users.getUser().getStatusId());
-                    sharedPrefUtil.saveString(MOBIL_SHARED_PREF, users.getUser().getUserMobile());
-                    sharedPrefUtil.saveBoolean(RESULT_SHARED_PREF, users.getUser().isResult());
-                    sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
-                    Intent intent = new Intent(getActivity(), TeacherActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-                } else {
-                    Toast.makeText(getActivity(), "Not Allow to login", Toast.LENGTH_SHORT).show();
-                }
+        if(isOnline(getActivity())){
+        try {
+            teacherApi.checkLogin(user_email, user_password).enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> call, Response<Users> response) {
+                    Users users = response.body();
+                    if (users.getStatuse().equals("1")) {
+                        SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
+                        sharedPrefUtil.saveString(NAME_SHARED_PREF, users.getUser().getUserName());
+                        sharedPrefUtil.saveString(STATUS_SHARED_PREF, users.getUser().getStatusId());
+                        sharedPrefUtil.saveString(MOBIL_SHARED_PREF, users.getUser().getUserMobile());
+                        sharedPrefUtil.saveBoolean(RESULT_SHARED_PREF, users.getUser().isResult());
+                        sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
+                        Intent intent = new Intent(getActivity(), TeacherActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else {
+                        new CustomToast().Show_Toast(getActivity(), view,
+                                "Not Allow to login");
+                        loginLayout.startAnimation(shakeAnimation);
+                    }
 //                Log.i("sucessfull", response.body() + "");
-            }
+                }
 
-            @Override
-            public void onFailure(Call<Users> call, Throwable t) {
-                Toast.makeText(getActivity(), "No Internet Connection.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Users> call, Throwable t) {
+                    new CustomToast().Show_Toast(getActivity(), view,
+                            "No Internet Connection");
+                    loginLayout.startAnimation(shakeAnimation);
+                }
+            });
+        } catch (Exception e) {
+
+        }
+        }else {
+            new CustomToast().Show_Toast(getActivity(), view,
+                    "No Internet Connection");
+            loginLayout.startAnimation(shakeAnimation);
+        }
     }
 }

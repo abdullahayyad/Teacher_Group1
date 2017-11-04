@@ -13,6 +13,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,9 @@ public class ShowGroupFragment extends Fragment {
     private RecyclerView list_group;
     private FloatingActionButton addGroup;
     private RecyclerView recyclerView;
+    private View view;
+    private RelativeLayout customView;
+    private ProgressBar progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,11 @@ public class ShowGroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_show_group, null, false);
+        view = inflater.inflate(R.layout.fragment_show_group, container, false);
+        customView=(RelativeLayout)view.findViewById(R.id.show_group);
+        progress = (ProgressBar) view.findViewById(R.id.progress);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);
         addGroup = (FloatingActionButton) view.findViewById(R.id.addGroup);
@@ -62,11 +71,7 @@ public class ShowGroupFragment extends Fragment {
             }
         });
 
-        if (isOnline(getActivity())) {
-            getGroup(view);
-        } else {
-            reloadData(view);
-        }
+
         return view;
     }
 
@@ -88,28 +93,47 @@ public class ShowGroupFragment extends Fragment {
                 return false;
             }
         });
+
+
+        if (!isOnline(getActivity())) {
+
+            list_group.setVisibility(View.GONE);
+            progress.setVisibility(View.VISIBLE);
+            reloadData();
+        } else {
+            progress.setVisibility(View.VISIBLE);
+            getGroup(view);
+        }
     }
 
     private void getGroup(final View view) {
+        progress.setVisibility(View.VISIBLE);
         try {
             teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
                 @Override
                 public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
                     if (response.isSuccessful()) {
                         if (response.body().isResult()) {
+                            progress.setVisibility(View.GONE);
                             array = response.body().getGroup();
                             showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
                             list_group.setAdapter(showGroupAdapter);
                             list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
                         } else {
+                            progress.setVisibility(View.GONE);
                             customSnackBare(view, "Something Error ....");
                         }
+                    }else {
+                        reloadData();
+                        progress.setVisibility(View.VISIBLE);
+
                     }
                 }
 
                 @Override
                 public void onFailure(Call<GroupModel> call, Throwable t) {
-                    reloadData(view);
+                    if(getView() != null)
+                        reloadData();
                 }
             });
         } catch (Exception e) {
@@ -117,12 +141,12 @@ public class ShowGroupFragment extends Fragment {
         }
     }
 
-    private void reloadData(View view) {
+    private void reloadData() {
         final Snackbar snackbar;
-        snackbar = Snackbar.make(view, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(customView, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 getGroup(view);
                 snackbar.dismiss();
             }

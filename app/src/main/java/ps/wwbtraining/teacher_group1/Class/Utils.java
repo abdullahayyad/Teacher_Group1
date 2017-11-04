@@ -6,8 +6,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +30,12 @@ public class Utils {
     public static final String NAME_SHARED_PREF = "user_name";
     public static final String MOBIL_SHARED_PREF = "user_mobile";
     public static final String RESULT_SHARED_PREF = "user_result";
+
+
+    public static final int NO_INTERNET_CONNECTION = 0;
+    public static final int REQUEST_OK = 200 | 201;
+    public static final int OTHER = 400 | 401 | 403 | 404;
+
 
     public static void NoInternetAlert(Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -51,18 +61,58 @@ public class Utils {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-    public static void customSnackBare(View view,String message/*,String action*/){
-        final Snackbar snackbar;
-        snackbar= Snackbar.make(view,message,Snackbar.LENGTH_LONG);
-//        snackbar.setAction(action, new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                snackbar.dismiss();
-//            }
-//        }).setActionTextColor(Color.WHITE);
-        snackbar.show();
-   }
 
+    public static void customSnackBare(View view, String message/*,String action*/) {
+        final Snackbar snackbar;
+        snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    public static boolean hasActiveInternetConnection(Context context) {
+        if (isOnline(context)) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(15000);
+                urlc.connect();
+                switch (urlc.getResponseCode()) {
+                    case NO_INTERNET_CONNECTION:
+                        return false;
+                    case REQUEST_OK:
+                        return true;
+                    case OTHER:
+                        return true;
+                }
+            } catch (IOException e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    public static boolean hasInternetAccess(Context context) {
+        if (isOnline(context)) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection)
+                        (new URL("http://clients3.google.com/generate_204")
+                                .openConnection());
+                urlc.setRequestProperty("User-Agent", "Android");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(15000);
+                urlc.connect();
+                return (urlc.getResponseCode() == 204 &&
+                        urlc.getContentLength() == 0);
+            } catch (IOException e) {
+                Log.e("///", "Error checking internet connection", e);
+            }
+        } else {
+            Log.d("///", "No network available!");
+        }
+        return false;
+    }
 
 }
 

@@ -39,6 +39,7 @@ public class Teacher_Fragment extends Fragment  {
                             .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                             .replace(R.id.frameTeacher, new ManageUserFragment()
                                    ).commit();
+
                 }
 
             }

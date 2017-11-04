@@ -7,6 +7,14 @@
     android:background="@color/white"
     tools:context="ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_quiz"
