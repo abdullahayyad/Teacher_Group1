@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,11 +33,13 @@ import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
+import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.mode;
 import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
@@ -52,7 +59,9 @@ public class ShowQuizFragment extends Fragment {
     private View view;
     private RelativeLayout customView;
     private ProgressBar progress;
+    int quiz_id;
 
+    private ActionMode.Callback mActionModeCallback1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,53 +136,6 @@ public class ShowQuizFragment extends Fragment {
         }
 
     }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            getActivity().getMenuInflater().inflate(R.menu.menu_quize, menu);
-            TeacherActivity.toolbar.setVisibility(View.GONE);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.delete:
-
-
-//                    if (del ==1) {
-//
-//                        mode.finish();
-//                    }
-//
-//                    else {
-//
-                    mode.finish();
-                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
-
-//                    }
-                    break;
-                case R.id.update:
-
-                    mode.finish();
-                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
-                    break;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionmode = null;
-        }
-    };
-
     private void getQuizzes() {
         progress.setVisibility(View.VISIBLE);
         try {
@@ -231,5 +193,95 @@ public class ShowQuizFragment extends Fragment {
 //        })
                 .setActionTextColor(Color.WHITE);
         snackbar.show();
+
+
     }
-}
+
+
+    // private ShowQuestionFragment newFragment;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            getActivity().getMenuInflater().inflate(R.menu.menu_quize, menu);
+            TeacherActivity.toolbar.setVisibility(View.GONE);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    quiz_id = showQuizAdapter.post;
+                    Log.d("hhh",quiz_id+"");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Do you want to remove?");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    UpdateFlagQuiz(quiz_id);
+                                    array.remove(showQuizAdapter.index);
+                                    showQuizAdapter.notifyDataSetChanged();
+                                }
+                            });
+                    builder.setNegativeButton("No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
+
+
+                    mode.finish();
+                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+
+                    break;
+                case R.id.update:
+
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    ShowQuestionFragment newFragment = new ShowQuestionFragment();
+                    quiz_id = showQuizAdapter.post;
+                    Bundle args = new Bundle();
+                    Log.d("quizId",quiz_id+"");
+                    args.putInt("quiz_id",quiz_id);
+                    newFragment.setArguments(args);
+                    transaction.add(R.id.show_quiz, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    mode.finish();
+                    // TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+
+                    break;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionmode = null;
+        }
+    };
+    public void UpdateFlagQuiz(int quiz_id) {
+        teacherApi.updateFlagQuiz(quiz_id, 0).enqueue(new Callback<UpdateStatus>() {
+            @Override
+            public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
+                if (response.body().isResult()) {
+                    Log.d("update", "insert");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateStatus> call, Throwable t) {
+                Toast.makeText(getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+}}

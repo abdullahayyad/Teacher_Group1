@@ -1,7 +1,10 @@
 package ps.wwbtraining.teacher_group1.Model;
 
+import android.widget.ArrayAdapter;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -13,7 +16,7 @@ public class ShowQuesModel{
 	private boolean result;
 
 	@SerializedName("User")
-	private List<QuesItem> user;
+	private ArrayList<QuesItem> user;
 
 	public void setResult(boolean result){
 		this.result = result;
@@ -23,11 +26,11 @@ public class ShowQuesModel{
 		return result;
 	}
 
-	public void setUser(List<QuesItem> user){
+	public void setUser(ArrayList<QuesItem> user){
 		this.user = user;
 	}
 
-	public List<QuesItem> getUser(){
+	public ArrayList<QuesItem> getUser(){
 		return user;
 	}
 

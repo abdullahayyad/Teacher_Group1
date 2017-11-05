@@ -8,9 +8,11 @@ import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
+import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
-import ps.wwbtraining.teacher_group1.Model.QuestionModel;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
+import ps.wwbtraining.teacher_group1.Model.ShowAnswerModel;
+import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
@@ -86,7 +88,7 @@ public interface TeacherApi {
 
     @POST("addQuestion.php")
     @FormUrlEncoded
-    Call<QuestionModel> addQuestion(@Field("statement") String statementQuestion,
+    Call<QuesInsertModel> addQuestion(@Field("statement") String statementQuestion,
                                     @Field("quiz_id") int idQuiz,
                                     @Field("question_type") int questionType,
                                     @Field("correct_answer") String correctAnswer);
@@ -115,15 +117,71 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<CountStudentModel> getCount(@Field("group_id") int group_id);
 
-
     @POST("showQues.php")
     @FormUrlEncoded
-    Call<QuesItem> showQues(@Field("quiz_id") int quiz_id);
+    Call<ShowQuesModel> showQues(@Field("quiz_id") int quiz_id);
 
     @POST("showAnswer.php")
     @FormUrlEncoded
-    Call<Answer> showAnswer(@Field("question_id") int question_id);
+    Call<ShowAnswerModel> showAnswer(@Field("question_id") int question_id);
 
+    @POST("showCorrectAns.php")
+    @FormUrlEncoded
+    Call<ShowQuesModel> showCorrectAns(@Field("question_id") int question_id);
+
+    @POST("updateStatement.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateStatement(@Field("question_id") int question_id,
+                                       @Field("statement") String statement);
+
+
+    @POST("updateCorrectAns.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateCorrectAns(@Field("question_id") int question_id,
+                                        @Field("correct_answer") String statement);
+
+    @POST("updateFlagQuiz.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateFlagQuiz(@Field("quiz_id") int quiz_id,
+                                      @Field("flag") int flag);
+
+    @POST("updateFlagGroup.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateFlagGroup(@Field("group_id") int group_id,
+                                       @Field("flag") int flag);
+
+    @POST("updateFlagQues.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateFlagQues(@Field("question_id") int question_id,
+                                      @Field("flag") int flag);
+
+    @POST("updateAns1.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateAns1(@Field("question_id") int question_id,
+                                  @Field("ans1") String ans1);
+
+    @POST("updateAns2.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateAns2(@Field("question_id") int question_id,
+                                  @Field("ans2") String ans2);
+
+    @POST("updateAns3.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateAns3(@Field("question_id") int question_id,
+                                  @Field("ans3") String ans3);
+
+    @POST("updateAns4.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateAns4(@Field("question_id") int question_id,
+                                  @Field("ans4") String ans4);
+
+    @POST("insertQues.php")
+    @FormUrlEncoded
+    Call<QuesInsertModel> insertQues(@Field("question_type") int question_type,
+                                     @Field("statement") String statement,
+                                     @Field("quiz_id") int quiz_id,
+                                     @Field("correct_answer") String correct_answer
+    );
 
 
 }

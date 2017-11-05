@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.app.Dialog;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
+import ps.wwbtraining.teacher_group1.Fragment.ShowQuestionFragment;
+import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
@@ -31,10 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by مركز الخبراء on 10/26/2017.
- */
-
 public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHolder> {
 
     private final ArrayList<QuizItem> arrayList;
@@ -44,6 +43,10 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     ArrayList<String> groupName = new ArrayList<>();
     private ActionMode mActionmode;
     OnItemLongClickListener listener;
+    public  int post ;
+    public  int index ;
+
+    ShowQuizFragment showQuizFragment = new  ShowQuizFragment();
 
     public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList, OnItemLongClickListener listener) {
         this.context = context;
@@ -67,11 +70,16 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         holder.mItem = arrayList.get(position);
         holder.quiz_name.setText(arrayList.get(position).getQuiz_name());
         holder.description.setText(arrayList.get(position).getDescription());
-        final int quiz_id = arrayList.get(position).getQuiz_id();
+        Log.d("flagg",arrayList.get(position).getFlag()+"");
+        holder.quiz_id = arrayList.get(position).getQuiz_id();
+
+
         holder.cr.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 listener.onItemLongClicked(position);
+                post = arrayList.get(position).getQuiz_id();
+                index = position;
                 return true;
             }
         });
@@ -149,6 +157,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
     }
 
+
     int size = 0;
 
     @Override
@@ -166,6 +175,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         public final View mView;
         public final TextView quiz_name;
         public final TextView description;
+        int quiz_id ;
 
         public final ImageButton send;
         private final CardView cr;
@@ -180,7 +190,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
             cr = (CardView) view.findViewById(R.id.cardView_quize);
-
+            quiz_id = 0;
         }
 
     }

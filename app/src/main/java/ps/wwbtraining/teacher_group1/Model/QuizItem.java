@@ -15,6 +15,9 @@ public class QuizItem{
     @SerializedName("quiz_id")
     private int quiz_id;
 
+    @SerializedName("flag")
+    private int flag;
+
     @SerializedName("quiz_name")
     private String quiz_name;
 
@@ -49,6 +52,14 @@ public class QuizItem{
 
     public String getDescription(){
         return discription;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 
     @Override
