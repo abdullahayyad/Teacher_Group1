@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     android:layoutDirection="ltr"
     android:scrollbars="none"
     android:textDirection="ltr">
@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -58,55 +59,155 @@
             android:background="@color/background_color"
             android:elevation="2dp" />
 
-        <LinearLayout
+
+        <ImageButton
+            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:padding="5dp"
+            android:src="@drawable/ic_edit_black_24dp" />
+
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawablePadding="10dp"
+            android:enabled="false"
+            android:inputType="text"
+            android:padding="8dp"
+            android:text="NAME"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+
+            />
+
+        <EditText
+            android:id="@+id/mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text"
+            android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+            android:drawablePadding="10dp"
+            android:enabled="false"
+            android:inputType="phone"
+            android:padding="8dp"
+            android:text="Mobile"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+
+            />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawablePadding="10dp"
+            android:enabled="false"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:text="Email"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/change_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:drawablePadding="10dp"
+                android:background="@color/background_color"
+                android:drawableLeft="@drawable/password"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="Change Password"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
 
-                android:padding="5dp"
-                android:text="NAME"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-
-                />
-
-            <TextView
-                android:id="@+id/mobile"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/oldpass"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:drawableLeft="@drawable/ic_local_phone_black_24dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/edit_text"
                 android:drawablePadding="10dp"
-                android:padding="5dp"
-                android:text="mobile"
-
+                android:hint="Old Password"
+                android:inputType="numberPassword"
+                android:padding="8dp"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="16dp" />
 
-                />
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/newpass"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/edit_text"
                 android:drawablePadding="10dp"
-                android:padding="5dp"
-                android:text="email"
+                android:hint="New Password"
+                android:inputType="numberPassword"
+                android:padding="8dp"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="16dp" />
 
-                />
+            <EditText
+                android:id="@+id/conf_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/edit_text"
+                android:drawablePadding="10dp"
+                android:hint="Confirm Password"
+                android:inputType="numberPassword"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/canceldata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/background_color"
+                    android:padding="5dp"
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/savedata"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/background_color"
+                    android:padding="5dp"
+                    android:text="Save"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
 

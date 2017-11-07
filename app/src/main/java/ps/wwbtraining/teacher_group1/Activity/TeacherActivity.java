@@ -22,7 +22,8 @@ import ps.wwbtraining.teacher_group1.WebService.SharedPrefUtil;
 
 public class TeacherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public  static Toolbar  toolbar;
+    public static Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,12 +84,8 @@ public class TeacherActivity extends AppCompatActivity
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-
                             SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getApplicationContext());
-
                             sharedPrefUtil.clear();
-
-
                             //Starting login activity
                             Intent intent = new Intent(TeacherActivity.this, MainActivity.class);
                             startActivity(intent);

@@ -38,6 +38,7 @@ import static ps.wwbtraining.teacher_group1.Class.Utils.MOBIL_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.NAME_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.RESULT_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.STATUS_SHARED_PREF;
+import static ps.wwbtraining.teacher_group1.Class.Utils.USERID_SHARED_PREF;
 import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
 public class Login_Fragment extends Fragment implements View.OnClickListener {
@@ -183,6 +184,7 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
                         sharedPrefUtil.saveString(MOBIL_SHARED_PREF, users.getUser().getUserMobile());
                         sharedPrefUtil.saveBoolean(RESULT_SHARED_PREF, users.getUser().isResult());
                         sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
+                        sharedPrefUtil.saveString(USERID_SHARED_PREF, users.getUser().getUserId());
                         Intent intent = new Intent(getActivity(), TeacherActivity.class);
                         startActivity(intent);
                         getActivity().finish();

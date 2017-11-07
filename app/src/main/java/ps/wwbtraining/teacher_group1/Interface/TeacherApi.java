@@ -13,6 +13,7 @@ import ps.wwbtraining.teacher_group1.Model.QuestionModel;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
+import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
 import ps.wwbtraining.teacher_group1.Model.Users;
 import retrofit2.Call;
@@ -125,5 +126,13 @@ public interface TeacherApi {
     Call<Answer> showAnswer(@Field("question_id") int question_id);
 
 
+    @POST("updateTeacherProfile.php")
+    @FormUrlEncoded
+    Call<User> updateProfile(@Field("user_id") String user_id,
+                             @Field("user_name") String user_name,
+                             @Field("user_email") String user_email,
+                             @Field("user_mobile") String user_mobile,
+                             @Field("old_password") String old_password,
+                             @Field("new_password") String new_password);
 
 }

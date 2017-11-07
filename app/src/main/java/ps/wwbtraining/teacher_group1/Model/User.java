@@ -16,6 +16,12 @@ public class User{
 	@SerializedName("status_id")
 	private String statusId;
 
+	@SerializedName("new_password")
+	private String new_password;
+
+	@SerializedName("old_password")
+	private String old_password;
+
 	@SerializedName("user_id")
 	private String userId;
 

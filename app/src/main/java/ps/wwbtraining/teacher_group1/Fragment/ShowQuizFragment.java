@@ -175,6 +175,7 @@ public class ShowQuizFragment extends Fragment {
     };
 
     private void getQuizzes() {
+        list_quiz.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
             teacherApi.showQuiz().enqueue(new Callback<QuizModel>() {
@@ -182,6 +183,7 @@ public class ShowQuizFragment extends Fragment {
                 public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
                     if (response.isSuccessful()) {
                         if (response.body().isResult()) {
+                            list_quiz.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.GONE);
                             array = response.body().getGroup();
                             showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array, new OnItemLongClickListener() {
@@ -196,16 +198,22 @@ public class ShowQuizFragment extends Fragment {
                             list_quiz.setLayoutManager(new LinearLayoutManager(getActivity()));
                         } else{
                             customSnackBare(view, "Something Error ....");
-                            progress.setVisibility(View.GONE);
+                            list_quiz.setVisibility(View.GONE);
+                            progress.setVisibility(View.VISIBLE);
                         }
-                    } else reloadData();
+                    } else{
+                        list_quiz.setVisibility(View.GONE);
+                        progress.setVisibility(View.VISIBLE);
+                        reloadData();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<QuizModel> call, Throwable t) {
-                    if(getView() != null)
+                    if(getView() != null){
+                        list_quiz.setVisibility(View.GONE);
                         progress.setVisibility(View.VISIBLE);
-                    reloadData();
+                    reloadData();}
                 }
             });
         } catch (Exception e) {

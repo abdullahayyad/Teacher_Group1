@@ -50,6 +50,7 @@ public class ManageUserFragment extends Fragment {
     private View view;
     private ProgressBar progress;
     private RelativeLayout customView;
+    ArrayList<User> array1=new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,18 +118,31 @@ public class ManageUserFragment extends Fragment {
                                             public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
 
                                                 if (response.isSuccessful()) {
-                                                    if (pd != null && pd.isShowing())
-                                                        pd.dismiss();
-//                                                customSnackBare(view,"Saving Data ....","Dismiss");
+
+
+                                                    array1.add(array.get(finalI));
+
+//                                                customSnackBare(view,"Saving Data ....");
                                                     // userManagementAdapter(getActivity(),array,)
 //                                                    getData(view);
-//                                                array.remove(finalI);
-                                                    userManagementAdapter.notifyDataSetChanged();
+//                                                    try {
+//
+//                                                    userManagementAdapter.removeItem(finalI);
+//                                                    }catch (Exception e){
+////                                                        customSnackBare(customView,"Save Change");
+//
+//                                                    }
+//                                                    userManagementAdapter.
+//                                                    userManagementAdapter.notifyDataSetChanged();
                                                 } else {
                                                     if (pd != null && pd.isShowing())
                                                         pd.dismiss();
                                                     customSnackBare(customView,"Somethin Error...");
                                                 }
+                                                array.remove(array1);
+                                                if (pd != null && pd.isShowing())
+                                                    pd.dismiss();
+//
                                             }
 
                                             @Override

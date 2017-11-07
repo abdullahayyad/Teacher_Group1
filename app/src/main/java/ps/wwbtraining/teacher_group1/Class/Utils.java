@@ -30,6 +30,8 @@ public class Utils {
     public static final String NAME_SHARED_PREF = "user_name";
     public static final String MOBIL_SHARED_PREF = "user_mobile";
     public static final String RESULT_SHARED_PREF = "user_result";
+    public static final String USERID_SHARED_PREF="user_id";
+
 
 
     public static final int NO_INTERNET_CONNECTION = 0;
@@ -113,6 +115,5 @@ public class Utils {
         }
         return false;
     }
-
 }
 
