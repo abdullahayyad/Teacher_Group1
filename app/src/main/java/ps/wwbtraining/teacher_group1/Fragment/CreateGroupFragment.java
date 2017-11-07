@@ -159,10 +159,11 @@ public class CreateGroupFragment extends Fragment {
                                                     @Override
                                                     public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
                                                         Log.d("//////", t.toString());
-                                                        if (pd != null && pd.isShowing())
+                                                        if(getView() != null){
+                                                            if (pd != null && pd.isShowing())
                                                             pd.dismiss();
                                                         NoInternetAlert(getActivity());
-                                                    }
+                                                    }}
                                                 });
                                             } else
                                                 customSnackBare(view, "No Internet Connection ....");
@@ -172,8 +173,8 @@ public class CreateGroupFragment extends Fragment {
 
                                     @Override
                                     public void onFailure(Call<GroupInsert> call, Throwable t) {
-                                        if(getView() != null)
-                                        customSnackBare(view, "No Internet Connection ....");
+                                        if(getView() != null){
+                                        customSnackBare(view, "No Internet Connection ....");}
                                     }
                                 });
                     }
@@ -211,8 +212,12 @@ public class CreateGroupFragment extends Fragment {
         });
         if (!isOnline(getActivity())) {
             recyclerView.setVisibility(View.GONE);
+            progress.setVisibility(View.VISIBLE);
             reloadData(customView);
-        } else getStudant(view);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            getStudant(view);
+        }
     }
 
     public void getStudant(final View view) {
@@ -227,7 +232,7 @@ public class CreateGroupFragment extends Fragment {
                             if (response.body().isResult()) {
                                 try {
                                     progress.setVisibility(View.GONE);
-
+                                    recyclerView.setVisibility(View.VISIBLE);
                                     array = response.body().getUser();
                                     ArrayList<String> array_id = new ArrayList<String>();
                                     userManagementAdapter = new AdapterAddGroup(getActivity(), array, array_id);
@@ -238,17 +243,27 @@ public class CreateGroupFragment extends Fragment {
                                     customSnackBare(
                                             view, "Something Error");
                                 }
-                            } else
-
+                            } else{
+                                progress.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
                                 reloadData(view);
+                            }
+
                             // userManagementAdapter.notifyS);
-                        } else reloadData(view);
+                        } else {
+                            progress.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            reloadData(view);
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<StudentModel> call, Throwable t) {
-                        getStudant(view);
-                    }
+                        if(getView()!=null){
+                        reloadData(view);
+                        progress.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }}
                 });
     }
 

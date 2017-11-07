@@ -4,15 +4,15 @@
     android:id="@+id/show_quiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment">
+    android:background="@color/white">
 
     <ProgressBar
         android:id="@+id/progress"
-        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_margin="10dp"
         android:visibility="gone" />
 

@@ -70,7 +70,10 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         holder.student_name.setText(userManageItems.get(position).
                 getUserName());
     }
-
+    public void removeItem(int i) {
+        userManageItems.remove(i);
+        notifyDataSetChanged();
+    }
     public void SelectAll(int i) {
         positionItem = i;
         notifyDataSetChanged();

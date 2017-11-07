@@ -101,12 +101,14 @@ public class ShowGroupFragment extends Fragment {
             progress.setVisibility(View.VISIBLE);
             reloadData();
         } else {
+            list_group.setVisibility(View.GONE);
             progress.setVisibility(View.VISIBLE);
             getGroup(view);
         }
     }
 
     private void getGroup(final View view) {
+        list_group.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
             teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
@@ -114,16 +116,19 @@ public class ShowGroupFragment extends Fragment {
                 public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
                     if (response.isSuccessful()) {
                         if (response.body().isResult()) {
+                            list_group.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.GONE);
                             array = response.body().getGroup();
                             showGroupAdapter = new ShowGroupAdapter(ShowGroupFragment.this, array);
                             list_group.setAdapter(showGroupAdapter);
                             list_group.setLayoutManager(new LinearLayoutManager(getActivity()));
                         } else {
-                            progress.setVisibility(View.GONE);
+                            list_group.setVisibility(View.GONE);
+                            progress.setVisibility(View.VISIBLE);
                             customSnackBare(view, "Something Error ....");
                         }
                     }else {
+                        list_group.setVisibility(View.GONE);
                         reloadData();
                         progress.setVisibility(View.VISIBLE);
 
