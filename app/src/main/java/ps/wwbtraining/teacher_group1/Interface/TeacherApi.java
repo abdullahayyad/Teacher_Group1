@@ -7,6 +7,7 @@ import ps.wwbtraining.teacher_group1.Model.AnswerAddModel;
 import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
+import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
@@ -55,6 +56,17 @@ public interface TeacherApi {
 
     @POST("addUserGroup.php")
     Call<InsertIntoGroup> addArrayUserGroup(@Body RequestBody requestBody);
+
+
+    @POST("sendQuiz.php")
+    Call<InsertIntoGroup> sendQuiz(@Body RequestBody requestBody);
+
+
+    @POST("insert_quiz.php")
+    Call <InsertInToQuiz>addArrayQuiz(@Body RequestBody requestBody);
+
+    @POST("manageUser.php")
+    Call <InsertInToQuiz> updateStatusUser(@Body RequestBody requestBody);
 
 
     @POST("UserFromGroup.php")

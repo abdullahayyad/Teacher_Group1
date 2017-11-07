@@ -148,6 +148,7 @@ public class ShowQuizFragment extends Fragment {
                             list_quiz.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.GONE);
                             array = response.body().getGroup();
+                            Log.d("hhhhhhh",response.body().getGroup().toString());
                             showQuizAdapter = new ShowQuizAdapter(ShowQuizFragment.this, array, new OnItemLongClickListener() {
                                 @Override
                                 public boolean onItemLongClicked(int position) {

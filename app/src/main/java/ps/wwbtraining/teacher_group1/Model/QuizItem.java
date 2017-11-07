@@ -24,10 +24,14 @@ public class QuizItem{
     @SerializedName("discription")
     private String discription;
 
-    public QuizItem(int quiz_id, String quiz_name, String discription) {
+    @SerializedName("deadline")
+    private String deadline;
+
+    public QuizItem(int quiz_id, String quiz_name, String discription,String deadline) {
         this.quiz_id = quiz_id;
         this.quiz_name = quiz_name;
         this.discription = discription;
+        this.deadline =deadline;
     }
 
     public void setQuiz_id(int quiz_id){
@@ -60,6 +64,22 @@ public class QuizItem{
 
     public void setFlag(int flag) {
         this.flag = flag;
+    }
+
+    public String getDiscription() {
+        return discription;
+    }
+
+    public void setDiscription(String discription) {
+        this.discription = discription;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 
     @Override

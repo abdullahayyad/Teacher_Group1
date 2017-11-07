@@ -130,29 +130,32 @@ public class CreateGroupFragment extends Fragment {
                                         if (response.isSuccessful()) {
                                             if (response.body().isResult()) {
                                                 group_id = response.body().getId();
-//                                        Log.d("group_id", group_id + "");
+
                                                 array1.addAll(userManagementAdapter.getArray().values());
-//                                        Log.d("size0", array + " ");
+
                                                 HashMap testMap = new HashMap<String, String>();
                                                 testMap.put("group_id", group_id);
                                                 testMap.put("user_id", array1);
                                                 Log.d("testMap", testMap + " ");
                                                 JSONObject jsonObject = new JSONObject(testMap);
                                                 Log.d("jsonObject", jsonObject + " ");
-                                                //RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj.toString());
+
                                                 teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject))).enqueue(new Callback<InsertIntoGroup>() {
                                                     @Override
                                                     public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
                                                         if (response.isSuccessful()) {
-//                                                    Log.d("//////", response.body().toString());
+
+                                                            name.setText("");
+                                                            description.setText("");
+                                                            userManagementAdapter.check();
+
                                                             if (pd != null && pd.isShowing())
                                                                 pd.dismiss();
                                                         } else {
-//                                                    Log.d("//////", response.body().toString());
-//                                                        // userManagementAdapter.notifyS);
+
                                                             if (pd != null && pd.isShowing())
                                                                 pd.dismiss();
-                                                            customSnackBare(view, "No Internet Connection ....");
+                                                                customSnackBare(view, "No Internet Connection ....");
                                                         }
                                                     }
 
@@ -167,7 +170,7 @@ public class CreateGroupFragment extends Fragment {
                                                 });
                                             } else
                                                 customSnackBare(view, "No Internet Connection ....");
-                                            // userManagementAdapter.notifyS);
+
                                         }
                                     }
 
@@ -182,8 +185,7 @@ public class CreateGroupFragment extends Fragment {
                 } catch (Exception e) {
                     customSnackBare(view, "Something Error ....");
                 }
-                name.setText("");
-                description.setText("");
+
             }
         });
         return view;

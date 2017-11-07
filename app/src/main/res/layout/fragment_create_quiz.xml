@@ -58,6 +58,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
+                android:textColorHint="@color/buttonText">
+
+                <EditText
+                    android:id="@+id/tvdeadlineQuiz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="deadLine"
+                    android:inputType="date" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:textColorHint="@color/buttonText">
 
