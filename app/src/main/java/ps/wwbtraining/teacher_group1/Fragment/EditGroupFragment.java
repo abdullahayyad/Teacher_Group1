@@ -24,16 +24,20 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.EditGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
+import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.User;
-import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
 import ps.wwbtraining.teacher_group1.Model.UserItem;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
@@ -198,7 +202,7 @@ public class EditGroupFragment extends Fragment {
     public void getStudant(final View view) {
         progress.setVisibility(View.VISIBLE);
         try {
-            teacherApi.getStudName(2).enqueue(new Callback<StudentModel>() {
+                    teacherApi.getStudName(2).enqueue(new Callback<StudentModel>() {
                 @Override
                 public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
                     if (response.isSuccessful()) {
@@ -208,45 +212,37 @@ public class EditGroupFragment extends Fragment {
                                 progress.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);
                                 array = response.body().getUser();
-                                arrayId = new ArrayList<String>();
                                 userManagementAdapter = new EditGroupAdapter(getActivity(), array, arrayId, group_id);
                                 recyclerView.setAdapter(userManagementAdapter);
                                 Log.d("arrayyy", array.toString());
+                                Log.d("arrayId", arrayId.toString());
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                for (int i = 0 ; i < array.size() ; i++){
+                                    arrayId.add(array.get(i).getUserId());
+                                }
+                                HashMap map = new HashMap();
+                                map.put("group_id",group_id);
+                                map.put("users",arrayId);
+
+                                JSONObject object =new JSONObject(map);
+                                Log.d("object", object.toString());
                                 try {
-                                    teacherApi.userFromGroup(group_id).enqueue(new Callback<UserFromGroupModel>() {
+                                    teacherApi.UpdateGroupFromUser(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(object))).enqueue(new Callback<InsertInToQuiz>() {
                                         @Override
-                                        public void onResponse(Call<UserFromGroupModel> call, Response<UserFromGroupModel> response) {
+                                        public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
                                             if (response.isSuccessful()) {
-                                                try {
-                                                    progress.setVisibility(View.GONE);
-                                                    recyclerView.setVisibility(View.VISIBLE);
-                                                    array1 = response.body().getUser();
-                                                    for (int i = 0; i < array1.size(); i++) {
-                                                        arrayId.add(array1.get(i).getUserId());
-                                                        Log.d("arr", array1.toString());
-                                                    }
-                                                    userManagementAdapter = new EditGroupAdapter(getActivity(), array, arrayId, group_id);
-                                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                                    Log.d("arr1", arrayId.toString());
-                                                } catch (Exception e) {
-                                                    customSnackBare(
-                                                            view, "Something Error");
-                                                }
-
-
-                                            }
-                                        }
+                                                Log.d("object", response.body().isResult()+"");
+                                        }}
 
                                         @Override
-                                        public void onFailure(Call<UserFromGroupModel> call, Throwable t) {
+                                        public void onFailure(Call<InsertInToQuiz> call, Throwable t) {
+                                            Log.d("//////", t.toString());
                                             if (getView() != null) {
-                                                reloadData(view);
-                                                progress.setVisibility(View.VISIBLE);
-                                                recyclerView.setVisibility(View.GONE);
+                                                if (pd != null && pd.isShowing())
+                                                    pd.dismiss();
+                                                NoInternetAlert(getActivity());
                                             }
                                         }
-
                                     });
 
                                 } catch (Exception e) {
@@ -260,14 +256,14 @@ public class EditGroupFragment extends Fragment {
                         } else
 
                             progress.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.GONE);
                         if (getView() != null) {
                             reloadData(customView);
                         }
                     } else
 
                         progress.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
                     if (getView() != null) {
                         reloadData(customView);
                     }
