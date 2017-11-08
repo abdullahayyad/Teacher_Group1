@@ -1,104 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Teacher"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context="ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment">
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment"
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+    >
+
+    <LinearLayout
+
+        android:id="@+id/Teacher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-                android:padding="10dp"
-        android:src="@drawable/presentationt" />
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <Button
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_img"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:src="@drawable/presentationt" />
+
+        <Button
             android:id="@+id/manager"
-            android:text="@string/mangeUser"
-            android:textSize="@dimen/textsize"
             android:layout_width="@dimen/layout_width"
             android:layout_height="@dimen/layout_height"
+            android:layout_gravity="center"
             android:background="#00695C"
             android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawablePadding="20dp"
             android:gravity="center"
-            android:textAllCaps="false"
-            android:layout_gravity="center"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
-            android:drawablePadding="20dp"
+            android:text="@string/mangeUser"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            />
+            android:textSize="@dimen/textsize" />
 
         <Button
             android:id="@+id/group"
-            android:textSize="@dimen/textsize"
             android:layout_width="@dimen/layout_width"
             android:layout_height="@dimen/layout_height"
-            android:background="#00695C"
-            android:drawableLeft="@drawable/ic_group_black_24dp"
-            android:gravity="center"
-            android:text="@string/creat_group"
-            android:textAllCaps="false"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:textColor="@color/white"
+            android:background="#00695C"
+            android:drawableLeft="@drawable/ic_group_black_24dp"
+            android:drawablePadding="20dp"
+            android:gravity="center"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
-            android:drawablePadding="20dp"
+            android:text="@string/creat_group"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize"
 
             />
 
 
-    <Button
-        android:id="@+id/quiz"
-        android:textSize="@dimen/textsize"
-        android:layout_width="@dimen/layout_width"
-        android:layout_height="@dimen/layout_height"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:background="#00695C"
-        android:drawableLeft="@drawable/ic_filter_none_black_24dp"
-        android:drawablePadding="20dp"
-        android:gravity="center"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp"
-        android:text="@string/creat_quiz"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-       />
+        <Button
+            android:id="@+id/quiz"
+            android:layout_width="@dimen/layout_width"
+            android:layout_height="@dimen/layout_height"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:background="#00695C"
+            android:drawableLeft="@drawable/ic_filter_none_black_24dp"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:text="@string/creat_quiz"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize" />
 
-    <Button
-        android:id="@+id/hiQuiz"
-        android:textSize="@dimen/textsize"
-        android:layout_width="@dimen/layout_width"
-        android:layout_height="@dimen/layout_height"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:background="#00695C"
-        android:drawableLeft="@drawable/ic_perm_contact_calendar_black_24dp"
-        android:drawablePadding="20dp"
-        android:gravity="center"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp"
-        android:text="@string/histoery_quiz"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        />
-</LinearLayout>
+        <Button
+            android:id="@+id/hiQuiz"
+            android:layout_width="@dimen/layout_width"
+            android:layout_height="@dimen/layout_height"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:background="#00695C"
+            android:drawableLeft="@drawable/ic_perm_contact_calendar_black_24dp"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:text="@string/histoery_quiz"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize" />
+    </LinearLayout>
+</ScrollView>

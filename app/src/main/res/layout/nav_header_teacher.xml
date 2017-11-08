@@ -27,6 +27,6 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Menu Teacher"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18dp" />
+        android:textSize="@dimen/textsize" />
 
 </LinearLayout>
