@@ -12,7 +12,17 @@
     <color name="black">#000000</color>
     <color name="white_greyish">#DD8855</color>
     <color name="white_greyish1">#88DD8855</color>
-    <color name="text">#FF04CAB8</color>
+    <color name="text">#04CAB8</color>
+    <color name="NAV">#E57373</color>
+    <color name="NAV1">#FF6E40</color>
+    <color name="NAV2">#FF9100</color>
+    <color name="NAV3">#FF5252</color>
+    <color name="NAV4">#FF8A80</color>
+    <color name="NAV5">#D50000</color>
+    <color name="NAV7">#FFC400</color>
+    <color name="NAV6">#FF6D00</color>
+    <color name="NAV8">#FF9100</color>
+
 
     <color name="circle_shape">#55ffffff</color>
     <color name="button_selectorcolor">#9E9E9E</color>
