@@ -10,7 +10,8 @@
     <color name="shadow_center">#efedec</color>
     <color name="shadow_start">#c1bcb9</color>
     <color name="black">#000000</color>
-    <color name="white_greyish">#EEEEEE</color>
+    <color name="white_greyish">#DD8855</color>
+    <color name="white_greyish1">#88DD8855</color>
     <color name="text">#FF04CAB8</color>
 
     <color name="circle_shape">#55ffffff</color>
