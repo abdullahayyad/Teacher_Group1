@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">16dp</dimen>
+    <dimen name="height">650dp</dimen>
+    <dimen name="margin">40dp</dimen>
+    <dimen name="layout_width">400dp</dimen>
+    <dimen name="layout_height">80dp</dimen>
+    <dimen name="textsize">22dp</dimen>
+    <!--android:layout_margin="5dp"-->
+    <!--android:drawablePadding="5dp"-->
+
+
+
+</resources>

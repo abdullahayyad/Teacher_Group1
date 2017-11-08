@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,8 @@ import android.view.View;
 import ps.wwbtraining.teacher_group1.Class.Utils;
 import ps.wwbtraining.teacher_group1.Fragment.Login_Fragment;
 import ps.wwbtraining.teacher_group1.R;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
@@ -16,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Chantelli_Antiqua.ttf")
+//                Chantelli_Antiqua.ttf"
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
 
@@ -37,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
+
     public void replaceLoginFragment() {
         fragmentManager
                 .beginTransaction().addToBackStack(null)
@@ -53,10 +70,15 @@ public class MainActivity extends AppCompatActivity {
                 .findFragmentByTag(Utils.ForgotPassword_Fragment);
 
 
-        if (ForgotPassword_Fragment != null)
+        if (ForgotPassword_Fragment != null){
             replaceLoginFragment();
+        finish();}
+
         else
             super.onBackPressed();
+        finish();
+
+
     }
 }
 

@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment;
 import ps.wwbtraining.teacher_group1.R;
 import ps.wwbtraining.teacher_group1.WebService.SharedPrefUtil;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class TeacherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +31,12 @@ public class TeacherActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher2);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Chantelli_Antiqua.ttf")
+//                Chantelli_Antiqua.ttf"
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
         getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,6 +52,11 @@ public class TeacherActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     public void onBackPressed() {
