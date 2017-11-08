@@ -1,8 +1,9 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
-import android.app.ProgressDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,17 +11,20 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dd.CircularProgressButton;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import okhttp3.RequestBody;
@@ -28,18 +32,12 @@ import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Class.AnwerQuestion;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
-import ps.wwbtraining.teacher_group1.Model.GroupInsert;
 import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
-import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuestionItem;
-import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
-import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 
 
 public class CreateQuiz extends Fragment {
@@ -60,23 +58,22 @@ public class CreateQuiz extends Fragment {
     private EditText etch4;
     private RadioButton rbtrue;
     private RadioButton rbfalse;
-    private TextView buAdd;
-    private TextView buSubmit;
+    private CircularProgressButton buAdd;
+    private CircularProgressButton buSubmit;
     private View view;
     private LinearLayout visibleChoose;
     private RadioGroup visibleTF;
     private RadioGroup rgChoose;
     private RadioGroup rgType;
-
-    HashMap<Integer, AnwerQuestion> answerMap;
-    HashMap<Integer, String> correctMap;
-    HashMap<Integer, String> questionMap;
-    HashMap<Integer, Integer> stateQuestion;
-    HashMap<Integer, QuestionItem> questionItemHashMap;
-
-    int index = 0;
-
-    TeacherApi teacherApi;
+    private Runnable run;
+    private Handler handler;
+    private HashMap<Integer, AnwerQuestion> answerMap;
+    private HashMap<Integer, String> correctMap;
+    private HashMap<Integer, String> questionMap;
+    private HashMap<Integer, Integer> stateQuestion;
+    private HashMap<Integer, QuestionItem> questionItemHashMap;
+    private int index = 0;
+    private TeacherApi teacherApi;
     private View customView;
 
 
@@ -112,7 +109,7 @@ public class CreateQuiz extends Fragment {
         tvnameQuize = (EditText) view.findViewById(R.id.tvnameQuize);
         tvDiscription = (EditText) view.findViewById(R.id.tvDiscription);
         tvQuestion = (EditText) view.findViewById(R.id.tvQuestion);
-        tvDeadline = (EditText) view.findViewById(R.id.tvdeadlineQuiz);
+        tvDeadline = (EditText) view.findViewById(R.id.event_date);
         raObtion = (RadioButton) view.findViewById(R.id.raObtion);
         raChoose = (RadioButton) view.findViewById(R.id.raChoose);
         frameQuestion = (FrameLayout) view.findViewById(R.id.frameQuestion);
@@ -130,8 +127,8 @@ public class CreateQuiz extends Fragment {
         etch4 = (EditText) view.findViewById(R.id.etch4);
         rbtrue = (RadioButton) view.findViewById(R.id.rbtrue);
         rbfalse = (RadioButton) view.findViewById(R.id.rbfalse);
-        buAdd = (TextView) view.findViewById(R.id.buAdd);
-        buSubmit = (TextView) view.findViewById(R.id.buSubmit);
+        buAdd = (CircularProgressButton) view.findViewById(R.id.buAdd);
+        buSubmit = (CircularProgressButton) view.findViewById(R.id.buSubmit);
 
         rgType.check(R.id.raObtion);
 
@@ -149,10 +146,33 @@ public class CreateQuiz extends Fragment {
                 }
             }
         });
-
+        tvDeadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String myTime = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        tvDeadline.setText(myTime);
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+        buAdd.setIndeterminateProgressMode(true); // turn on indeterminate progress
+//        buAdd.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
+//        buAdd.setProgress(100); // set progress to 100 or -1 to indicate complete or error state
+        buAdd.setProgress(0); // set progress to 0 to switch back to normal state
         buAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buAdd.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
 
                 String nameQuiz = tvnameQuize.getText().toString();
                 String description = tvDiscription.getText().toString();
@@ -164,7 +184,7 @@ public class CreateQuiz extends Fragment {
                 String ans4 = etch4.getText().toString();
 
 
-                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty()||deadLine.isEmpty())) {
+                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty() || deadLine.isEmpty())) {
                     if (rgType.getCheckedRadioButtonId() == R.id.raChoose) {
                         if (!(ans1.isEmpty() || ans2.isEmpty() || ans3.isEmpty() || ans4.isEmpty()) &&
                                 (rach1.isChecked() || rach2.isChecked() || rach3.isChecked() || rach4.isChecked())) {
@@ -173,6 +193,7 @@ public class CreateQuiz extends Fragment {
                             tvnameQuize.setEnabled(false);
                             tvDiscription.setEnabled(false);
                             tvDeadline.setEnabled(false);
+                            buAdd.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
 
                             answerMap.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
                             questionMap.put(index, questionName);
@@ -198,6 +219,17 @@ public class CreateQuiz extends Fragment {
 
                         } else {
                             Toast.makeText(getActivity(), "Add all fields", Toast.LENGTH_SHORT).show();
+                            buAdd.setProgress(-1);
+                            buAdd.setEnabled(false);
+                            run = new Runnable() {
+                                @Override
+                                public void run() {
+                                    buAdd.setEnabled(true);
+                                    buAdd.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
+                                }
+                            };
+                            handler = new Handler();
+                            handler.postDelayed(run, 5000);
                         }
 
                     } else {
@@ -209,12 +241,12 @@ public class CreateQuiz extends Fragment {
                             tvDiscription.setEnabled(false);
                             tvDeadline.setEnabled(false);
                             rgType.setEnabled(false);
+                            buAdd.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
 
                             if (visibleTF.getCheckedRadioButtonId() == R.id.rbtrue)
                                 correctMap.put(index, "true");
                             else
                                 correctMap.put(index, "false");
-
                             questionMap.put(index, tvQuestion.getText().toString());
                             stateQuestion.put(index, 0);
 
@@ -222,78 +254,135 @@ public class CreateQuiz extends Fragment {
                             tvQuestion.setText("");
                             index++;
 
+                        }else {
+                            buAdd.setProgress(0);
                         }
                     }
 
                 } else {
                     Toast.makeText(getActivity(), "Sorry...write all :(", Toast.LENGTH_SHORT).show();
+                    buAdd.setProgress(-1);
+                    buAdd.setEnabled(false);
+                    run = new Runnable() {
+                        @Override
+                        public void run() {
+                            buAdd.setEnabled(true);
+                            buAdd.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
+                        }
+                    };
+                    handler = new Handler();
+                    handler.postDelayed(run, 5000);
                 }
 
             }
         });
-
+        buSubmit.setIndeterminateProgressMode(true); // turn on indeterminate progress
         buSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buSubmit.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
 
                 Log.d("correct", correctMap.toString());
-                Log.d("answer",  answerMap.toString());
-                Log.d("question",questionMap.toString());
+                Log.d("answer", answerMap.toString());
+                Log.d("question", questionMap.toString());
 
-                ArrayList array =new ArrayList();
+                ArrayList array = new ArrayList();
                 HashMap map = new HashMap();
-                HashMap answer =new HashMap();
-                for (int i = 0 ; i < questionMap.size() ; i++){
-                    map.put("statement",questionMap.get(i));
-                    map.put("correct",correctMap.get(i));
-                    map.put("type",stateQuestion.get(i));
+                HashMap answer = new HashMap();
+                for (int i = 0; i < questionMap.size(); i++) {
+                    map.put("statement", questionMap.get(i));
+                    map.put("correct", correctMap.get(i));
+                    map.put("type", stateQuestion.get(i));
 
-                    if (stateQuestion.get(i)==1){
-                        answer.put("ans1",answerMap.get(i).getAns1());
-                        answer.put("ans2",answerMap.get(i).getAns2());
-                        answer.put("ans3",answerMap.get(i).getAns3());
-                        answer.put("ans4",answerMap.get(i).getAns4());
+                    if (stateQuestion.get(i) == 1) {
+                        answer.put("ans1", answerMap.get(i).getAns1());
+                        answer.put("ans2", answerMap.get(i).getAns2());
+                        answer.put("ans3", answerMap.get(i).getAns3());
+                        answer.put("ans4", answerMap.get(i).getAns4());
 
-                           map.put("answers",answer);
+                        map.put("answers", answer);
                     }
 
                     JSONObject object = new JSONObject(map);
                     array.add(object);
                     map.clear();
                 }
+                if(!(tvnameQuize.getText().toString().equals("")|| tvDiscription.getText().toString().equals("")
+                        || tvDiscription.getText().toString().equals(""))) {
+                    HashMap testMap = new HashMap<String, String>();
+                    testMap.put("name_quiz", tvnameQuize.getText().toString());
+                    testMap.put("description", tvDiscription.getText().toString());
+                    testMap.put("deadline", tvDeadline.getText().toString());
+                    testMap.put("questions", array);
+                    Log.d("testMap", testMap + " ");
 
+                    JSONObject jsonObject = new JSONObject(testMap);
+                    Log.d("jsonObject", jsonObject + " ");
+                    teacherApi.addArrayQuiz(
+                            RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject)))
+                            .enqueue(new Callback<InsertInToQuiz>() {
 
-                                        HashMap testMap = new HashMap<String, String>();
-                                        testMap.put("name_quiz",tvnameQuize.getText().toString());
-                                        testMap.put("description",tvDiscription.getText().toString());
-                                        testMap.put("deadline",tvDeadline.getText().toString());
-                                        testMap.put("questions",array);
+                                @Override
+                                public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
 
-                                        Log.d("testMap", testMap + " ");
-
-                                        JSONObject jsonObject = new JSONObject(testMap);
-                                        Log.d("jsonObject", jsonObject + " ");
-                                        teacherApi.addArrayQuiz(
-                                                RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject)))
-                                                .enqueue(new Callback<InsertInToQuiz>() {
-
-                                                    @Override
-                                            public void onResponse(Call <InsertInToQuiz>  call, Response <InsertInToQuiz> response) {
-
-                                                if (response.isSuccessful()) {
-
-                                                }
-                                            }
-
+                                    if (response.isSuccessful()) {
+                                        buSubmit.setProgress(100);
+                                        buSubmit.setEnabled(false);
+                                        run = new Runnable() {
                                             @Override
-                                            public void onFailure(Call <InsertInToQuiz>call, Throwable t) {
-                                                Toast.makeText(getActivity(), "No Internet ", Toast.LENGTH_SHORT).show();
+                                            public void run() {
+                                                buSubmit.setEnabled(true);
+                                                buSubmit.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
                                             }
-                                        });
+                                        };
+                                        handler = new Handler();
+                                        handler.postDelayed(run, 5000);
 
+                                    } else {
+                                        buSubmit.setProgress(-1);
+                                        buSubmit.setEnabled(false);
+                                        run = new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                buSubmit.setEnabled(true);
+                                                buSubmit.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
+                                            }
+                                        };
+                                        handler = new Handler();
+                                        handler.postDelayed(run, 5000);
+                                    }
+                                }
 
+                                @Override
+                                public void onFailure(Call<InsertInToQuiz> call, Throwable t) {
+                                    Toast.makeText(getActivity(), "No Internet ", Toast.LENGTH_SHORT).show();
+                                    buSubmit.setProgress(-1);
+                                    buSubmit.setEnabled(false);
+                                    run = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            buSubmit.setEnabled(true);
+                                            buSubmit.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
+                                        }
+                                    };
+                                    handler = new Handler();
+                                    handler.postDelayed(run, 5000);
 
-
+                                }
+                            });
+                }else {
+                    buSubmit.setProgress(-1);
+                    buSubmit.setEnabled(false);
+                    run = new Runnable() {
+                        @Override
+                        public void run() {
+                            buSubmit.setEnabled(true);
+                            buSubmit.setProgress(0); // set progress to 100 or -1 to indicate complete or error state
+                        }
+                    };
+                    handler = new Handler();
+                    handler.postDelayed(run, 5000);
+                }
 
             }
         });
@@ -314,6 +403,9 @@ public class CreateQuiz extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
 
+
+//                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
+//                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
                     return true;
 
                 }

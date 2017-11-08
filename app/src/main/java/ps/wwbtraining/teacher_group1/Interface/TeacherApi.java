@@ -2,7 +2,6 @@ package ps.wwbtraining.teacher_group1.Interface;
 
 
 import okhttp3.RequestBody;
-import ps.wwbtraining.teacher_group1.Model.Answer;
 import ps.wwbtraining.teacher_group1.Model.AnswerAddModel;
 import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupInsert;
@@ -10,7 +9,6 @@ import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
-import ps.wwbtraining.teacher_group1.Model.QuesItem;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.Model.ShowAnswerModel;
 import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
@@ -67,6 +65,10 @@ public interface TeacherApi {
 
     @POST("manageUser.php")
     Call <InsertInToQuiz> updateStatusUser(@Body RequestBody requestBody);
+
+
+    @POST("UpdateGroupFromUser.php")
+    Call <InsertInToQuiz> UpdateGroupFromUser(@Body RequestBody requestBody);
 
 
     @POST("UserFromGroup.php")

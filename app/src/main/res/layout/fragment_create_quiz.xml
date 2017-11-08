@@ -1,9 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="ps.wwbtraining.teacher_group1.Fragment.CreateQuiz">
 
     <RelativeLayout
         android:id="@+id/creatQuiz"
@@ -30,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:textColorHint="@color/buttonText">
+                android:textColorHint="@color/black">
 
                 <EditText
                     android:id="@+id/tvnameQuize"
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:textColorHint="@color/buttonText">
+                android:textColorHint="@color/black">
 
                 <EditText
                     android:id="@+id/tvDiscription"
@@ -58,15 +59,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:textColorHint="@color/buttonText">
+                android:textColorHint="@color/black">
 
                 <EditText
-                    android:id="@+id/tvdeadlineQuiz"
+                    android:id="@+id/event_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/calendar"
+                    android:focusable="false"
                     android:hint="deadLine"
-                    android:inputType="date" />
-
+                    android:paddingRight="30dp" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -75,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:layout_weight="1"
-                android:textColorHint="@color/buttonText">
+                android:textColorHint="@color/black">
 
                 <EditText
                     android:id="@+id/tvQuestion"
@@ -209,8 +211,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:inputType="text"
                             android:hint="a."
+                            android:inputType="text"
                             android:textColor="@color/buttonText" />
 
                         <EditText
@@ -218,8 +220,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:inputType="text"
                             android:hint="b."
+                            android:inputType="text"
                             android:textColor="@color/buttonText" />
 
                         <EditText
@@ -227,8 +229,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:inputType="text"
                             android:hint="c."
+                            android:inputType="text"
                             android:textColor="@color/buttonText" />
 
                         <EditText
@@ -236,58 +238,83 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:inputType="text"
                             android:hint="d."
+                            android:inputType="text"
                             android:textColor="@color/buttonText" />
 
                     </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/llcreteGroup">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:background="@drawable/edit_text"
-                android:gravity="center">
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/llcreteGroup"
+                android:layout_margin="10dp">
 
-                <TextView
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.1"-->
+                <!--android:gravity="center">-->
+                <com.dd.CircularProgressButton
                     android:id="@+id/buAdd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Next"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cpb_selectorComplete="@drawable/complete_state_selector"
+                    app:cpb_selectorError="@drawable/error_state_selector"
+                    app:cpb_selectorIdle="@drawable/idle_state_selector"
+                    app:cpb_textComplete="Complete"
+                    app:cpb_textError="Error"
+                    app:cpb_textIdle="Next" />
+                <!--<TextView-->
+                <!--android:id="@+id/buAdd"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Next"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="18sp" />-->
 
                 <LinearLayout
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#C6C6C6"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="vertical" />
 
-                <TextView
+                <com.dd.CircularProgressButton
                     android:id="@+id/buSubmit"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="0.8"
-                    android:gravity="center"
-                    android:text="Submit"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cpb_selectorComplete="@drawable/complete_state_selector"
+                    app:cpb_selectorError="@drawable/error_state_selector"
+                    app:cpb_selectorIdle="@drawable/idle_state_selector"
+                    app:cpb_textComplete="Complete"
+                    app:cpb_textError="Error"
+                    app:cpb_textIdle="Submit" />
+                <!--<TextView-->
+                <!--android:id="@+id/buSubmit"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Submit"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="18sp" />-->
             </LinearLayout>
         </LinearLayout>
+
+        <!--</LinearLayout>-->
     </RelativeLayout>
 </ScrollView>

@@ -39,7 +39,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.mode;
 import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
@@ -79,8 +78,7 @@ public class ShowQuizFragment extends Fragment {
         customView = (RelativeLayout)view.findViewById(R.id.show_quiz);
         progress = (ProgressBar) view.findViewById(R.id.progress);
         progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
-
-
+        TeacherActivity.toolbar.setVisibility(View.VISIBLE);
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,6 +263,7 @@ public class ShowQuizFragment extends Fragment {
                     transaction.add(R.id.show_quiz, newFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
                     mode.finish();
                     // TeacherActivity.toolbar.setVisibility(View.VISIBLE);
 

@@ -57,7 +57,7 @@ public class TeacherActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.teacher, menu);
+//        getMenuInflater().inflate(R.menu.teacher, menu);
         return true;
     }
 

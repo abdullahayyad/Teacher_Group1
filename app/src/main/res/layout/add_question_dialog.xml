@@ -5,6 +5,15 @@
     android:layout_width="250dp"
     android:layout_margin="20dp"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shadow_back"
+        android:padding="10dp"
+        android:text=" Add Question"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -165,7 +174,7 @@
         android:textSize="25sp"
         android:textColor="@color/cardview_light_background"
         android:layout_gravity="center"
-        android:background="@color/background_color"
+        android:background="@color/colorAccent"
         android:layout_margin="20dp"
 
         />
