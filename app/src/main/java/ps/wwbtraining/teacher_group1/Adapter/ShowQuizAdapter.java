@@ -1,46 +1,27 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
-import android.app.Dialog;
-import android.os.Bundle;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
-import ps.wwbtraining.teacher_group1.Fragment.ShowQuestionFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
-import ps.wwbtraining.teacher_group1.Model.GroupModel;
-import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
-import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 
 public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHolder> {
 
@@ -83,15 +64,41 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         holder.quiz_id = arrayList.get(position).getQuiz_id();
 
 
-        holder.cr.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cr.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 listener.onItemLongClicked(position);
                 post = arrayList.get(position).getQuiz_id();
                 index = position;
-                return true;
             }
+
         });
+        holder.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemDelete(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context.getActivity());
+                builder.setMessage("Do you want to remove?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                arrayList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        });
+                builder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+
+        });
+
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,9 +218,9 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView quiz_name;
-        public final TextView description;
+        public final ImageButton del;
         int quiz_id ;
-
+        public final TextView description;
         public final ImageButton send;
         private final CardView cr;
         public QuizItem mItem;
@@ -226,6 +233,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
+            del = (ImageButton) view.findViewById(R.id.sendQuiz);
             cr = (CardView) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }

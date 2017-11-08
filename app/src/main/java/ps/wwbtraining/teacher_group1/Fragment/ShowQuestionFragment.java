@@ -3,18 +3,14 @@ package ps.wwbtraining.teacher_group1.Fragment;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,29 +18,21 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuestionAdapter;
-import ps.wwbtraining.teacher_group1.Adapter.ShowQuizAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
-import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
-import ps.wwbtraining.teacher_group1.Model.QuizItem;
-import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static ps.wwbtraining.teacher_group1.R.id.list_quiz;
-import static ps.wwbtraining.teacher_group1.R.id.quiz;
 
 /**
  * Created by Hanan Dawod on 31/10/17.
@@ -54,19 +42,27 @@ public class ShowQuestionFragment  extends Fragment {
 
     TeacherApi teacherApi;
     RecyclerView list_question;
-    FloatingActionButton addQuestion;
+    TextView addQuestion;
     ArrayList<QuesItem> array = new ArrayList<>();
     ShowQuestionAdapter showQuestionAdapter;
     private int myPosition;
     int quiz_id;
     int quesType;
     String correctAns;
+    private TextView tvCancel;
+    private TextView tvRecreate;
+    private EditText nameQuizEdit;
+    private EditText descriptionQuizEdit;
+    private String quiz_name;
+    private String quiz_description;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         quiz_id=getArguments().getInt("quiz_id");
+        quiz_name = getArguments().getString("quiz_name");
+        quiz_description = getArguments().getString("quiz_description");
         Log.d("quiz_id",""+quiz_id);
     }
 
@@ -78,7 +74,34 @@ public class ShowQuestionFragment  extends Fragment {
         View view = inflater.inflate(R.layout.show_question, null, false);
         teacherApi = ApiTeacher.getAPIService();
         list_question = (RecyclerView) view.findViewById(R.id.list_question);
-        addQuestion = (FloatingActionButton) view.findViewById(R.id.addQuestion);
+        addQuestion = (TextView) view.findViewById(R.id.addQuestion);
+        tvCancel = (TextView) view.findViewById(R.id.tvCancel);
+        nameQuizEdit=(EditText)view.findViewById(R.id.nameQuizEdit);
+        descriptionQuizEdit=(EditText)view.findViewById(R.id.descriptionQuizEdit);
+        nameQuizEdit.setText(quiz_name);
+        descriptionQuizEdit.setText(quiz_description);
+        tvRecreate = (TextView) view.findViewById(R.id.tvRecreate);
+         tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                        .replace(R.id.show_qestion, new ShowQuizFragment ()
+                        ).commit();
+
+            }
+        });
+        tvRecreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                getFragmentManager().beginTransaction().addToBackStack(null)
+//                        .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+//                        .replace(R.id.show_qestion, new E ()
+//                        ).commit();
+
+            }
+        });
+
         teacherApi.showQues(quiz_id).enqueue(new Callback<ShowQuesModel>() {
             @Override
 
@@ -91,8 +114,9 @@ public class ShowQuestionFragment  extends Fragment {
                         list_question.setAdapter(showQuestionAdapter);
                         list_question.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                    } else
-                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
+                    }
+//                    else
+//                        Toast.makeText(getActivity(), "error123", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -295,9 +319,12 @@ public class ShowQuestionFragment  extends Fragment {
                     DrawerLayout navigationView = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
                     if (navigationView.isDrawerOpen(GravityCompat.START))
                         navigationView.closeDrawers();
-                    else
-                        getFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                                .replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+                    else {
+                        getFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                                .replace(R.id.show_qestion, new ShowQuizFragment()
+                                ).commit();
+                    }
                     return true;
 
                 }

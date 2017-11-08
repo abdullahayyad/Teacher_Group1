@@ -151,7 +151,26 @@ public class ShowQuizFragment extends Fragment {
                                 @Override
                                 public boolean onItemLongClicked(int position) {
                                     myPosition = position;
-                                    mActionmode = getActivity().startActionMode(mActionModeCallback);
+//                                    mActionmode = getActivity().startActionMode(mActionModeCallback);
+                                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    ShowQuestionFragment newFragment = new ShowQuestionFragment();
+                                    quiz_id = showQuizAdapter.post;
+                                    Bundle args = new Bundle();
+                                    Log.d("quizId",quiz_id+"");
+                                    args.putInt("quiz_id",quiz_id);
+                                    args.putString("quiz_name", array.get(myPosition).getQuiz_name());
+//                    Log.d("nameee",holder.group_name.getText().toString());
+//                    Log.d("description",holder.description.getText().toString());
+                                    args.putString("quiz_description",array.get(myPosition).getDescription());
+                                    newFragment.setArguments(args);
+                                    transaction.replace(R.id.show_quiz, newFragment);
+                                    transaction.commit();
+//                                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+                                    return true;
+                                }
+
+                                @Override
+                                public boolean onItemDelete(int position) {
                                     return true;
                                 }
                             });
@@ -210,7 +229,7 @@ public class ShowQuizFragment extends Fragment {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             getActivity().getMenuInflater().inflate(R.menu.menu_quize, menu);
-            TeacherActivity.toolbar.setVisibility(View.GONE);
+//            TeacherActivity.toolbar.setVisibility(View.GONE);
             return true;
         }
 
@@ -259,9 +278,12 @@ public class ShowQuizFragment extends Fragment {
                     Bundle args = new Bundle();
                     Log.d("quizId",quiz_id+"");
                     args.putInt("quiz_id",quiz_id);
-                    newFragment.setArguments(args);
-                    transaction.add(R.id.show_quiz, newFragment);
-                    transaction.addToBackStack(null);
+                    args.putString("quiz_name", array.get(myPosition).getQuiz_name());
+//                    Log.d("nameee",holder.group_name.getText().toString());
+//                    Log.d("description",holder.description.getText().toString());
+                    args.putString("quiz_description",array.get(myPosition).getDescription());
+                     newFragment.setArguments(args);
+                    transaction.replace(R.id.show_quiz, newFragment);
                     transaction.commit();
                     TeacherActivity.toolbar.setVisibility(View.VISIBLE);
                     mode.finish();

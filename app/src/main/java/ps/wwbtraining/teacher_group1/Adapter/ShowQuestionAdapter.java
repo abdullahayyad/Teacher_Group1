@@ -2,25 +2,17 @@ package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
-import android.support.annotation.IntegerRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,16 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
-import ps.wwbtraining.teacher_group1.Fragment.ShowQuestionFragment;
-import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.Answer;
-import ps.wwbtraining.teacher_group1.Model.GroupItem;
-import ps.wwbtraining.teacher_group1.Model.GroupModel;
-import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
-import ps.wwbtraining.teacher_group1.Model.QuestionItem;
-import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.Model.ShowAnswerModel;
 import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
@@ -115,7 +100,6 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                            public void onClick(View view) {
                                                final Dialog dialog = new Dialog(context.getActivity());
                                                dialog.setContentView(R.layout.answer_dialog);
-
                                                dialog.setTitle("Edit Answer");
                                                final EditText quesStatement = (EditText)dialog.findViewById(R.id.statement);
                                                final EditText ans1 = (EditText)dialog.findViewById(R.id.editAns1);

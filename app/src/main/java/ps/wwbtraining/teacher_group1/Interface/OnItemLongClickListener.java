@@ -6,5 +6,6 @@ package ps.wwbtraining.teacher_group1.Interface;
 
 public interface OnItemLongClickListener {
  boolean onItemLongClicked(int position);
+ boolean onItemDelete(int position);
 
 }

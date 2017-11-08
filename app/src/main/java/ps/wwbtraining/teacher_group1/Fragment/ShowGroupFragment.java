@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,8 @@ public class ShowGroupFragment extends Fragment {
     private View view;
     private RelativeLayout customView;
     private ProgressBar progress;
-
+    private TextView tvCancel;
+    private TextView tvRecreate;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,8 @@ public class ShowGroupFragment extends Fragment {
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);
         addGroup = (FloatingActionButton) view.findViewById(R.id.addGroup);
+        tvCancel = (TextView) view.findViewById(R.id.tvCancel);
+        tvRecreate = (TextView) view.findViewById(R.id.tvRecreate);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +75,12 @@ public class ShowGroupFragment extends Fragment {
             }
         });
 
-
+//        tvCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
         return view;
     }
 

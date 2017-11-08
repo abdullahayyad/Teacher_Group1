@@ -68,7 +68,7 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
                 newFragment = new EditGroupFragment();
                 newFragment.setArguments(args);
-                transaction.add(R.id.show_group, newFragment);
+                transaction.replace(R.id.show_group, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
