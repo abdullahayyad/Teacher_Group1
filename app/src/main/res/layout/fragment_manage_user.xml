@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shadow_back">
+            android:background="@color/white_greyish">
 
             <TextView
                 android:id="@+id/textView2"
@@ -93,7 +93,7 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="App."
-                android:textColor="@color/background_color" />
+                android:textColor="@color/black" />
 
             <View
                 android:layout_width="1dp"
@@ -109,7 +109,7 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Not."
-                android:textColor="@color/background_color" />
+                android:textColor="@color/black" />
 
             <View
                 android:layout_width="1dp"
@@ -124,7 +124,8 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Blo."
-                android:textColor="@color/background_color" />
+                android:textColor="@color/black" />
+
 
             <View
                 android:layout_width="1dp"
@@ -148,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Students:"
-            android:textColor="@color/background_color"
+            android:textColor="@color/white_greyish"
             android:textSize="18sp" />
 
         <TextView

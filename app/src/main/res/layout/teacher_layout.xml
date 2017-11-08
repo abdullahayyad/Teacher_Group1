@@ -1,31 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Teacher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:background="@color/white_greyish1"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context="ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+                android:padding="10dp"
+        android:src="@drawable/presentationt" />
 
-
-        <Button
+    <Button
             android:id="@+id/manager"
             android:text="@string/mangeUser"
             android:textSize="@dimen/textsize"
             android:layout_width="@dimen/layout_width"
             android:layout_height="@dimen/layout_height"
-            android:background="@drawable/shape"
-            android:drawableLeft="@drawable/man_user"
+            android:background="#00695C"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
             android:gravity="center"
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
             android:drawablePadding="20dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             />
 
         <Button
@@ -33,8 +42,8 @@
             android:textSize="@dimen/textsize"
             android:layout_width="@dimen/layout_width"
             android:layout_height="@dimen/layout_height"
-            android:background="@drawable/shape"
-            android:drawableLeft="@drawable/multiple"
+            android:background="#00695C"
+            android:drawableLeft="@drawable/ic_group_black_24dp"
             android:gravity="center"
             android:text="@string/creat_group"
             android:textAllCaps="false"
@@ -43,7 +52,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
             android:drawablePadding="20dp"
@@ -61,7 +70,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/shape"
+        android:background="#00695C"
         android:drawableLeft="@drawable/ic_filter_none_black_24dp"
         android:drawablePadding="20dp"
         android:gravity="center"
@@ -69,7 +78,7 @@
         android:paddingRight="60dp"
         android:text="@string/creat_quiz"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
        />
 
     <Button
@@ -82,7 +91,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/shape"
+        android:background="#00695C"
         android:drawableLeft="@drawable/ic_perm_contact_calendar_black_24dp"
         android:drawablePadding="20dp"
         android:gravity="center"
@@ -90,6 +99,6 @@
         android:paddingRight="60dp"
         android:text="@string/histoery_quiz"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         />
 </LinearLayout>

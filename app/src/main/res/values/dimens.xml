@@ -11,5 +11,6 @@
     <dimen name="layout_width">350dp</dimen>
     <dimen name="layout_height">60dp</dimen>
     <dimen name="textsize">18dp</dimen>
+    <dimen name="height_img">200dp</dimen>
 
 </resources>
