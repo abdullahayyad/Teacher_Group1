@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +20,19 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.UserManagementAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
+import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.User;
@@ -34,23 +41,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static ps.wwbtraining.teacher_group1.Class.Utils.Login_Fragment;
 import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
 public class ManageUserFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<User> array = new ArrayList<>();
-    private String r;
     private UserManagementAdapter userManagementAdapter;
     private Spinner spinner;
     private TeacherApi teacherApi;
     private ArrayAdapter<CharSequence> adapter;
-    private Snackbar snackbar;
     private TextView tvNoItems;
     private View view;
     private ProgressBar progress;
     private RelativeLayout customView;
-    ArrayList<User> array1=new ArrayList<>();
+    private int pos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,12 +87,12 @@ public class ManageUserFragment extends Fragment {
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, final View v, int i, long l) {
+                        pos = spinner.getSelectedItemPosition();
                         if (isOnline(getActivity())) {
                             recyclerView.setVisibility(View.GONE);
                             getData(view);
                         } else{
                             recyclerView.setVisibility(View.GONE);
-//   progress.setVisibility(View.VISIBLE);
                             reloadData();
                         }
                     }
@@ -108,52 +114,71 @@ public class ManageUserFragment extends Fragment {
                             pd.setMessage("Saving Group ....");
                             pd.setCancelable(false);
                             pd.show();
-//                        final ArrayList<User> arrayList = userManagementAdapter.arrayUser();
-                            for (int i = 0; i < array.size(); i++) {
-                                final int finalI = i;
-                                teacherApi
-                                        .updateStatus(array.get(i).getUserId(), array.get(i).getStatusId())
-                                        .enqueue(new Callback<UpdateStatus>() {
-                                            @Override
-                                            public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
 
-                                                if (response.isSuccessful()) {
+                            HashMap map1 = new HashMap();
+                            ArrayList arrayList =new ArrayList();
+                            final HashMap itemDeleted = new HashMap();
+                            for (int i = 0 ; i < array.size() ; i++){
 
-
-                                                    array1.add(array.get(finalI));
-
-//                                                customSnackBare(view,"Saving Data ....");
-                                                    // userManagementAdapter(getActivity(),array,)
-//                                                    getData(view);
-//                                                    try {
-//
-//                                                    userManagementAdapter.removeItem(finalI);
-//                                                    }catch (Exception e){
-////                                                        customSnackBare(customView,"Save Change");
-//
-//                                                    }
-//                                                    userManagementAdapter.
-//                                                    userManagementAdapter.notifyDataSetChanged();
-                                                } else {
-                                                    if (pd != null && pd.isShowing())
-                                                        pd.dismiss();
-                                                    customSnackBare(customView,"Somethin Error...");
-                                                }
-                                                array.remove(array1);
-                                                if (pd != null && pd.isShowing())
-                                                    pd.dismiss();
-//
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<UpdateStatus> call, Throwable t) {
-                                                if (pd != null && pd.isShowing())
-                                                    pd.dismiss();
-                                                if(getView() != null)
-                                                reloadData();
-                                            }
-                                        });
+                                Log.d("gggg",pos+"");
+                                if (!array.get(i).getUserId().equals(pos+"")){
+                                map1.put("user_id",array.get(i).getUserId()) ;
+                                map1.put("status_id",array.get(i).getStatusId());
+                                JSONObject object = new JSONObject(map1);
+                                arrayList.add(object);
+                                itemDeleted.put(i,i);
+                                map1.clear();
+                                }
                             }
+
+
+                            HashMap map =new HashMap();
+                            map.put("manage",arrayList);
+                            JSONObject object = new JSONObject(map);
+                            teacherApi.updateStatusUser(
+                                    RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(object)))
+                                    .enqueue(new Callback<InsertInToQuiz>() {
+
+                                        @Override
+                                        public void onResponse(Call <InsertInToQuiz> call, Response <InsertInToQuiz>response) {
+
+                                            if (response.isSuccessful()) {
+
+                                                for (int i = 0; i < array.size(); i++) {
+                                                    if(itemDeleted.containsKey(i)){
+                                                        array.remove(i);
+                                                        itemDeleted.remove(i);
+                                                        Log.d("ggg",i+"");
+
+                                                    }else continue;
+                                                }
+
+                                                userManagementAdapter.notifyDataSetChanged();
+
+                                                if (pd != null && pd.isShowing()) {
+
+                                                    pd.dismiss();
+                                            }
+                                            } else {
+                                                if (pd != null && pd.isShowing())
+                                                    pd.dismiss();
+                                                    customSnackBare(customView,"Somethin Error...");
+                                            }
+                                            }
+                                        @Override
+                                        public void onFailure(Call call, Throwable t) {
+                                            Toast.makeText(getActivity(), "No Internet ", Toast.LENGTH_SHORT).show();
+
+                                            if (pd != null && pd.isShowing())
+
+                                               pd.dismiss();
+
+                                            if(getView() != null)
+                                                reloadData();
+                                        }
+
+                                    });
+
                         }else customSnackBare(customView,"No Internet Connection...");
                     }
                 }
@@ -208,7 +233,6 @@ public class ManageUserFragment extends Fragment {
                         progress.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         tvNoItems.setVisibility(View.VISIBLE);
-//                            customSnackBareReload(view, response, "Something Error :(");
                     }
                 }else {
                     progress.setVisibility(View.VISIBLE);
@@ -249,7 +273,7 @@ public class ManageUserFragment extends Fragment {
                 snackbar.dismiss();
             }
         }).setActionTextColor(Color.WHITE);
-        ;
+
         snackbar.show();
     }
 

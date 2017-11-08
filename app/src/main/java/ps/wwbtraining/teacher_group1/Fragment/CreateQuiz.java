@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,12 +18,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Class.AnwerQuestion;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
+import ps.wwbtraining.teacher_group1.Model.GroupInsert;
+import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
+import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuestionItem;
 import ps.wwbtraining.teacher_group1.Model.QuizModel;
 import ps.wwbtraining.teacher_group1.R;
@@ -30,11 +38,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
+import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
+
 
 public class CreateQuiz extends Fragment {
     private EditText tvnameQuize;
     private EditText tvDiscription;
     private EditText tvQuestion;
+    private EditText tvDeadline;
     private RadioButton raObtion;
     private RadioButton raChoose;
     private FrameLayout frameQuestion;
@@ -100,6 +112,7 @@ public class CreateQuiz extends Fragment {
         tvnameQuize = (EditText) view.findViewById(R.id.tvnameQuize);
         tvDiscription = (EditText) view.findViewById(R.id.tvDiscription);
         tvQuestion = (EditText) view.findViewById(R.id.tvQuestion);
+        tvDeadline = (EditText) view.findViewById(R.id.tvdeadlineQuiz);
         raObtion = (RadioButton) view.findViewById(R.id.raObtion);
         raChoose = (RadioButton) view.findViewById(R.id.raChoose);
         frameQuestion = (FrameLayout) view.findViewById(R.id.frameQuestion);
@@ -143,7 +156,7 @@ public class CreateQuiz extends Fragment {
 
                 String nameQuiz = tvnameQuize.getText().toString();
                 String description = tvDiscription.getText().toString();
-                String deadLine = "";
+                String deadLine = tvDeadline.getText().toString();
                 String questionName = tvQuestion.getText().toString();
                 String ans1 = etch1.getText().toString();
                 String ans2 = etch2.getText().toString();
@@ -151,44 +164,19 @@ public class CreateQuiz extends Fragment {
                 String ans4 = etch4.getText().toString();
 
 
-                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty())) {
+                if (!(nameQuiz.isEmpty() || description.isEmpty() || questionName.isEmpty()||deadLine.isEmpty())) {
                     if (rgType.getCheckedRadioButtonId() == R.id.raChoose) {
                         if (!(ans1.isEmpty() || ans2.isEmpty() || ans3.isEmpty() || ans4.isEmpty()) &&
                                 (rach1.isChecked() || rach2.isChecked() || rach3.isChecked() || rach4.isChecked())) {
 
-                            if (index == 0) {
-
-                                teacherApi.addQuiz(nameQuiz, description).enqueue(new Callback<QuizModel>() {
-                                    @Override
-                                    public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
-                                        if (response.isSuccessful()) {
-                                            Toast.makeText(getActivity(), response.body() + "", Toast.LENGTH_SHORT).show();
-
-                                            if (response.body().isResult()) {
-                                                Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
-
-                                            } else {
-                                                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
-
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<QuizModel> call, Throwable t) {
-                                        Toast.makeText(getContext(), "Sorry..internet disconnect", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                });
-
-                            }
 
                             tvnameQuize.setEnabled(false);
                             tvDiscription.setEnabled(false);
+                            tvDeadline.setEnabled(false);
 
                             answerMap.put(index, new AnwerQuestion(ans1, ans2, ans3, ans4));
                             questionMap.put(index, questionName);
-                            stateQuestion.put(index, 0);
+                            stateQuestion.put(index, 1);
 
                             if (rgChoose.getCheckedRadioButtonId() == R.id.rach1)
                                 correctMap.put(index, 1 + "");
@@ -219,6 +207,7 @@ public class CreateQuiz extends Fragment {
 
                             tvnameQuize.setEnabled(false);
                             tvDiscription.setEnabled(false);
+                            tvDeadline.setEnabled(false);
                             rgType.setEnabled(false);
 
                             if (visibleTF.getCheckedRadioButtonId() == R.id.rbtrue)
@@ -227,7 +216,7 @@ public class CreateQuiz extends Fragment {
                                 correctMap.put(index, "false");
 
                             questionMap.put(index, tvQuestion.getText().toString());
-                            stateQuestion.put(index, 1);
+                            stateQuestion.put(index, 0);
 
                             visibleTF.clearCheck();
                             tvQuestion.setText("");
@@ -248,33 +237,63 @@ public class CreateQuiz extends Fragment {
             public void onClick(View v) {
 
                 Log.d("correct", correctMap.toString());
-                Log.d("answer", answerMap.toString());
-                Log.d("question", questionMap.toString());
+                Log.d("answer",  answerMap.toString());
+                Log.d("question",questionMap.toString());
 
-                getFragmentManager().popBackStack();
+                ArrayList array =new ArrayList();
+                HashMap map = new HashMap();
+                HashMap answer =new HashMap();
+                for (int i = 0 ; i < questionMap.size() ; i++){
+                    map.put("statement",questionMap.get(i));
+                    map.put("correct",correctMap.get(i));
+                    map.put("type",stateQuestion.get(i));
 
-//                for (int i = 0; i < questionMap.size(); i++) {
-//                    teacherApi.addQuestion(questionMap.get(i), ).enqueue(new Callback<QuizModel>() {
-//                        @Override
-//                        public void onResponse(Call<QuizModel> call, Response<QuizModel> response) {
-//
-//                            if (response.isSuccessful()) {
-//                                if (response.body().isResult()) {
-//
-//                                } else {
-//                                    Toast.makeText(getContext(), "Sorry..internet disconnect", Toast.LENGTH_SHORT).show();
-//
-//                                }
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<QuizModel> call, Throwable t) {
-//
-//                        }
-//                    });
-//
-//                }
+                    if (stateQuestion.get(i)==1){
+                        answer.put("ans1",answerMap.get(i).getAns1());
+                        answer.put("ans2",answerMap.get(i).getAns2());
+                        answer.put("ans3",answerMap.get(i).getAns3());
+                        answer.put("ans4",answerMap.get(i).getAns4());
+
+                           map.put("answers",answer);
+                    }
+
+                    JSONObject object = new JSONObject(map);
+                    array.add(object);
+                    map.clear();
+                }
+
+
+                                        HashMap testMap = new HashMap<String, String>();
+                                        testMap.put("name_quiz",tvnameQuize.getText().toString());
+                                        testMap.put("description",tvDiscription.getText().toString());
+                                        testMap.put("deadline",tvDeadline.getText().toString());
+                                        testMap.put("questions",array);
+
+                                        Log.d("testMap", testMap + " ");
+
+                                        JSONObject jsonObject = new JSONObject(testMap);
+                                        Log.d("jsonObject", jsonObject + " ");
+                                        teacherApi.addArrayQuiz(
+                                                RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject)))
+                                                .enqueue(new Callback<InsertInToQuiz>() {
+
+                                                    @Override
+                                            public void onResponse(Call <InsertInToQuiz>  call, Response <InsertInToQuiz> response) {
+
+                                                if (response.isSuccessful()) {
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call <InsertInToQuiz>call, Throwable t) {
+                                                Toast.makeText(getActivity(), "No Internet ", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+
+
+
 
             }
         });
@@ -294,8 +313,7 @@ public class CreateQuiz extends Fragment {
                     Intent intent = new Intent(getActivity(), TeacherActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-//                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
-//                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
+
                     return true;
 
                 }
@@ -303,4 +321,5 @@ public class CreateQuiz extends Fragment {
             }
         });
     }
+
 }

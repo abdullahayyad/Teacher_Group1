@@ -24,13 +24,15 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     Context context;
     HashMap<Integer, Integer> map = new HashMap<>();
     HashMap<Integer, Integer> checkMap = new HashMap<>();
+    boolean checkboxAddBoolean ;
 
-    private boolean selectAll;
+
 
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
         this.array_id = array_id;
+        this.checkboxAddBoolean=false;
 
     }
 
@@ -52,7 +54,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selectAll = false;
+                checkboxAddBoolean = false;
                 try {
                     if (isChecked) {
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
@@ -69,11 +71,10 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             }
         });
 
-        if (selectAll) {
+        if (checkboxAddBoolean) {
 
             holder.checkBox.setChecked(false);
             checkMap.remove(position);
-            selectAll =false;
 
         } else {
             Log.d("bbbbbb",map.toString());
@@ -125,9 +126,9 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         }
     }
 
-    public void toggleSelectAll() {
+    public void check() {
 
-        this.selectAll = true;
+        this.checkboxAddBoolean = true;
         notifyDataSetChanged();
     }
 }

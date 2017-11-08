@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
@@ -91,6 +92,7 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
             show_hide_password.setTextColor(csl);
             signUp.setTextColor(csl);
         } catch (Exception e) {
+
         }
     }
 
@@ -123,9 +125,11 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
+
                 String getEmailId = emailid.getText().toString().trim();
                 String getPassword = password.getText().toString().trim();
                 if (checkValidation() && isOnline(getActivity())) {
+
                     checkLogin(getEmailId, getPassword);
                 } else {
                     loginLayout.startAnimation(shakeAnimation);
@@ -172,12 +176,18 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
 
     private void checkLogin(final String user_email, final String user_password) {
         if(isOnline(getActivity())){
+            final ProgressDialog pd = new ProgressDialog(getActivity());
+            pd.setMessage("Login....");
+            pd.setCancelable(false);
+            pd.show();
+
         try {
             teacherApi.checkLogin(user_email, user_password).enqueue(new Callback<Users>() {
                 @Override
                 public void onResponse(Call<Users> call, Response<Users> response) {
                     Users users = response.body();
                     if (users.getStatuse().equals("1")) {
+
                         SharedPrefUtil sharedPrefUtil = new SharedPrefUtil(getActivity());
                         sharedPrefUtil.saveString(NAME_SHARED_PREF, users.getUser().getUserName());
                         sharedPrefUtil.saveString(STATUS_SHARED_PREF, users.getUser().getStatusId());
@@ -186,9 +196,13 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
                         sharedPrefUtil.saveString(EMAIL_SHARED_PREF, users.getUser().getUserEmail());
                         sharedPrefUtil.saveString(USERID_SHARED_PREF, users.getUser().getUserId());
                         Intent intent = new Intent(getActivity(), TeacherActivity.class);
+                        if (pd != null && pd.isShowing())
+                            pd.dismiss();
                         startActivity(intent);
                         getActivity().finish();
                     } else {
+                        if (pd != null && pd.isShowing())
+                            pd.dismiss();
                         new CustomToast().Show_Toast(getActivity(), view,
                                 "Not Allow to login");
                         loginLayout.startAnimation(shakeAnimation);
@@ -198,13 +212,16 @@ public class Login_Fragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(Call<Users> call, Throwable t) {
+                    if (pd != null && pd.isShowing())
+                        pd.dismiss();
                     new CustomToast().Show_Toast(getActivity(), view,
                             "No Internet Connection");
                     loginLayout.startAnimation(shakeAnimation);
                 }
             });
         } catch (Exception e) {
-
+            if (pd != null && pd.isShowing())
+                pd.dismiss();
         }
         }else {
             new CustomToast().Show_Toast(getActivity(), view,

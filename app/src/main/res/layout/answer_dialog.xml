@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="200dp"
+    android:layout_margin="40dp"
+    android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/statement"
+            android:textSize="15sp"
+            />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+   <RadioGroup
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:visibility="invisible"
+       android:id="@+id/trueQuestion">
+
+       <RadioButton
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/trueAns"
+           android:text="True"
+           android:textSize="14sp"
+           />
+       <RadioButton
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/falseAns"
+           android:text="False"
+           android:textSize="14sp"
+           />
+
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutChooseQues"
+        android:visibility="invisible"
+        >
+<RadioGroup
+    android:visibility="visible"
+    android:layout_width="wrap_content"
+    android:layout_height="169dp"
+    android:id="@+id/choiceQues"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    >
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/ans1"
+        android:textSize="14sp"
+        android:layout_weight="1"
+                />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/ans2"
+            android:textSize="14sp"
+            />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/ans3"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/ans4"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            />
+
+
+</RadioGroup>
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+    >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editAns1"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editAns2"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editAns3"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editAns4"
+        />
+   </LinearLayout>
+    </LinearLayout>
+    </FrameLayout>
+
+    <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="save"
+            android:textSize="25sp"
+            android:textColor="@color/cardview_light_background"
+            android:layout_gravity="center"
+            android:background="@color/background_color"
+        android:layout_margin="20dp"
+
+            />
+    </LinearLayout>

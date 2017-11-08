@@ -2,6 +2,7 @@ package ps.wwbtraining.teacher_group1.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -13,7 +14,7 @@ public class ShowAnswerModel{
 	private boolean result;
 
 	@SerializedName("User")
-	private List<Answer> user;
+	private ArrayList<Answer> user;
 
 	public void setResult(boolean result){
 		this.result = result;
@@ -23,11 +24,11 @@ public class ShowAnswerModel{
 		return result;
 	}
 
-	public void setUser(List<Answer> user){
+	public void setUser(ArrayList<Answer> user){
 		this.user = user;
 	}
 
-	public List<Answer> getUser(){
+	public ArrayList<Answer> getUser(){
 		return user;
 	}
 
