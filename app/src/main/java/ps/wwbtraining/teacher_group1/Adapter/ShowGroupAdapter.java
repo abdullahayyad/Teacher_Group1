@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +68,7 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         group_id = arrayList.get(position).getGroup_id();
         GroupItem item=arrayList.get(position);
         updateCheckedState(holder, item);
-        holder.edit.setOnClickListener(new View.OnClickListener() {
+        holder.llgroub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
@@ -139,7 +140,8 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         public final TextView group_name;
         public final TextView description;
         public final ImageButton edit;
-        public final ImageButton delete;
+        public final ImageView delete;
+        public final LinearLayout llgroub;
         public GroupItem mItem;
         public final ImageView image;
         public ViewHolder(View view) {
@@ -150,9 +152,9 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
             group_name = (TextView) view.findViewById(R.id.groupName);
             description = (TextView) view.findViewById(R.id.description);
             edit = (ImageButton)view.findViewById(R.id.edit);
-            delete = (ImageButton)view.findViewById(R.id.delete);
+            delete = (ImageView)view.findViewById(R.id.delete);
             image = (ImageView) view.findViewById(R.id.image_view);
-
+            llgroub=(LinearLayout)view.findViewById(R.id.llgroub);
         }
     }
 
