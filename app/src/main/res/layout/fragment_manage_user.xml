@@ -23,11 +23,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="left"
                 android:padding="10dp"
                 android:text="Manage Student"
                 android:textColor="@color/white"
-                android:textSize="17dp" />
+                android:textSize="@dimen/textsize" />
 
             <View
                 android:layout_width="2dp"
@@ -93,7 +93,7 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="App."
-                android:textColor="@color/black" />
+                android:textColor="@color/shadow_start" />
 
             <View
                 android:layout_width="1dp"
@@ -109,7 +109,7 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Not."
-                android:textColor="@color/black" />
+                android:textColor="@color/shadow_start" />
 
             <View
                 android:layout_width="1dp"
@@ -124,13 +124,13 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Blo."
-                android:textColor="@color/black" />
+                android:textColor="@color/shadow_start" />
 
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background_color" />
+                android:background="@color/black" />
 
             <RadioButton
                 android:layout_width="0dp"
@@ -140,7 +140,7 @@
                 android:checked="true"
                 android:enabled="false"
                 android:text="Rej."
-                android:textColor="@color/background_color" />
+                android:textColor="@color/shadow_start" />
         </LinearLayout>
 
         <TextView
@@ -199,15 +199,15 @@
             android:gravity="center"
 
             android:text="Save"
-            android:textColor="@color/background_color"
-            android:textSize="18sp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize" />
 
         <LinearLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_color"
+            android:background="@color/NAV5"
             android:orientation="vertical" />
 
         <TextView
@@ -218,7 +218,7 @@
             android:layout_weight="0.8"
             android:gravity="center"
             android:text="Cancel"
-            android:textColor="@color/background_color"
-            android:textSize="18sp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize" />
     </LinearLayout>
 </RelativeLayout>

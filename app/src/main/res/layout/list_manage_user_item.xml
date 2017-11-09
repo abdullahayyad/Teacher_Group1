@@ -9,7 +9,7 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:layoutDirection="ltr"
-    android:padding="10dp"
+    android:padding="5dp"
     android:textDirection="ltr"
     app:cardCornerRadius="4dp"
     app:cardElevation="6dp">
@@ -21,15 +21,21 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
+        <ImageView  android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="1dp"
+            android:id="@+id/image_view"/>
         <TextView
             android:id="@+id/student_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:padding="5dp"
-            android:text="ggghhhhhhhh"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:text="ggghhhh"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/textsize" />
 
         <RadioGroup
             android:id="@+id/groupStu"
