@@ -77,7 +77,7 @@ public class ShowQuizFragment extends Fragment {
         addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
         customView = (RelativeLayout)view.findViewById(R.id.show_quiz);
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#DD8855"), android.graphics.PorterDuff.Mode.MULTIPLY);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
         TeacherActivity.toolbar.setVisibility(View.VISIBLE);
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,7 +212,7 @@ public class ShowQuizFragment extends Fragment {
                     if(getView() != null){
                         list_quiz.setVisibility(View.GONE);
                         progress.setVisibility(View.VISIBLE);
-                    reloadData();}
+                        reloadData();}
                 }
             });
         } catch (Exception e) {
@@ -301,7 +301,7 @@ public class ShowQuizFragment extends Fragment {
 //                    Log.d("nameee",holder.group_name.getText().toString());
 //                    Log.d("description",holder.description.getText().toString());
                     args.putString("quiz_description",array.get(myPosition).getDescription());
-                     newFragment.setArguments(args);
+                    newFragment.setArguments(args);
                     transaction.replace(R.id.show_quiz, newFragment);
                     transaction.commit();
                     TeacherActivity.toolbar.setVisibility(View.VISIBLE);
@@ -333,4 +333,4 @@ public class ShowQuizFragment extends Fragment {
 
             }
         });
-}}
+    }}

@@ -2,6 +2,7 @@ package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +21,11 @@ import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
+import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHolder> {
 
@@ -74,13 +80,14 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         holder.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemDelete(position);
+//                listener.onItemDelete(position);
                 post = arrayList.get(position).getQuiz_id();
                 index = position;
 
             }
 
         });
+
 
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +204,22 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         }
         return size;
     }
+    public void UpdateFlagQuiz(int quiz_id) {
+        teacherApi.updateFlagQuiz(quiz_id, 0).enqueue(new Callback<UpdateStatus>() {
+            @Override
+            public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
+                if (response.body().isResult()) {
+                    Log.d("update", "insert");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateStatus> call, Throwable t) {
+                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
@@ -216,7 +239,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
-            del = (ImageButton) view.findViewById(R.id.sendQuiz);
+            del = (ImageButton) view.findViewById(R.id.deletQuiz);
             cr = (LinearLayout) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }
