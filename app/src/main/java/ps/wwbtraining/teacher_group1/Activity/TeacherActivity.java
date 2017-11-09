@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ps.wwbtraining.teacher_group1.Fragment.BlankFragment;
+import ps.wwbtraining.teacher_group1.Fragment.ManageUserFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Fragment.Teacher_Fragment;
@@ -80,16 +81,23 @@ public class TeacherActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.home) {
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new Teacher_Fragment()).commit();
         } else if (id == R.id.profile) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new BlankFragment()).commit();
 
-        } else if (id == R.id.group) {
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher, new ShowGroupFragment()).commit();
+        }
+        else if (id == R.id.Mangae) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new ManageUserFragment()).commit();
+
+
+        }
+
+        else if (id == R.id.group) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new ShowGroupFragment()).commit();
 
 
         } else if (id == R.id.quiz) {
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frameTeacher, new ShowQuizFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new ShowQuizFragment()).commit();
         } else if (id == R.id.log_out) {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

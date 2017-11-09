@@ -18,11 +18,11 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shadow_back"
+            android:background="@color/white_greyish"
             android:padding="10dp"
             android:text="Show Question"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="@dimen/textsize" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +91,7 @@
             android:id="@+id/list_question"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@color/white"
             android:padding="5dp">
 

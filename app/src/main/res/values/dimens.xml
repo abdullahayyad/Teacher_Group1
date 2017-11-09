@@ -11,7 +11,7 @@
     <dimen name="layout_width">250dp</dimen>
     <dimen name="layout_height">50dp</dimen>
     <dimen name="textsize">15dp</dimen>
-    <dimen name="dimImg">30dp</dimen>
+    <dimen name="dimImg">40dp</dimen>
 
     <dimen name="height_img">150dp</dimen>
 

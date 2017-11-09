@@ -15,11 +15,11 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/shadow_back"
+            android:background="@color/white_greyish"
             android:padding="10dp"
             android:text="@string/history_quiz_s"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/textsize" />
         <ProgressBar
             android:id="@+id/progress"
             android:layout_gravity="center"

@@ -26,6 +26,7 @@
             android:layout_margin="5dp"
             android:divider="#000000"
             android:dividerHeight="2dp"
+
             android:padding="5dp"
             android:paddingTop="2dp"
             android:scrollbars="horizontal|vertical">

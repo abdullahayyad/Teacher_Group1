@@ -16,6 +16,14 @@
 
 
             />
+        <item
+            android:id="@+id/Mangae"
+            android:icon="@drawable/ic_perm_identity_black_24dp"
+            android:title="Mangae User"
+
+
+            />
+
 
         <item
             android:id="@+id/group"

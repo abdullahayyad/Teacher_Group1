@@ -147,10 +147,10 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:text="Students:"
             android:textColor="@color/white_greyish"
-            android:textSize="18sp" />
+            android:textSize="@dimen/textsize" />
 
         <TextView
             android:id="@+id/tvNoItems"
@@ -175,8 +175,8 @@
             android:id="@+id/list_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:padding="5dp">
+            android:layout_margin="2dp"
+            android:padding="2dp">
 
         </android.support.v7.widget.RecyclerView>
 

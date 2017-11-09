@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
 
@@ -35,10 +40,14 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
     EditGroupFragment newFragment;
     TeacherApi teacherApi;
     int group_id;
+    private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+    private TextDrawable.IBuilder mDrawableBuilder;
 
     public ShowGroupAdapter(Fragment context, ArrayList<GroupItem> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        mDrawableBuilder = TextDrawable.builder()
+                .round();
 
     }
 
@@ -56,6 +65,8 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         holder.group_name.setText(arrayList.get(position).getgroup_name());
         holder.description.setText(arrayList.get(position).getDescription());
         group_id = arrayList.get(position).getGroup_id();
+        GroupItem item=arrayList.get(position);
+        updateCheckedState(holder, item);
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +115,13 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         });
 
     }
+    private void updateCheckedState(ViewHolder holder, GroupItem item) {
+
+        TextDrawable drawable = mDrawableBuilder.build(String.valueOf(item.getgroup_name().charAt(0)), mColorGenerator.getColor(item.getgroup_name()));
+        holder.image.setImageDrawable(drawable);
+        holder.view.setBackgroundColor(Color.TRANSPARENT);
+
+    }
     int size =0;
     @Override
     public int getItemCount() {
@@ -117,22 +135,23 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+        public final View view;
         public final TextView group_name;
         public final TextView description;
         public final ImageButton edit;
         public final ImageButton delete;
         public GroupItem mItem;
-
+        public final ImageView image;
         public ViewHolder(View view) {
 
             super(view);
 
-            mView = view;
+            this.view = view;
             group_name = (TextView) view.findViewById(R.id.groupName);
             description = (TextView) view.findViewById(R.id.description);
             edit = (ImageButton)view.findViewById(R.id.edit);
             delete = (ImageButton)view.findViewById(R.id.delete);
+            image = (ImageView) view.findViewById(R.id.image_view);
 
         }
     }

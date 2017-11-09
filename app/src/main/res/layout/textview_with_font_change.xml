@@ -9,4 +9,4 @@
     android:textColor="@color/white"
     android:gravity="center"
     android:padding="10dp"
-    android:textSize="17dp" />
+    android:textSize="@dimen/textsize" />
