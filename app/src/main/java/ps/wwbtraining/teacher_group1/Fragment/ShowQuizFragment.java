@@ -71,6 +71,7 @@ public class ShowQuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         view = inflater.inflate(R.layout.fragment_show_quiz, container, false);
         teacherApi = ApiTeacher.getAPIService();
         list_quiz = (RecyclerView) view.findViewById(R.id.list_quiz);
