@@ -100,7 +100,7 @@ public class CreateQuiz extends Fragment {
 
         findViews(view);
         visibleTF.setVisibility(View.VISIBLE);
-        visibleChoose.setVisibility(View.GONE);
+        visibleChoose.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -138,10 +138,10 @@ public class CreateQuiz extends Fragment {
 
                 if (checkedId == R.id.raObtion) {
                     visibleTF.setVisibility(View.VISIBLE);
-                    visibleChoose.setVisibility(View.GONE);
+                    visibleChoose.setVisibility(View.INVISIBLE);
 
                 } else if (checkedId == R.id.raChoose) {
-                    visibleTF.setVisibility(View.GONE);
+                    visibleTF.setVisibility(View.INVISIBLE);
                     visibleChoose.setVisibility(View.VISIBLE);
                 }
             }
@@ -401,7 +401,7 @@ public class CreateQuiz extends Fragment {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                     Intent intent = new Intent(getActivity(), TeacherActivity.class);
                     startActivity(intent);
-                    getActivity().finish();
+
 
 
 //                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).

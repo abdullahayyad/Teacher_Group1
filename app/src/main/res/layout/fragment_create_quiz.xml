@@ -21,7 +21,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/shadow_back"
+                android:background="@color/NAV"
                 android:padding="10dp"
                 android:text="Create Quiz"
                 android:textColor="@color/white"
@@ -160,7 +160,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="invisible">
 
                     <RadioGroup
                         android:id="@+id/rgChoose"
