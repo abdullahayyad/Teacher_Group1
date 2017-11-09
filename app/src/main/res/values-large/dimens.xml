@@ -10,6 +10,7 @@
     <dimen name="nav_header_height">250dp</dimen>
     <dimen name="textsize">22dp</dimen>
     <dimen name="dimImg">60dp</dimen>
+    <dimen name="margin_list">10dp</dimen>
 
     <!--android:layout_margin="5dp"-->
     <!--android:drawablePadding="5dp"-->

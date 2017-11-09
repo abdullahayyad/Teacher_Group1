@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,19 +26,20 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
     private final ArrayList<User> usersAddToGroup;
     private final ArrayList<String> array_id;
-    Context context;
-    HashMap<Integer, Integer> map = new HashMap<>();
-    HashMap<Integer, Integer> checkMap = new HashMap<>();
-    boolean checkboxAddBoolean ;
-
-
+    private Context context;
+    private HashMap<Integer, Integer> map = new HashMap<>();
+    private HashMap<Integer, Integer> checkMap = new HashMap<>();
+    private boolean checkboxAddBoolean;
+    private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
+    private TextDrawable.IBuilder mDrawableBuilder;
 
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
         this.array_id = array_id;
-        this.checkboxAddBoolean=false;
-
+        this.checkboxAddBoolean = false;
+        mDrawableBuilder = TextDrawable.builder()
+                .round();
     }
 
     @Override
@@ -50,7 +56,8 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
         holder.mItem = usersAddToGroup.get(position);
         holder.student_name.setText(usersAddToGroup.get(position).getUserName());
-
+        User item = usersAddToGroup.get(position);
+        updateCheckedState(holder, item);
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -77,7 +84,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             checkMap.remove(position);
 
         } else {
-            Log.d("bbbbbb",map.toString());
+            Log.d("bbbbbb", map.toString());
 
             if (checkMap.containsKey(position)) {
                 holder.checkBox.setChecked(true);
@@ -104,6 +111,11 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
         return usersAddToGroup.size();
     }
 
+    private void updateCheckedState(ViewHolder holder, User item) {
+        TextDrawable drawable = mDrawableBuilder.build(String.valueOf(item.getUserName().charAt(0)), mColorGenerator.getColor(item.getUserName()));
+        holder.image.setImageDrawable(drawable);
+        holder.view.setBackgroundColor(Color.TRANSPARENT);
+    }
 
     public HashMap getArray() {
         return map;
@@ -111,23 +123,23 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+        public final View view;
         public final TextView student_name;
         public final CheckBox checkBox;
         public User mItem;
+        public final ImageView image;
 
         public ViewHolder(View view) {
-
             super(view);
 
-            mView = view;
+            this.view = view;
             student_name = (TextView) view.findViewById(R.id.nameStudentAddGroup);
             checkBox = (CheckBox) view.findViewById(R.id.checkboxStudentAddGroup);
+            image = (ImageView) view.findViewById(R.id.image_view);
         }
     }
 
     public void check() {
-
         this.checkboxAddBoolean = true;
         notifyDataSetChanged();
     }
