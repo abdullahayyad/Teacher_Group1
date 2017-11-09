@@ -5,24 +5,16 @@ package ps.wwbtraining.teacher_group1.Fragment;
  */
 
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -30,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.RequestBody;
-import ps.wwbtraining.teacher_group1.Activity.TeacherActivity;
 import ps.wwbtraining.teacher_group1.Adapter.EditGroupAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
@@ -38,128 +29,111 @@ import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.User;
+import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
 import ps.wwbtraining.teacher_group1.Model.UserItem;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static ps.wwbtraining.teacher_group1.Class.Utils.NoInternetAlert;
-import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
-import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
-
 public class EditGroupFragment extends Fragment {
     String nameGroup, group_description;
     TeacherApi teacherApi;
     ArrayList<User> array = new ArrayList<>();
     ArrayList<UserItem> array1 = new ArrayList<>();
-    ArrayList<Integer> checkedArray = new ArrayList<>();
+    ArrayList<Integer>checkedArray = new ArrayList<>();
     private RecyclerView recyclerView;
     EditGroupAdapter userManagementAdapter;
     EditText name, description;
     int group_id;
-    private View view;
-    private RelativeLayout customView;
-    private ProgressBar progress;
     ArrayList<String> arrayId = new ArrayList<>();
-    private TextView back;
-    ProgressDialog pd;
-
+    ArrayList arrayStatus;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        nameGroup = getArguments().getString("group_name");
+        group_description = getArguments().getString("group_description");
+        group_id = getArguments().getInt("group_id");
         teacherApi = ApiTeacher.getAPIService();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_group, null, false);
-
-        customView = (RelativeLayout) view.findViewById(R.id.relayout);
-        progress = (ProgressBar) view.findViewById(R.id.progress);
-        progress.getIndeterminateDrawable().setColorFilter
-                (Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
-        nameGroup = getArguments().getString("group_name");
-        group_description = getArguments().getString("group_description");
-        group_id = getArguments().getInt("group_id");
         name = (EditText) view.findViewById(R.id.tvnameGroup);
         description = (EditText) view.findViewById(R.id.tvDiscription);
         recyclerView = view.findViewById(R.id.list_student);
-        back = (TextView) view.findViewById(R.id.buCancel);
         recyclerView.setHasFixedSize(true);
         name.setText(nameGroup);
         description.setText(group_description);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(userManagementAdapter);
-//////////////////////////////////////////////user in group
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //  getFragmentManager().popBackStack();
-                Intent intent = new Intent(getActivity(), TeacherActivity.class);
-                startActivity(intent);
-            }
-        });
+        arrayStatus = new ArrayList();
+
+        try {
+            Log.d("tttt",group_id+"");
+            teacherApi.userFromGroup(group_id).enqueue(new Callback<UserFromGroupModel>() {
+                @Override
+
+                public void onResponse(Call<UserFromGroupModel> call, Response<UserFromGroupModel> response) {
+                    if (response.isSuccessful()) {
+                        try {
+                            array1 = response.body().getUser();
+                            arrayStatus =response.body().getUserStatus();
+                            Log.d("ccccc",response.body().getUser().toString()+" gghh");
+
+                            for (int i = 0; i < array1.size(); i++) {
+                                arrayId.add(array1.get(i).getUserId());
+                            }
+
+                            userManagementAdapter = new EditGroupAdapter(getActivity(), arrayStatus, arrayId, group_id);
+                            recyclerView.setAdapter(userManagementAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserFromGroupModel> call, Throwable t) {
+                    Toast.makeText(getActivity(), "no Internet...", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
+
 
         view.findViewById(R.id.buAdd).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(View view) {
                 try {
+                    update();
                     String nameg = name.getText().toString();
                     String des = description.getText().toString();
                     if (!nameg.isEmpty() && !des.isEmpty()) {
-                        if (isOnline(getActivity())) {
-                            final ProgressDialog pd = new ProgressDialog(getActivity());
-                            pd.setMessage("Saving Edit ....");
-                            pd.setCancelable(false);
-                            pd.show();
-                            teacherApi.updateGroup(group_id, nameg, des).enqueue(new Callback<InsertIntoGroup>() {
+                        teacherApi.updateGroup(group_id, nameg, des).enqueue(new Callback<InsertIntoGroup>() {
+                            @Override
 
+                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
 
-                                @Override
+                                if (response.isSuccessful()) {
+                                    if (response.body().isResult()) {
+                                        Toast.makeText(getActivity(), "Edit group", Toast.LENGTH_SHORT).show();
 
-                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-
-                                    if (response.isSuccessful()) {
-                                        if (response.body().isResult()) {
-
-                                            if (pd != null && pd.isShowing())
-                                                pd.dismiss();
-
-                                            userManagementAdapter.setCheck();
-
-
-                                        } else {
-//                                                    Log.d("//////", response.body().toString());
-//                                                        // userManagementAdapter.notifyS);
-                                            if (pd != null && pd.isShowing())
-                                                pd.dismiss();
-                                            customSnackBare(view, "No Internet Connection ....");
-                                        }
-                                    } else {
-//
-                                        if (pd != null && pd.isShowing())
-                                            pd.dismiss();
-                                        customSnackBare(view, "No Internet Connection ....");
                                     }
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-                                    if (getView() != null) {
-                                        if (pd != null && pd.isShowing())
-                                            pd.dismiss();
-                                        NoInternetAlert(getActivity());
-                                    }
-                                }
-
-                            });
-                        } else customSnackBare(customView, "No Internet Connection...");
-                    } else customSnackBare(customView, "No Student...");
+                            @Override
+                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 } catch (Exception e) {
-                    customSnackBare(view, "Something Error ....");
                 }
 
             }
@@ -169,142 +143,37 @@ public class EditGroupFragment extends Fragment {
         return view;
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
+    public void update (){
 
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    Intent intent = new Intent(getActivity(), TeacherActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
-//                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.left_enter, R.anim.right_out).
-//                            replace(R.id.frameTeacher, new Teacher_Fragment()).addToBackStack(null).commit();
-                    return true;
+        ArrayList <Integer>dddd =new ArrayList<>(userManagementAdapter.getArray().values());
 
-                }
-                return false;
-            }
-        });
-        if (isOnline(getActivity())) {
-            recyclerView.setVisibility(View.GONE);
-            progress.setVisibility(View.VISIBLE);
-            getStudant(view);
-        } else {
-            recyclerView.setVisibility(View.GONE);
-           reloadData(customView);
-        }
-    }
+        HashMap map = new HashMap();
+        map.put("group_id",group_id);
+        map.put("users",dddd);
 
-    public void getStudant(final View view) {
-        progress.setVisibility(View.VISIBLE);
+
+        JSONObject object =new JSONObject(map);
+        Log.d("vvvv",object.toString());
+
         try {
-                    teacherApi.getStudName(2).enqueue(new Callback<StudentModel>() {
+            teacherApi.UpdateGroupFromUser(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(object))).enqueue(new Callback<InsertInToQuiz>() {
                 @Override
-                public void onResponse(Call<StudentModel> call, Response<StudentModel> response) {
+                public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
                     if (response.isSuccessful()) {
-                        progress.setVisibility(View.GONE);
-                        if (response.body().isResult()) {
-                            try {
-                                progress.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                array = response.body().getUser();
-                                userManagementAdapter = new EditGroupAdapter(getActivity(), array, arrayId, group_id);
-                                recyclerView.setAdapter(userManagementAdapter);
-                                Log.d("arrayyy", array.toString());
-                                Log.d("arrayId", arrayId.toString());
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                for (int i = 0 ; i < array.size() ; i++){
-                                    arrayId.add(array.get(i).getUserId());
-                                }
-                                HashMap map = new HashMap();
-                                map.put("group_id",group_id);
-                                map.put("users",arrayId);
 
-                                JSONObject object =new JSONObject(map);
-                                Log.d("object", object.toString());
-                                try {
-                                    teacherApi.UpdateGroupFromUser(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(object))).enqueue(new Callback<InsertInToQuiz>() {
-                                        @Override
-                                        public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
-                                            if (response.isSuccessful()) {
-                                                Log.d("object", response.body().isResult()+"");
-                                        }}
-
-                                        @Override
-                                        public void onFailure(Call<InsertInToQuiz> call, Throwable t) {
-                                            Log.d("//////", t.toString());
-                                            if (getView() != null) {
-                                                if (pd != null && pd.isShowing())
-                                                    pd.dismiss();
-                                                NoInternetAlert(getActivity());
-                                            }
-                                        }
-                                    });
-
-                                } catch (Exception e) {
-                                    customSnackBare(
-                                            view, "Something Error");
-                                }
-                            } catch (Exception e) {
-                                customSnackBare(
-                                        view, "Something Error");
-                            }
-                        } else
-
-                            progress.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        if (getView() != null) {
-                            reloadData(customView);
-                        }
-                    } else
-
-                        progress.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    if (getView() != null) {
-                        reloadData(customView);
+                        Log.d("object", response.body().getJsonObject()+"");
                     }
                 }
 
                 @Override
-                public void onFailure(Call<StudentModel> call, Throwable t) {
-                    if (getView() != null) {
-                        reloadData(view);
-                        progress.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    }
+                public void onFailure(Call<InsertInToQuiz> call, Throwable t) {
+                    Log.d("//////", t.toString());
+
                 }
             });
+
         } catch (Exception e) {
-            customSnackBare(
-                    view, "Something Error");
-            Log.d("err", array1.toString());
+
         }
-
-
     }
-
-    public void reloadData(final View view) {
-        final Snackbar snackbar;
-        snackbar = Snackbar.make(view, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction("Reload", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getStudant(view);
-                snackbar.dismiss();
-            }
-        })
-//                .setAction("Dissmis", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                snackbar.dismiss();
-//            }
-//        })
-                .setActionTextColor(Color.WHITE);
-        snackbar.show();
-    }
-
 }

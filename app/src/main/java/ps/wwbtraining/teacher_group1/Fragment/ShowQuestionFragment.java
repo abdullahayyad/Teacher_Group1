@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuestionAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
+import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
 import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
@@ -53,8 +55,12 @@ public class ShowQuestionFragment  extends Fragment {
     private TextView tvRecreate;
     private EditText nameQuizEdit;
     private EditText descriptionQuizEdit;
+    private TextView nameQuiz;
     private String quiz_name;
     private String quiz_description;
+    private Button save;
+    private ImageButton editButton ;
+    private LinearLayout layoutEdit;
 
 
     @Override
@@ -78,9 +84,55 @@ public class ShowQuestionFragment  extends Fragment {
         tvCancel = (TextView) view.findViewById(R.id.tvCancel);
         nameQuizEdit=(EditText)view.findViewById(R.id.nameQuizEdit);
         descriptionQuizEdit=(EditText)view.findViewById(R.id.descriptionQuizEdit);
+        nameQuiz =(TextView)view.findViewById(R.id.nameQuiz);
+        save =(Button)view.findViewById(R.id.saveEdit);
+        editButton =(ImageButton)view.findViewById(R.id.editButton);
+        layoutEdit= (LinearLayout)view.findViewById(R.id.layoutEdit);
+
         nameQuizEdit.setText(quiz_name);
         descriptionQuizEdit.setText(quiz_description);
-        tvRecreate = (TextView) view.findViewById(R.id.tvRecreate);
+        nameQuiz.setText(quiz_name);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutEdit.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                teacherApi.updateQuiz(nameQuizEdit.getText().toString(),descriptionQuizEdit.getText().toString(),quiz_id).enqueue(new Callback<InsertInToQuiz>() {
+                    @Override
+
+                    public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().isResult()) {
+
+                            }
+                        }
+                    }
+
+                    @Override
+
+                    public void onFailure(Call<InsertInToQuiz> call, Throwable t) {
+                        Toast.makeText(getContext(), "No Internet", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                });
+
+                layoutEdit.setVisibility(View.GONE);
+
+
+
+            }
+        });
+
+
+         tvRecreate = (TextView) view.findViewById(R.id.tvRecreate);
          tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

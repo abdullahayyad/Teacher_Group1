@@ -56,9 +56,11 @@ public interface TeacherApi {
     Call<InsertIntoGroup> addArrayUserGroup(@Body RequestBody requestBody);
 
 
+    @POST("UpdateGroupFromUsers.php")
+    Call<InsertInToQuiz> UpdateGroupFromUser(@Body RequestBody requestBody);
+
     @POST("sendQuiz.php")
     Call<InsertIntoGroup> sendQuiz(@Body RequestBody requestBody);
-
 
     @POST("insert_quiz.php")
     Call <InsertInToQuiz>addArrayQuiz(@Body RequestBody requestBody);
@@ -67,13 +69,22 @@ public interface TeacherApi {
     Call <InsertInToQuiz> updateStatusUser(@Body RequestBody requestBody);
 
 
-    @POST("UpdateGroupFromUser.php")
-    Call <InsertInToQuiz> UpdateGroupFromUser(@Body RequestBody requestBody);
+
 
 
     @POST("UserFromGroup.php")
     @FormUrlEncoded
     Call<UserFromGroupModel> userFromGroup(@Field("group_id") int group_id);
+
+
+
+    @POST("UpdateInfoQuiz.php")
+    @FormUrlEncoded
+    Call<InsertInToQuiz> updateQuiz(@Field("quiz_name") String name,
+                                        @Field("quiz_description") String description,
+                                        @Field("quiz_id") int id
+
+    );
 
 
     @POST("UpdateGroup.php")

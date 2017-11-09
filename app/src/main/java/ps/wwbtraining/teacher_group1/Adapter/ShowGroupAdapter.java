@@ -96,9 +96,8 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                UpdateFlagGroup(group_id);
-                                arrayList.remove(position);
-                                notifyDataSetChanged();
+                                UpdateFlagGroup(group_id,position);
+
                             }
                         });
                 builder.setNegativeButton("No",
@@ -109,8 +108,6 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
                         });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
 
             }
         });
@@ -158,12 +155,14 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         }
     }
 
-    public void UpdateFlagGroup(int groupId) {
+    public void UpdateFlagGroup(int groupId, final int position ) {
         teacherApi.updateFlagGroup(groupId, 0).enqueue(new Callback<UpdateStatus>() {
             @Override
             public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
                 if (response.body().isResult()) {
                     Log.d("update", "insert");
+                    arrayList.remove(position);
+                    notifyDataSetChanged();
                 }
             }
 

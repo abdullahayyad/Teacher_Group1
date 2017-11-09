@@ -67,9 +67,9 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
                         checkMap.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
 
-                    } else
+                    } else{
                         map.remove(position);
-                    checkMap.remove(position);
+                    checkMap.remove(position);}
 
 
                 } catch (Exception e) {
