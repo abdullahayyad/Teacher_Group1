@@ -1,15 +1,13 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -77,24 +75,9 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 listener.onItemDelete(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context.getActivity());
-                builder.setMessage("Do you want to remove?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                arrayList.remove(position);
-                                notifyDataSetChanged();
-                            }
-                        });
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                post = arrayList.get(position).getQuiz_id();
+                index = position;
+
             }
 
         });
@@ -222,7 +205,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         int quiz_id ;
         public final TextView description;
         public final ImageButton send;
-        private final CardView cr;
+        private final LinearLayout cr;
         public QuizItem mItem;
 
         public ViewHolder(View view) {
@@ -234,7 +217,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
             del = (ImageButton) view.findViewById(R.id.sendQuiz);
-            cr = (CardView) view.findViewById(R.id.cardView_quize);
+            cr = (LinearLayout) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }
 

@@ -168,10 +168,29 @@ public class ShowQuizFragment extends Fragment {
 //                                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
                                     return true;
                                 }
-
                                 @Override
-                                public boolean onItemDelete(int position) {
-                                    return true;
+                                public void onItemDelete(int position) {
+                                    quiz_id = showQuizAdapter.post;
+                                    Log.d("hhh",quiz_id+"");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setMessage("Do you want to remove?");
+                                    builder.setCancelable(false);
+                                    builder.setPositiveButton("Yes",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    UpdateFlagQuiz(quiz_id);
+                                                    array.remove(showQuizAdapter.index);
+                                                    showQuizAdapter.notifyDataSetChanged();
+                                                }
+                                            });
+                                    builder.setNegativeButton("No",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alertDialog = builder.create();
+                                    alertDialog.show();
                                 }
                             });
                             list_quiz.setAdapter(showQuizAdapter);
