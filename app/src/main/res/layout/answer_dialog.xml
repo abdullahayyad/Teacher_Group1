@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_margin="40dp"
@@ -138,8 +142,9 @@ android:orientation="vertical"
             android:textSize="25sp"
             android:textColor="@color/cardview_light_background"
             android:layout_gravity="center"
-            android:background="@color/white_greyish"
+            android:background="@color/shadow_back"
         android:layout_margin="20dp"
 
             />
     </LinearLayout>
+    </RelativeLayout>
