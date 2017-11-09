@@ -6,6 +6,7 @@
     android:layout_margin="3dp"
     android:clickable="true"
     android:focusable="true"
+    android:id="@+id/cardView_quize"
     android:foreground="?android:attr/selectableItemBackground"
     android:layoutDirection="ltr"
     android:textDirection="ltr"
@@ -18,7 +19,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/cardView_quize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">

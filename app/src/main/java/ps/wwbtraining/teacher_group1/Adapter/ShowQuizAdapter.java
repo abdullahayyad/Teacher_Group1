@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group1.Adapter;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -249,7 +249,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         int quiz_id ;
         public final TextView description;
         public final ImageButton send;
-        private final LinearLayout cr;
+        private final CardView cr;
         public QuizItem mItem;
 
         public ViewHolder(View view) {
@@ -260,8 +260,8 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
-            del = (ImageButton) view.findViewById(R.id.sendQuiz);
-            cr = (LinearLayout) view.findViewById(R.id.cardView_quize);
+            del = (ImageButton) view.findViewById(R.id.deletQuiz);
+            cr = (CardView) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }
 
