@@ -77,7 +77,7 @@ public class ShowQuizFragment extends Fragment {
         addQuiz = (FloatingActionButton) view.findViewById(R.id.addQuiz);
         customView = (RelativeLayout)view.findViewById(R.id.show_quiz);
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#DD8855"), android.graphics.PorterDuff.Mode.MULTIPLY);
         TeacherActivity.toolbar.setVisibility(View.VISIBLE);
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override

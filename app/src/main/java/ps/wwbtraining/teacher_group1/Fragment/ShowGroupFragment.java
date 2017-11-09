@@ -59,7 +59,7 @@ public class ShowGroupFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_show_group, container, false);
         customView=(RelativeLayout)view.findViewById(R.id.show_group);
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
+        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#DD8855"), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);

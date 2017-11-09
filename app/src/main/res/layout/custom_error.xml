@@ -24,7 +24,7 @@
         android:layout_weight="0.3"
         android:layout_height="wrap_content"
         android:text="Reload"
-        android:background="@color/background_color"
+        android:background="@color/white_greyish"
         android:textColor="@color/white"
         />
 
