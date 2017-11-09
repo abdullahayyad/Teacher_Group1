@@ -1,6 +1,8 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
@@ -39,6 +41,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     OnItemLongClickListener listener;
     public  int post ;
     public  int index ;
+    int quiz_id;
     HashMap hashmap = new HashMap<>();
 
     ShowQuizFragment showQuizFragment = new  ShowQuizFragment();
@@ -81,13 +84,31 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             @Override
             public void onClick(View view) {
 //                listener.onItemDelete(position);
-                post = arrayList.get(position).getQuiz_id();
-                index = position;
+                quiz_id = arrayList.get(position).getQuiz_id();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context.getActivity());
+                builder.setMessage("Do you want to remove?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                UpdateFlagQuiz(quiz_id);
+                                arrayList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        });
+                builder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
 
             }
 
         });
-
 
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,20 +211,6 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
 
     }
-
-
-    int size = 0;
-
-    @Override
-    public int getItemCount() {
-        try {
-            size = arrayList.size();
-
-        } catch (Exception e) {
-
-        }
-        return size;
-    }
     public void UpdateFlagQuiz(int quiz_id) {
         teacherApi.updateFlagQuiz(quiz_id, 0).enqueue(new Callback<UpdateStatus>() {
             @Override
@@ -219,6 +226,20 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
             }
         });
+    }
+
+
+    int size = 0;
+
+    @Override
+    public int getItemCount() {
+        try {
+            size = arrayList.size();
+
+        } catch (Exception e) {
+
+        }
+        return size;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -239,7 +260,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
-            del = (ImageButton) view.findViewById(R.id.deletQuiz);
+            del = (ImageButton) view.findViewById(R.id.sendQuiz);
             cr = (LinearLayout) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }
