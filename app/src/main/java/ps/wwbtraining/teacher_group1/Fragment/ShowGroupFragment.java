@@ -156,6 +156,11 @@ public class ShowGroupFragment extends Fragment {
     }
 
     private void reloadData() {
+
+
+
+
+
         final Snackbar snackbar;
         snackbar = Snackbar.make(customView, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {
