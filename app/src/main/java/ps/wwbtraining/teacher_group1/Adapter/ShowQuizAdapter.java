@@ -37,14 +37,11 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
     ArrayList<GroupItem> array;
     ArrayList<String> groupName = new ArrayList<>();
     ArrayList<Integer>arrayId = new ArrayList<>();
-    private ActionMode mActionmode;
     OnItemLongClickListener listener;
     public  int post ;
     public  int index ;
     int quiz_id;
-    HashMap hashmap = new HashMap<>();
 
-    ShowQuizFragment showQuizFragment = new  ShowQuizFragment();
 
     public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList, OnItemLongClickListener listener) {
         this.context = context;

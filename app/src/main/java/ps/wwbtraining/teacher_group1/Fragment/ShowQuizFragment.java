@@ -60,7 +60,6 @@ public class ShowQuizFragment extends Fragment {
     private ProgressBar progress;
     int quiz_id;
 
-    private ActionMode.Callback mActionModeCallback1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,21 +152,20 @@ public class ShowQuizFragment extends Fragment {
                                 @Override
                                 public boolean onItemLongClicked(int position) {
                                     myPosition = position;
-//                                    mActionmode = getActivity().startActionMode(mActionModeCallback);
+
                                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                     ShowQuestionFragment newFragment = new ShowQuestionFragment();
-                                    quiz_id = showQuizAdapter.post;
+
+                                    quiz_id = array.get(myPosition).getQuiz_id();
                                     Bundle args = new Bundle();
-                                    Log.d("quizId",quiz_id+"");
-                                    args.putInt("quiz_id",quiz_id);
+                                    args.putInt("quiz_id",array.get(myPosition).getQuiz_id());
                                     args.putString("quiz_name", array.get(myPosition).getQuiz_name());
-//                    Log.d("nameee",holder.group_name.getText().toString());
-//                    Log.d("description",holder.description.getText().toString());
+
                                     args.putString("quiz_description",array.get(myPosition).getDescription());
                                     newFragment.setArguments(args);
                                     transaction.replace(R.id.show_quiz, newFragment);
                                     transaction.commit();
-//                                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+
                                     return true;
                                 }
 //                                @Override
@@ -295,7 +293,7 @@ public class ShowQuizFragment extends Fragment {
 
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     ShowQuestionFragment newFragment = new ShowQuestionFragment();
-                    quiz_id = showQuizAdapter.post;
+                    quiz_id = array.get(myPosition).getQuiz_id();
                     Bundle args = new Bundle();
                     Log.d("quizId",quiz_id+"");
                     args.putInt("quiz_id",quiz_id);

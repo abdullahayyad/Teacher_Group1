@@ -47,7 +47,7 @@ public class EditGroupFragment extends Fragment {
     EditText name, description;
     int group_id;
     ArrayList<String> arrayId = new ArrayList<>();
-    ArrayList arrayStatus;
+    ArrayList <UserItem>arrayStatus;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,9 @@ public class EditGroupFragment extends Fragment {
         arrayStatus = new ArrayList();
 
         try {
+
             Log.d("tttt",group_id+"");
+
             teacherApi.userFromGroup(group_id).enqueue(new Callback<UserFromGroupModel>() {
                 @Override
 
@@ -110,7 +112,6 @@ public class EditGroupFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    update();
                     String nameg = name.getText().toString();
                     String des = description.getText().toString();
                     if (!nameg.isEmpty() && !des.isEmpty()) {
@@ -121,6 +122,7 @@ public class EditGroupFragment extends Fragment {
 
                                 if (response.isSuccessful()) {
                                     if (response.body().isResult()) {
+                                        update();
                                         Toast.makeText(getActivity(), "Edit group", Toast.LENGTH_SHORT).show();
 
                                     }
@@ -161,7 +163,6 @@ public class EditGroupFragment extends Fragment {
                 public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
                     if (response.isSuccessful()) {
 
-                        Log.d("object", response.body().getJsonObject()+"");
                     }
                 }
 

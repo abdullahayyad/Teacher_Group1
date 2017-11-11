@@ -2,24 +2,15 @@
 <RelativeLayout
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="30dp"
-    android:layout_height="match_parent">
-
-    <!--<TextView-->
-        <!--android:id="@+id/textView2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/shadow_back"-->
-        <!--android:padding="10dp"-->
-        <!--android:text=" Add Question"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="20sp" />-->
+    android:layout_height="wrap_content">
 
     <EditText
         android:layout_width="match_parent"
@@ -65,14 +56,17 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+
+        >
 
 
         <RadioGroup
             android:id="@+id/trueQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RadioButton
                 android:id="@+id/trueAns"
@@ -95,14 +89,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <RadioGroup
                 android:id="@+id/choiceQues"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="155dp"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
+                android:weightSum="4"
+
                 android:visibility="visible">
 
                 <RadioButton

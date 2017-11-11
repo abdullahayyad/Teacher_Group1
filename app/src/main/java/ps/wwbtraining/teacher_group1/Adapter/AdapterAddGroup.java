@@ -26,20 +26,22 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
     private final ArrayList<User> usersAddToGroup;
     private final ArrayList<String> array_id;
-    private Context context;
-    private HashMap<Integer, Integer> map = new HashMap<>();
-    private HashMap<Integer, Integer> checkMap = new HashMap<>();
-    private boolean checkboxAddBoolean;
+    Context context;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    HashMap<Integer, Integer> checkMap = new HashMap<>();
+    boolean checkboxAddBoolean ;
     private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder mDrawableBuilder;
+
+
 
     public AdapterAddGroup(Context context, ArrayList<User> usersAddToGroup, ArrayList<String> array_id) {
         this.usersAddToGroup = usersAddToGroup;
         this.context = context;
         this.array_id = array_id;
-        this.checkboxAddBoolean = false;
-        mDrawableBuilder = TextDrawable.builder()
-                .round();
+        this.checkboxAddBoolean=false;
+        mDrawableBuilder=TextDrawable.builder().round();
+
     }
 
     @Override
@@ -67,9 +69,9 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
                         map.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
                         checkMap.put(position, Integer.parseInt(usersAddToGroup.get(position).getUserId()));
 
-                    } else{
+                    } else
                         map.remove(position);
-                    checkMap.remove(position);}
+                    checkMap.remove(position);
 
 
                 } catch (Exception e) {
@@ -84,7 +86,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
             checkMap.remove(position);
 
         } else {
-            Log.d("bbbbbb", map.toString());
+            Log.d("bbbbbb",map.toString());
 
             if (checkMap.containsKey(position)) {
                 holder.checkBox.setChecked(true);
@@ -114,7 +116,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     private void updateCheckedState(ViewHolder holder, User item) {
         TextDrawable drawable = mDrawableBuilder.build(String.valueOf(item.getUserName().charAt(0)), mColorGenerator.getColor(item.getUserName()));
         holder.image.setImageDrawable(drawable);
-        holder.view.setBackgroundColor(Color.TRANSPARENT);
+        holder.mView.setBackgroundColor(Color.TRANSPARENT);
     }
 
     public HashMap getArray() {
@@ -123,16 +125,17 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View view;
+        public final View mView;
         public final TextView student_name;
         public final CheckBox checkBox;
         public User mItem;
         public final ImageView image;
 
         public ViewHolder(View view) {
+
             super(view);
 
-            this.view = view;
+            mView = view;
             student_name = (TextView) view.findViewById(R.id.nameStudentAddGroup);
             checkBox = (CheckBox) view.findViewById(R.id.checkboxStudentAddGroup);
             image = (ImageView) view.findViewById(R.id.image_view);
@@ -140,6 +143,7 @@ public class AdapterAddGroup extends RecyclerView.Adapter<AdapterAddGroup.ViewHo
     }
 
     public void check() {
+
         this.checkboxAddBoolean = true;
         notifyDataSetChanged();
     }

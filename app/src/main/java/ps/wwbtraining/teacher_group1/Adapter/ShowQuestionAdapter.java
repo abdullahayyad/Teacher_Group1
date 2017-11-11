@@ -95,9 +95,14 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
             }
         });
 
+
+
+
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View view) {
+                                               holder.question_id = arrayList.get(position).getQuestionId();
                                                final Dialog dialog = new Dialog(context.getActivity());
                                                dialog.setContentView(R.layout.answer_dialog);
                                                dialog.setTitle("Edit Answer");
@@ -152,46 +157,49 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                                final RadioButton anss3 = (RadioButton) dialog.findViewById(R.id.ans3);
                                                final RadioButton anss4 = (RadioButton) dialog.findViewById(R.id.ans4);
 
-                                               // ShowCorrectAns(holder.question_id);
-                                               teacherApi.showCorrectAns(holder.question_id).enqueue(new Callback<ShowQuesModel>() {
-                                                   @Override
-                                                   public void onResponse(Call<ShowQuesModel> call, Response<ShowQuesModel> response) {
-                                                       if(response.body().isResult())
-                                                           correct = response.body().getUser();
-                                                       for(int i=0;i<correct.size();i++){
-                                                           Log.d("getCorrectAnswer()",correct.get(i).getCorrectAnswer());
-                                                           if(correct.get(i).getCorrectAnswer().equals("true")){
-                                                               trueAns.setChecked(true);
-                                                           }
-
-                                                           else if(correct.get(i).getCorrectAnswer().equals("false")){
-                                                               falseAns.setChecked(true);
-                                                           }
-                                                           else if(correct.get(i).getCorrectAnswer().equals("a")){
-                                                               anss1.setChecked(true);
-                                                           }
-                                                           else if(correct.get(i).getCorrectAnswer().equals("b")){
-                                                               anss2.setChecked(true);
-                                                           }
-                                                           else if(correct.get(i).getCorrectAnswer().equals("c")){
-                                                               anss3.setChecked(true);
-                                                           }
-                                                           else if(correct.get(i).getCorrectAnswer().equals("d")){
-                                                               anss4.setChecked(true);
-                                                           }
-
-
-                                                       }
-                                                       Log.d("cccc",correct.toString());
-
-                                                   }
-
-                                                   @Override
-                                                   public void onFailure(Call<ShowQuesModel> call, Throwable t) {
-                                                       Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-                                                   }
-                                               });
+//                                               teacherApi.showCorrectAns(holder.question_id).enqueue(new Callback<ShowQuesModel>() {
+//                                                   @Override
+//                                                   public void onResponse(Call<ShowQuesModel> call, Response<ShowQuesModel> response) {
+//                                                       if(response.body().isResult())
+//                                                           correct = response.body().getUser();
+//                                                       Log.d("getCorrectAnswer()",correct.toString());
+//
+//                                                       for(int i=0;i<correct.size();i++){
+//
+//                                                           Log.d("getCorrectAnswer()",correct.get(i).getCorrectAnswer());
+//
+//                                                           if(correct.get(i).getCorrectAnswer().equals("true")){
+//                                                               trueAns.setChecked(true);
+//                                                           }
+//
+//                                                           else if(correct.get(i).getCorrectAnswer().equals("false")){
+//                                                               falseAns.setChecked(true);
+//                                                           }
+//                                                           else if(correct.get(i).getCorrectAnswer().equals("1")){
+//                                                               anss1.setChecked(true);
+//                                                           }
+//                                                           else if(correct.get(i).getCorrectAnswer().equals("2")){
+//                                                               anss2.setChecked(true);
+//                                                           }
+//                                                           else if(correct.get(i).getCorrectAnswer().equals("3")){
+//                                                               anss3.setChecked(true);
+//                                                           }
+//                                                           else if(correct.get(i).getCorrectAnswer().equals("4")){
+//                                                               anss4.setChecked(true);
+//                                                           }
+//
+//
+//                                                       }
+//                                                       Log.d("cccc",correct.toString());
+//
+//                                                   }
+//
+//                                                   @Override
+//                                                   public void onFailure(Call<ShowQuesModel> call, Throwable t) {
+//                                                       Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+//
+//                                                   }
+//                                               });
 
 
                                                trueAns.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +226,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                                    @Override
                                                    public void onClick(View view) {
                                                        if(anss1.isChecked()){
-                                                           UpdateCorrectAns(holder.question_id,"a");
+                                                           UpdateCorrectAns(holder.question_id,"1");
                                                            //update correct answer
                                                        }
                                                    }
@@ -227,7 +235,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                                    @Override
                                                    public void onClick(View view) {
                                                        if(anss2.isChecked()){
-                                                           UpdateCorrectAns(holder.question_id,"b");
+                                                           UpdateCorrectAns(holder.question_id,"2");
                                                            //update correct answer
                                                        }
                                                    }
@@ -236,7 +244,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                                    @Override
                                                    public void onClick(View view) {
                                                        if(anss3.isChecked()){
-                                                           UpdateCorrectAns(holder.question_id,"c");
+                                                           UpdateCorrectAns(holder.question_id,"3");
 
                                                            //update correct answer
                                                        }
@@ -246,7 +254,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
                                                    @Override
                                                    public void onClick(View view) {
                                                        if(anss4.isChecked()){
-                                                           UpdateCorrectAns(holder.question_id,"d");
+                                                           UpdateCorrectAns(holder.question_id,"4");
                                                            //update correct answer
                                                        }
                                                    }
@@ -314,8 +322,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
             statement = (TextView) view.findViewById(R.id.statement);
             edit = (ImageButton) view.findViewById(R.id.editQues);
             delete = (ImageButton) view.findViewById(R.id.deleteQues);
-            question_id = 0;
-            question_type = 0;
+
 
         }
 
@@ -416,7 +423,7 @@ public class ShowQuestionAdapter extends RecyclerView.Adapter<ShowQuestionAdapte
         });
     }
     public void UpdateFlagQues(int question_id) {
-        teacherApi.updateFlagQuiz(question_id, 0).enqueue(new Callback<UpdateStatus>() {
+        teacherApi.updateFlagQues(question_id, 0).enqueue(new Callback<UpdateStatus>() {
             @Override
             public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
                 if (response.body().isResult()) {

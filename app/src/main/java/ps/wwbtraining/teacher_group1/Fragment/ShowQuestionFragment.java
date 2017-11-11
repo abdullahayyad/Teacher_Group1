@@ -58,7 +58,7 @@ public class ShowQuestionFragment  extends Fragment {
     private TextView nameQuiz;
     private String quiz_name;
     private String quiz_description;
-    private Button save;
+    private Button saveBt;
     private ImageButton editButton ;
     private LinearLayout layoutEdit;
 
@@ -69,7 +69,7 @@ public class ShowQuestionFragment  extends Fragment {
         quiz_id=getArguments().getInt("quiz_id");
         quiz_name = getArguments().getString("quiz_name");
         quiz_description = getArguments().getString("quiz_description");
-        Log.d("quiz_id",""+quiz_id);
+        Log.d("quiz",""+quiz_id);
     }
 
 
@@ -85,7 +85,7 @@ public class ShowQuestionFragment  extends Fragment {
         nameQuizEdit=(EditText)view.findViewById(R.id.nameQuizEdit);
         descriptionQuizEdit=(EditText)view.findViewById(R.id.descriptionQuizEdit);
         nameQuiz =(TextView)view.findViewById(R.id.nameQuiz);
-        save =(Button)view.findViewById(R.id.saveEdit);
+        saveBt =(Button)view.findViewById(R.id.saveEdit);
         editButton =(ImageButton)view.findViewById(R.id.editButton);
         layoutEdit= (LinearLayout)view.findViewById(R.id.layoutEdit);
 
@@ -101,15 +101,18 @@ public class ShowQuestionFragment  extends Fragment {
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
+        saveBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                teacherApi.updateQuiz(nameQuizEdit.getText().toString(),descriptionQuizEdit.getText().toString(),quiz_id).enqueue(new Callback<InsertInToQuiz>() {
+                teacherApi.updateQuiz(nameQuizEdit.getText().toString()
+                        ,descriptionQuizEdit.getText().toString(),quiz_id).enqueue(new Callback<InsertInToQuiz>() {
                     @Override
 
                     public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
                         if (response.isSuccessful()) {
                             if (response.body().isResult()) {
+                                layoutEdit.setVisibility(View.GONE);
+                                nameQuiz.setText(nameQuizEdit.getText().toString());
 
                             }
                         }
@@ -123,8 +126,6 @@ public class ShowQuestionFragment  extends Fragment {
                     }
 
                 });
-
-                layoutEdit.setVisibility(View.GONE);
 
 
 
@@ -161,6 +162,7 @@ public class ShowQuestionFragment  extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body().isResult()) {
                         array = response.body().getUser();
+
                         Log.d("arrrrrrrr",array.toString());
                         showQuestionAdapter = new ShowQuestionAdapter(ShowQuestionFragment.this, array);
                         list_question.setAdapter(showQuestionAdapter);
@@ -289,15 +291,13 @@ public class ShowQuestionFragment  extends Fragment {
                                                                            enqueue(new Callback<QuesInsertModel>() {
                                                                                @Override
                                                                                public void onResponse(Call<QuesInsertModel> call, Response<QuesInsertModel> response) {
-                                                                                   // if (response.body().isResult()) {
-                                                                                   //Log.d("hhhhhh",quiz_id+"");
+
                                                                                    Log.d("Question_id", "555" + response.body().getQuestion_id() + "");
                                                                                    Toast.makeText(getActivity(), "Question was added", Toast.LENGTH_SHORT).show();
-//                                                                                  array.clear();
-//                                                                                   array.addAll()
+//
                                                                                    dialog.cancel();
 
-                                                                                   //}
+
                                                                                }
 
                                                                                @Override
@@ -341,8 +341,6 @@ public class ShowQuestionFragment  extends Fragment {
                                                        else
                                                            Toast.makeText(getActivity(), "Write Question... ", Toast.LENGTH_SHORT).show();
 
-                                                       // dialog.cancel();
-
                                                    }
 
                                                });
@@ -350,12 +348,10 @@ public class ShowQuestionFragment  extends Fragment {
 
                                            }
 
-                                       }
+                                       });
 
-        );
-
-        return view;
-    }
+                                      return view;
+                         }
 
 
     @Override

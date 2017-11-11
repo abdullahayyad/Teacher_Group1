@@ -65,13 +65,13 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
         holder.mItem = arrayList.get(position);
         holder.group_name.setText(arrayList.get(position).getgroup_name());
         holder.description.setText(arrayList.get(position).getDescription());
-        group_id = arrayList.get(position).getGroup_id();
         GroupItem item=arrayList.get(position);
         updateCheckedState(holder, item);
         holder.llgroub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
+                group_id = arrayList.get(position).getGroup_id();
                 args.putString("group_name",holder.group_name.getText().toString());
                 Log.d("nameee",holder.group_name.getText().toString());
                 Log.d("description",holder.description.getText().toString());

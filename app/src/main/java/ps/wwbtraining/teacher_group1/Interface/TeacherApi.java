@@ -81,8 +81,8 @@ public interface TeacherApi {
     @POST("UpdateInfoQuiz.php")
     @FormUrlEncoded
     Call<InsertInToQuiz> updateQuiz(@Field("quiz_name") String name,
-                                        @Field("quiz_description") String description,
-                                        @Field("quiz_id") int id
+                                    @Field("description") String description,
+                                    @Field("quiz_id") int id
 
     );
 
@@ -170,6 +170,10 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<UpdateStatus> updateFlagQuiz(@Field("quiz_id") int quiz_id,
                                       @Field("flag") int flag);
+
+    @POST("deleteQuestion.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> deleteQuestion(@Field("question_id") int question_id);
 
     @POST("updateFlagGroup.php")
     @FormUrlEncoded

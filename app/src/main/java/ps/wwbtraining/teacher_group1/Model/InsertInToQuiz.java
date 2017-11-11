@@ -16,9 +16,6 @@ public class InsertInToQuiz{
     @SerializedName("result")
     private boolean result;
 
-    @SerializedName("goo")
-    private int jsonObject;
-
     public void setResult(boolean result){
         this.result = result;
     }
@@ -27,13 +24,7 @@ public class InsertInToQuiz{
         return result;
     }
 
-    public int getJsonObject() {
-        return jsonObject;
-    }
 
-    public void setJsonObject(int jsonObject) {
-        this.jsonObject = jsonObject;
-    }
 
     @Override
     public String toString(){
