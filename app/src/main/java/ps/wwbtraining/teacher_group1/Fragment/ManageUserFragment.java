@@ -22,9 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -42,11 +39,11 @@ import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static ps.wwbtraining.teacher_group1.Class.Utils.customSnackBare;
 import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
 
 public class ManageUserFragment extends Fragment {
+
     private RecyclerView recyclerView;
     private ArrayList<User> array = new ArrayList<>();
     private UserManagementAdapter userManagementAdapter;
@@ -58,8 +55,6 @@ public class ManageUserFragment extends Fragment {
     private ProgressBar progress;
     private RelativeLayout customView;
     private int pos;
-    private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
-    private TextDrawable.IBuilder mDrawableBuilder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +68,7 @@ public class ManageUserFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_manage_user, container, false);
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        customView = (RelativeLayout) view.findViewById(R.id.rlayout);
+        customView=(RelativeLayout)view.findViewById(R.id.rlayout);
 
         adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.user_status, R.layout.textview_with_font_change);
@@ -94,7 +89,7 @@ public class ManageUserFragment extends Fragment {
                         if (isOnline(getActivity())) {
                             recyclerView.setVisibility(View.GONE);
                             getData(view);
-                        } else {
+                        } else{
                             recyclerView.setVisibility(View.GONE);
                             reloadData();
                         }
@@ -112,78 +107,70 @@ public class ManageUserFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        if (isOnline(getActivity())) {
+                        if(isOnline(getActivity())) {
                             final ProgressDialog pd = new ProgressDialog(getActivity());
                             pd.setMessage("Saving Group ....");
                             pd.setCancelable(false);
                             pd.show();
 
                             HashMap map1 = new HashMap();
-                            ArrayList arrayList = new ArrayList();
-                            final HashMap itemDeleted = new HashMap();
-                            for (int i = 0; i < array.size(); i++) {
+                            final ArrayList arrayList =new ArrayList();
+                            final HashMap hashMap =new HashMap();
 
-                                Log.d("gggg", pos + "");
-                                if (!array.get(i).getUserId().equals(pos + "")) {
-                                    map1.put("user_id", array.get(i).getUserId());
-                                    map1.put("status_id", array.get(i).getStatusId());
-                                    JSONObject object = new JSONObject(map1);
-                                    arrayList.add(object);
-                                    itemDeleted.put(i, i);
-                                    map1.clear();
+                            for (int i = 0 ; i < array.size() ; i++){
+                                if (!array.get(i).getStatusId().contains(pos+2+"")){
+                                map1.put("user_id",array.get(i).getUserId()) ;
+                                map1.put("status_id",array.get(i).getStatusId());
+                                JSONObject object = new JSONObject(map1);
+                                arrayList.add(object);
+                                map1.clear();
+
+                                }else {
+                                    hashMap.put(array.get(i),array.get(i));
+                                    Log.d("jjjj",hashMap.size()+"");
                                 }
                             }
 
-
-                            HashMap map = new HashMap();
-                            map.put("manage", arrayList);
+                            HashMap map =new HashMap();
+                            map.put("manage",arrayList);
                             JSONObject object = new JSONObject(map);
                             teacherApi.updateStatusUser(
                                     RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(object)))
                                     .enqueue(new Callback<InsertInToQuiz>() {
 
                                         @Override
-                                        public void onResponse(Call<InsertInToQuiz> call, Response<InsertInToQuiz> response) {
+                                        public void onResponse(Call <InsertInToQuiz> call, Response <InsertInToQuiz>response) {
 
                                             if (response.isSuccessful()) {
-
-                                                for (int i = 0; i < array.size(); i++) {
-                                                    if (itemDeleted.containsKey(i)) {
-                                                        array.remove(i);
-                                                        itemDeleted.remove(i);
-                                                        Log.d("ggg", i + "");
-
-                                                    } else continue;
-                                                }
-
+                                                array.clear();
+                                                array.addAll(hashMap.values());
                                                 userManagementAdapter.notifyDataSetChanged();
 
                                                 if (pd != null && pd.isShowing()) {
-
                                                     pd.dismiss();
-                                                }
+
+                                            }
                                             } else {
                                                 if (pd != null && pd.isShowing())
                                                     pd.dismiss();
-                                                customSnackBare(customView, "Somethin Error...");
+                                                    customSnackBare(customView,"Somethin Error...");
                                             }
-                                        }
-
+                                            }
                                         @Override
                                         public void onFailure(Call call, Throwable t) {
                                             Toast.makeText(getActivity(), "No Internet ", Toast.LENGTH_SHORT).show();
 
                                             if (pd != null && pd.isShowing())
 
-                                                pd.dismiss();
+                                               pd.dismiss();
 
-                                            if (getView() != null)
+                                            if(getView() != null)
                                                 reloadData();
                                         }
 
                                     });
 
-                        } else customSnackBare(customView, "No Internet Connection...");
+                        }else customSnackBare(customView,"No Internet Connection...");
                     }
                 }
         );
@@ -193,13 +180,10 @@ public class ManageUserFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TeacherActivity.class);
                 startActivity(intent);
-                getActivity().finish();
-            }
+                getActivity().finish();            }
         });
 
         return view;
-
-
     }
 
     @Override
@@ -241,7 +225,7 @@ public class ManageUserFragment extends Fragment {
                         recyclerView.setVisibility(View.GONE);
                         tvNoItems.setVisibility(View.VISIBLE);
                     }
-                } else {
+                }else {
                     progress.setVisibility(View.VISIBLE);
                     reloadData();
                 }
@@ -249,9 +233,8 @@ public class ManageUserFragment extends Fragment {
 
             @Override
             public void onFailure(Call<StudentModel> call, Throwable t) {
-                if (getView() != null)
-                    reloadData();
-            }
+                if(getView() != null)
+                    reloadData();            }
         });
 
     }

@@ -5,7 +5,7 @@
     <color name="colorAccent">#023d37</color>
     <color name="background_color">#009688</color>
     <color name="shadow_back">#1b6b4b</color>
-    <color name="buttonText">#023d37</color>
+    <color name="buttonText">#83023d37</color>
     <color name="white">#FFFFFF</color>
     <color name="shadow_center">#efedec</color>
     <color name="shadow_start">#c1bcb9</color>
@@ -22,7 +22,9 @@
     <color name="NAV7">#FFC400</color>
     <color name="NAV6">#FF6D00</color>
     <color name="NAV8">#FF9100</color>
-
+    <color name="colorFailed">#f21118</color>
+    <color name="colorEx">#0a7105</color>
+    <color name="colorList">#7689c9</color>
 
     <color name="circle_shape">#55ffffff</color>
     <color name="button_selectorcolor">#9E9E9E</color>

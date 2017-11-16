@@ -13,78 +13,80 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+    <FrameLayout
+        android:id="@+id/l"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/nameQuiz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_greyish"
+            android:background="@color/shadow_back"
             android:padding="10dp"
-            android:text="Show Question"
             android:textColor="@color/white"
             android:textSize="@dimen/textsize" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/ic_mode_edit_black_24dp"
             android:layout_gravity="end"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
-
-            <EditText
-                android:id="@+id/nameQuizEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:enabled="false" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_mode_edit_black_24dp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_save_black_24dp"
-
-                />
-        </LinearLayout>
-
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/editButton"
+            />
+</FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginRight="10dp">
+            android:orientation="vertical"
+            android:layout_margin="7dp"
+            android:visibility="gone"
+            android:id="@+id/layoutEdit"
 
-            <EditText
+            >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameQuizEdit"
+            />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/descriptionQuizEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:enabled="false"
-
                 />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:id="@+id/event_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/calendar"
+                    android:focusable="false"
+                     android:paddingRight="30dp" />
+            </android.support.design.widget.TextInputLayout>
 
 
-            <ImageButton
+            <Button
+                android:id="@+id/saveEdit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_mode_edit_black_24dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:background="@color/background_color"
+                android:gravity="center"
+                android:text="save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
-                />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/ic_save_black_24dp"
-
-                />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

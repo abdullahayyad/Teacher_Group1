@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
 public class CountStudentModel{
 
 	@SerializedName("countStudent")
-	private String countStudent;
+	private int countStudent;
 
-	public void setCountStudent(String countStudent){
+	public void setCountStudent(int countStudent){
 		this.countStudent = countStudent;
 	}
 
-	public String getCountStudent(){
+	public int getCountStudent(){
 		return countStudent;
 	}
 

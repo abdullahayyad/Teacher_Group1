@@ -1,7 +1,5 @@
 package ps.wwbtraining.teacher_group1.Model;
 
-import android.widget.ArrayAdapter;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -35,11 +33,11 @@ public class ShowQuesModel{
 	}
 
 	@Override
- 	public String toString(){
-		return 
-			"ShowQuesModel{" + 
-			"result = '" + result + '\'' + 
-			",user = '" + user + '\'' + 
-			"}";
-		}
+	public String toString(){
+		return
+				"ShowQuesModel{" +
+						"result = '" + result + '\'' +
+						",user = '" + user + '\'' +
+						"}";
+	}
 }

@@ -1,27 +1,41 @@
 package ps.wwbtraining.teacher_group1.Adapter;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
 import ps.wwbtraining.teacher_group1.Interface.OnItemLongClickListener;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
+import ps.wwbtraining.teacher_group1.Model.GroupModel;
+import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
 import ps.wwbtraining.teacher_group1.Model.QuizItem;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.R;
@@ -29,22 +43,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static ps.wwbtraining.teacher_group1.Class.Utils.isOnline;
+
 public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHolder> {
 
     private final ArrayList<QuizItem> arrayList;
     Fragment context;
     TeacherApi teacherApi;
     ArrayList<GroupItem> array;
-    ArrayList<String> groupName = new ArrayList<>();
+    ArrayList<GroupItem> arraySendId = new ArrayList<>();
+    ArrayList<Integer>sendGroupId = new ArrayList<>();
     ArrayList<Integer>arrayId = new ArrayList<>();
     private ActionMode mActionmode;
     OnItemLongClickListener listener;
     public  int post ;
     public  int index ;
     int quiz_id;
+    String[] groupName;
     HashMap hashmap = new HashMap<>();
+    boolean[] checkedGroup;
+    ProgressDialog pd;
 
     ShowQuizFragment showQuizFragment = new  ShowQuizFragment();
+    private TeacherApi techerApi;
 
     public ShowQuizAdapter(Fragment context, ArrayList<QuizItem> arrayList, OnItemLongClickListener listener) {
         this.context = context;
@@ -57,9 +78,10 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.quize_list, parent, false);
         teacherApi = ApiTeacher.getAPIService();
-
-
         array = new ArrayList<>();
+        teacherApi= ApiTeacher.getAPIService();
+        pd = new ProgressDialog(context.getActivity());
+
         return new ViewHolder(view);
     }
 
@@ -110,107 +132,183 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
 
         });
 
+
+
         holder.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                teacherApi.showGroup().enqueue(new Callback<GroupModel>() {
+                    @Override
 
-//
-//
-//                                final Dialog dialog = new Dialog(context.getActivity());
-//                                dialog.setContentView(R.layout.group_dialog);
-//                                dialog.setTitle("Group");
-//                                ListView listView = (ListView) dialog.findViewById(R.id.listGroupDialog);
-//                                listView.setAdapter(arrayAdapter);
-//
-//                                listView.setTextFilterEnabled(true);
-//                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                    @Override
-//                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                        CheckedTextView checkedTextView = (CheckedTextView) view;
-//                                          //  checkedTextView.setChecked(!);
-//                                        checkedTextView.setChecked(!checkedTextView.isChecked());
-//
-//
-//                                    }
-//                                });
-//
-//                                Button quizSend = (Button) dialog.findViewById(R.id.send);
-//                                quizSend.setOnClickListener(new View.OnClickListener() {
-//
-//                                    @Override
-//                                    public void onClick(View view) {
-//
-//                                    }
-//                                });
-//
-//                                Button quizSendAll = (Button) dialog.findViewById(R.id.sendAll);
-//                                quizSendAll.setOnClickListener(new View.OnClickListener() {
-//
-//                                    @Override
-//                                    public void onClick(View view) {
-//                                        HashMap testMap = new HashMap<String, String>();
-//                                        arrayId=new ArrayList();
-//                                        for (int i = 0; i < array.size(); i++) {
-//                                            arrayId.add(array.get(i).getGroup_id());
-//                                        }
-//                                        testMap.put("quiz_id",  arrayList.get(position).getQuiz_id());
-//                                        testMap.put("group_id", arrayId);
-//
-//                                        Log.d("testMap", arrayId + " "+ arrayList.get(position).getQuiz_id());
-//                                        final JSONObject jsonObject = new JSONObject(testMap);
-//                                        Log.d("tttt", jsonObject.toString());
-//
-//                                        teacherApi.sendQuiz(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString())).enqueue(new Callback<InsertIntoGroup>() {
-//                                            @Override
-//                                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-//                                                // Log.d("jsonnn",jsonObject.toString());
-//                                                if (response.isSuccessful()) {
-//                                                    Log.d("jsonnn",jsonObject.toString());
-//                                                    Toast.makeText(context.getActivity(), "Send Quiz", Toast.LENGTH_SHORT).show();
-////                                                    Log.d("//////", response.body().toString());
-////                                                    if (pd != null && pd.isShowing())
-////                                                        pd.dismiss();
-////                                                } else {
-//////                                                    Log.d("//////", response.body().toString());
-//////                                                        // userManagementAdapter.notifyS);
-////                                                    if (pd != null && pd.isShowing())
-////                                                        pd.dismiss();
-////                                                    customSnackBare(view, "No Internet Connection ....");
-////                                                }
-//                                                }}
-//
-//                                            @Override
-//                                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
-//                                                Toast.makeText(context.getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
-//                                                //  Log.d("//////", t.toString());
-////                                                if (pd != null && pd.isShowing())
-////                                                    pd.dismiss();
-////                                                NoInternetAlert(getActivity());
-//                                            }
-//                                        });
-//                                        dialog.cancel();
-//
-//                                    }
-//                                });
-//
-//                                dialog.show();
-//
-//                            } else
-//                                Toast.makeText(context.getActivity(), "error123", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<GroupModel> call, Throwable t) {
-//                        Toast.makeText(context.getActivity(), "faaa", Toast.LENGTH_SHORT).show();
-//                        Log.d("ffff", "fff");
-//                    }
-//                });
+                    public void onResponse(final Call<GroupModel> call, Response<GroupModel> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body().isResult()) {
+                                array = response.body().getGroup();
+                                groupName = new String[array.size()];
+                                checkedGroup = new boolean[array.size()];
+                                for (int i = 0; i < array.size(); i++) {
+                                    groupName[i] = array.get(i).getgroup_name();
+                                    final ArrayList<Integer>sendId = new ArrayList<>();
+                                     for (int j=0;j<sendId.size();j++) {
+                                        if (sendId.get(j).equals(array.get(j).getGroup_id())) {
+                                            checkedGroup[i] = true;
+                                        } else
+                                            checkedGroup[i] = false;
+                                    }
+                                }
+                                final List<String> groupList = Arrays.asList(groupName);
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context.getActivity());
+                                arrayId=new ArrayList();
+                                builder.setMultiChoiceItems(groupName, checkedGroup, new DialogInterface.OnMultiChoiceClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                        checkedGroup[which] = isChecked;
+                                        String currentItem = groupList.get(which);
+
+                                        arrayId.add(array.get(which).getGroup_id());
+                                        Log.d("arrayId",arrayId.toString());
+
+
+                                    }
+                                });
+                                builder.setCancelable(false);
+                                builder.setTitle("Send Quiz");
+
+                                builder.setPositiveButton("Send All", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                       //for (int i = 0; i < checkedGroup.length; i++) {
+                                            //  boolean checked = checkedGroup[i];
+                                            //checkedGroup[i] = true;
+                                            //Log.d("checkedGroup[i]",checkedGroup[i]+"");
+
+                                            HashMap testMap = new HashMap<String, String>();
+                                           // arrayId=new ArrayList();
+                                            for (int j = 0; j < array.size(); j++) {
+                                                arrayId.add(array.get(j).getGroup_id());
+                                            }
+                                            testMap.put("quiz_id",  arrayList.get(position).getQuiz_id());
+                                            testMap.put("group_id", arrayId);
+
+                                            Log.d("testMap", arrayId + " "+ arrayList.get(position).getQuiz_id());
+                                            final JSONObject jsonObject = new JSONObject(testMap);
+                                            Log.d("tttt", jsonObject.toString());
+                                            if (isOnline(context.getActivity())) {
+                                                pd.setMessage("Send To All....");
+                                                pd.setCancelable(false);
+                                                pd.show();
+                                            teacherApi.sendQuizToGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString())).enqueue(new Callback<InsertIntoGroup>() {
+                                                @Override
+                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                    Log.d("jsonnn",jsonObject.toString());
+                                                    //if (response.isSuccessful()) {
+                                                        if (pd != null && pd.isShowing()) {
+                                                            pd.dismiss();
+
+                                                        }
+                                                      //  Log.d("jsonnn",jsonObject.toString());
+                                                         dialog.cancel();
+
+                                            //        }
+                                            }
+
+                                                @Override
+                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                   // Toast.makeText(context.getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
+                                                    if (pd != null && pd.isShowing()) {
+                                                        pd.dismiss();
+
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+
+
+                                builder.setNegativeButton("Send", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                      //  for (int i = 0; i < checkedGroup.length; i++) {
+
+                                            if(arrayId.size() != 0){
+                                            Log.d("sendarray",checkedGroup.toString());
+
+                                            HashMap testMap = new HashMap<String, String>();
+                                            testMap.put("quiz_id",  arrayList.get(position).getQuiz_id());
+                                            testMap.put("group_id", arrayId);
+
+                                            Log.d("testMap", arrayId + " "+ arrayList.get(position).getQuiz_id());
+                                            final JSONObject jsonObject = new JSONObject(testMap);
+                                            Log.d("tttt", jsonObject.toString());
+                                            if (isOnline(context.getActivity())) {
+                                                pd.setMessage("Send To All....");
+                                                pd.setCancelable(false);
+                                                pd.show();
+                                            teacherApi.sendQuizToGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonObject.toString())).enqueue(new Callback<InsertIntoGroup>() {
+                                                @Override
+                                                public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
+                                                    Log.d("jsonnn",jsonObject.toString());
+                                                   // if (response.isSuccessful()) {
+                                                        Log.d("jsonnn",jsonObject.toString());
+                                                          if (pd != null && pd.isShowing()) {
+                                                            pd.dismiss();
+
+                                                        }
+                                                        dialog.cancel();
+
+                                                    //}
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                                                   // Toast.makeText(context.getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
+                                                    if (pd != null && pd.isShowing()) {
+                                                        pd.dismiss();
+                                                    }
+                                                }
+                                            });}
+                                        }
+                                            else
+                                                Toast.makeText(context.getActivity(), "Choose at least one group id", Toast.LENGTH_SHORT).show();
+
+
+
+
+                                         }
+                                });
+                                builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                AlertDialog dialog = builder.create();
+                                // Display the alert dialog on interface
+                                dialog.show();
+
+
+                            } }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GroupModel> call, Throwable t) {
+                        if (pd != null && pd.isShowing()) {
+                            pd.dismiss();
+
+                        }
+                        Log.d("ffff", "fff");
+                    }
+                });
             }
         });
 
-
     }
+
+
+
     public void UpdateFlagQuiz(int quiz_id) {
         teacherApi.updateFlagQuiz(quiz_id, 0).enqueue(new Callback<UpdateStatus>() {
             @Override
@@ -223,7 +321,10 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             @Override
             public void onFailure(Call<UpdateStatus> call, Throwable t) {
                 Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+                if (pd != null && pd.isShowing()) {
+                    pd.dismiss();
 
+                }
             }
         });
     }
@@ -249,7 +350,7 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
         int quiz_id ;
         public final TextView description;
         public final ImageButton send;
-        private final LinearLayout cr;
+        private final CardView cr;
         public QuizItem mItem;
 
         public ViewHolder(View view) {
@@ -260,11 +361,34 @@ public class ShowQuizAdapter extends RecyclerView.Adapter<ShowQuizAdapter.ViewHo
             quiz_name = (TextView) view.findViewById(R.id.QuizeName);
             description = (TextView) view.findViewById(R.id.description);
             send = (ImageButton) view.findViewById(R.id.sendQuiz);
-            del = (ImageButton) view.findViewById(R.id.sendQuiz);
-            cr = (LinearLayout) view.findViewById(R.id.cardView_quize);
+            del = (ImageButton) view.findViewById(R.id.deletQuiz);
+            cr = (CardView) view.findViewById(R.id.cardView_quize);
             quiz_id = 0;
         }
 
     }
+    public ArrayList<Integer> ShowQuizGroup(int quiz_id) {
+        techerApi.showQuizGroup(quiz_id).enqueue(new Callback<GroupModel>() {
+            @Override
+            public void onResponse(Call<GroupModel> call, Response<GroupModel> response) {
+                if (response.body().isResult()) {
+                    arraySendId = response.body().getGroup();
+                    for (int i = 0 ; i < arraySendId.size() ; i++){
+                        sendGroupId.add(arraySendId.get(i).getGroup_id());
+                    }
+                    Log.d("sendGroupId", sendGroupId.toString());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<GroupModel> call, Throwable t) {
+                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+                if (pd != null && pd.isShowing()) {
+                    pd.dismiss();
+
+                }
+            }
+        });
+        return sendGroupId;
+    }
 }

@@ -111,19 +111,19 @@ public class BlankFragment extends Fragment {
                 .inflate(R.layout.nav_header_teacher,null, false);
 
         String img = sharedPrefUtil.getString(IMAGE_DATA);
-        if (img != null ||! (img.isEmpty())) {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),Uri.parse(img));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mDisplayImage.setImageBitmap(bitmap);
+       // if (img != null ||! (img.isEmpty())) {
+           // try {
+              //  bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),Uri.parse(img));
+           // } catch (IOException e) {
+             //   e.printStackTrace();
+            //}
+           // mDisplayImage.setImageBitmap(bitmap);
            // ((CircleImageView)viewHedar.findViewById(R.id.circleView)).setImageBitmap(bitmap);
 
-        }
-        else {
-            mDisplayImage.setImageResource(R.drawable.blank_profile_picture);
-        }
+      //  }
+        //else {
+          //  mDisplayImage.setImageResource(R.drawable.blank_profile_picture);
+        //}
         pluse = (TextView) view.findViewById(R.id.pluse);
 
 //        putImage();

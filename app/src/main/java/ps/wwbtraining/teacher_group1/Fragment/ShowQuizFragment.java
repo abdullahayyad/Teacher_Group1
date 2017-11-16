@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group1.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -56,11 +57,11 @@ public class ShowQuizFragment extends Fragment {
     private ActionMode mActionmode;
     private int myPosition;
     private View view;
+    ProgressDialog pd;
     private RelativeLayout customView;
     private ProgressBar progress;
     int quiz_id;
 
-    private ActionMode.Callback mActionModeCallback1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,8 @@ public class ShowQuizFragment extends Fragment {
         progress = (ProgressBar) view.findViewById(R.id.progress);
         progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#c0392b"), android.graphics.PorterDuff.Mode.MULTIPLY);
         TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+        pd = new ProgressDialog(getActivity());
+
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,21 +156,20 @@ public class ShowQuizFragment extends Fragment {
                                 @Override
                                 public boolean onItemLongClicked(int position) {
                                     myPosition = position;
-//                                    mActionmode = getActivity().startActionMode(mActionModeCallback);
+
                                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                     ShowQuestionFragment newFragment = new ShowQuestionFragment();
-                                    quiz_id = showQuizAdapter.post;
+
+                                    quiz_id = array.get(myPosition).getQuiz_id();
                                     Bundle args = new Bundle();
-                                    Log.d("quizId",quiz_id+"");
-                                    args.putInt("quiz_id",quiz_id);
+                                    args.putInt("quiz_id",array.get(myPosition).getQuiz_id());
                                     args.putString("quiz_name", array.get(myPosition).getQuiz_name());
-//                    Log.d("nameee",holder.group_name.getText().toString());
-//                    Log.d("description",holder.description.getText().toString());
                                     args.putString("quiz_description",array.get(myPosition).getDescription());
+                                    args.putString("deadline",array.get(myPosition).getDeadline());
                                     newFragment.setArguments(args);
                                     transaction.replace(R.id.show_quiz, newFragment);
                                     transaction.commit();
-//                                    TeacherActivity.toolbar.setVisibility(View.VISIBLE);
+
                                     return true;
                                 }
 //                                @Override
@@ -214,6 +216,7 @@ public class ShowQuizFragment extends Fragment {
                     if(getView() != null){
                         list_quiz.setVisibility(View.GONE);
                         progress.setVisibility(View.VISIBLE);
+                        if(getView()!=null)
                         reloadData();}
                 }
             });
@@ -224,6 +227,7 @@ public class ShowQuizFragment extends Fragment {
 
     private void reloadData() {
         final Snackbar snackbar;
+try{
         snackbar = Snackbar.make(customView, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {
             @Override
@@ -240,6 +244,7 @@ public class ShowQuizFragment extends Fragment {
 //        })
                 .setActionTextColor(Color.WHITE);
         snackbar.show();
+    }catch(Exception e){}
 
 
     }
@@ -271,7 +276,12 @@ public class ShowQuizFragment extends Fragment {
                     builder.setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    UpdateFlagQuiz(quiz_id);
+                                    if (isOnline(getActivity())) {
+
+                                        pd.setMessage("Update Question ....");
+                                        pd.setCancelable(false);
+                                        pd.show();
+                                    UpdateFlagQuiz(quiz_id);}
                                     array.remove(showQuizAdapter.index);
                                     showQuizAdapter.notifyDataSetChanged();
                                 }
@@ -295,11 +305,13 @@ public class ShowQuizFragment extends Fragment {
 
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     ShowQuestionFragment newFragment = new ShowQuestionFragment();
-                    quiz_id = showQuizAdapter.post;
+                    quiz_id = array.get(myPosition).getQuiz_id();
                     Bundle args = new Bundle();
                     Log.d("quizId",quiz_id+"");
                     args.putInt("quiz_id",quiz_id);
                     args.putString("quiz_name", array.get(myPosition).getQuiz_name());
+                    Log.d("gggggggg",array.get(myPosition).getQuiz_name());
+                    args.putString("deadline",array.get(myPosition).getDeadline());
 //                    Log.d("nameee",holder.group_name.getText().toString());
 //                    Log.d("description",holder.description.getText().toString());
                     args.putString("quiz_description",array.get(myPosition).getDescription());
@@ -325,7 +337,11 @@ public class ShowQuizFragment extends Fragment {
             @Override
             public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
                 if (response.body().isResult()) {
-                    Log.d("update", "insert");
+                    if (pd != null && pd.isShowing()) {
+                        pd.dismiss();
+
+                    }
+
                 }
             }
 

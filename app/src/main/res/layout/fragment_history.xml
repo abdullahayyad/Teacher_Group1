@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/framelayout"
     tools:context="ps.wwbtraining.teacher_group1.Fragment.HistoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,15 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_greyish"
-            android:padding="10dp"
-            android:text="@string/history_quiz_s"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize" />
         <ProgressBar
             android:id="@+id/progress"
             android:layout_gravity="center"
@@ -27,6 +19,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/shadow_back"
+            android:padding="10dp"
+            android:text="@string/history_quiz_s"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvgrid"

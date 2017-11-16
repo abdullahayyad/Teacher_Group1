@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_marginLeft="@dimen/margin_list"
-        android:textColor="@color/NAV1" />
+        android:textColor="@color/black" />
     <ImageView
         android:id="@+id/delete"
         android:layout_width="wrap_content"

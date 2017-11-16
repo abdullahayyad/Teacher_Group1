@@ -89,5 +89,6 @@ public class QuizItem{
                         "quiz_id = '" + quiz_id + '\'' +
                         ",quiz_name = '" + quiz_name + '\'' +
                         ",description = '" + discription + '\'' +
+                        ",dead = '" + deadline + '\'' +
                         "}";
     }}

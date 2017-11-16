@@ -45,3 +45,14 @@ public class QuizModel{
                         "}";
     }
 }
+/*
+{
+    "result": true,
+    "User": [
+        {
+            "user_name": "lubna",
+            "user_id": "2",
+            "group_id": "1",
+            "quiz_id": "350"
+        }
+ */

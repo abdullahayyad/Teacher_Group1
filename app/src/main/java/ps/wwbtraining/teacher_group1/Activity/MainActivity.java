@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Chantelli_Antiqua.ttf")
+                .setDefaultFontPath("fonts/abel-regular.ttf")
 //                Chantelli_Antiqua.ttf"
                 .setFontAttrId(R.attr.fontPath)
                 .build()

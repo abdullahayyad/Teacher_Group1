@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ps.wwbtraining.teacher_group1.Fragment.BlankFragment;
+import ps.wwbtraining.teacher_group1.Fragment.HistoryFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ManageUserFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ShowGroupFragment;
 import ps.wwbtraining.teacher_group1.Fragment.ShowQuizFragment;
@@ -33,7 +34,7 @@ public class TeacherActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher2);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Chantelli_Antiqua.ttf")
+                        .setDefaultFontPath("fonts/abel-regular.ttf")
 //                Chantelli_Antiqua.ttf"
                         .setFontAttrId(R.attr.fontPath)
                         .build()
@@ -98,6 +99,10 @@ public class TeacherActivity extends AppCompatActivity
 
         } else if (id == R.id.quiz) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new ShowQuizFragment()).commit();
+
+        } else if (id == R.id.history) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameTeacher, new HistoryFragment()).commit();
+
         } else if (id == R.id.log_out) {
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

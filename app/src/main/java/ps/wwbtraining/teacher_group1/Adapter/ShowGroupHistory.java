@@ -24,10 +24,10 @@ import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Fragment.EditGroupFragment;
+import ps.wwbtraining.teacher_group1.Fragment.ShowQuizHistory;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
 import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
 import ps.wwbtraining.teacher_group1.Model.GroupItem;
-import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.R;
 import retrofit2.Call;
@@ -35,41 +35,53 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.ViewHolder> {
+/**
+ * Created by Hanan Dawod on 14/11/17.
+ */
+
+public class ShowGroupHistory  extends RecyclerView.Adapter<ShowGroupHistory.ViewHolder> {
 
     private final ArrayList<GroupItem> arrayList;
     int positionItem ;
     Fragment context;
-    EditGroupFragment newFragment;
+    ShowQuizHistory newFragment;
     TeacherApi teacherApi;
     int group_id;
     int count = 0;
+    int size =0;
     private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder mDrawableBuilder;
 
-    public ShowGroupAdapter(Fragment context, ArrayList<GroupItem> arrayList) {
+    public ShowGroupHistory(Fragment context, ArrayList<GroupItem> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        Log.d("arraygrouppp",arrayList.toString());
         mDrawableBuilder = TextDrawable.builder()
                 .round();
+        teacherApi= ApiTeacher.getAPIService();
+
 
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.group_list_item, parent, false);
-        teacherApi= ApiTeacher.getAPIService();
-        return new ShowGroupAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
         holder.mItem = arrayList.get(position);
+      holder.delete.setVisibility(View.GONE);
         holder.group_name.setText(arrayList.get(position).getgroup_name());
         holder.description.setText(arrayList.get(position).getDescription());
-      GroupItem item=arrayList.get(position);
+       GroupItem item=arrayList.get(position);
         updateCheckedState(holder, item);
+
         holder.llgroub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,43 +93,24 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
                 args.putString("group_description",holder.description.getText().toString());
                 args.putInt("group_id",group_id);
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-                newFragment = new EditGroupFragment();
+                newFragment = new ShowQuizHistory();
                 newFragment.setArguments(args);
                 transaction.replace(R.id.show_group, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                group_id = arrayList.get(position).getGroup_id();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context.getActivity());
-                builder.setMessage("Do you want to remove?");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                UpdateFlagGroup(group_id,position);
-
-                            }
-                        });
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-
-            }
-        });
-
     }
+
+
+    @Override
+    public int getItemCount() {
+Log.d("bbbb",arrayList.size()+"");
+        return arrayList.size();
+    }
+
     private void updateCheckedState(final ViewHolder holder, final GroupItem item) {
-        teacherApi.getCount(item.getGroup_id()).enqueue(new Callback<CountStudentModel>() {
+        teacherApi.getCountQuiz(item.getGroup_id()).enqueue(new Callback<CountStudentModel>() {
             @Override
             public void onResponse(Call<CountStudentModel> call, Response<CountStudentModel> response) {
                 count = response.body().getCountStudent() ;
@@ -132,85 +125,36 @@ public class ShowGroupAdapter  extends RecyclerView.Adapter<ShowGroupAdapter.Vie
 
             @Override
             public void onFailure(Call<CountStudentModel> call, Throwable t) {
-                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
+try {
+    Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
+}catch (Exception e){}
             }
         });
 
 
     }
-    int size =0;
-    @Override
-    public int getItemCount() {
-        try{ size = arrayList.size();
-            Log.d("arrayListSize","zz");
-
-        }
-        catch (Exception e ){
-
-        }
-        return size;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
         public final TextView group_name;
         public final TextView description;
-        public final ImageButton edit;
         public final ImageView delete;
-        public final LinearLayout llgroub;
+public final LinearLayout llgroub;
         public GroupItem mItem;
         public final ImageView image;
         public ViewHolder(View view) {
 
             super(view);
-
             this.view = view;
             group_name = (TextView) view.findViewById(R.id.groupName);
             description = (TextView) view.findViewById(R.id.description);
-            edit = (ImageButton)view.findViewById(R.id.edit);
-            delete = (ImageView)view.findViewById(R.id.delete);
-            image = (ImageView) view.findViewById(R.id.image_view);
-            llgroub=(LinearLayout)view.findViewById(R.id.llgroub);
+           image = (ImageView) view.findViewById(R.id.image_view);
+            delete = view.findViewById(R.id.delete);
+             llgroub = (LinearLayout) view.findViewById(R.id.llgroub);
         }
     }
 
-    public void UpdateFlagGroup(int groupId, final int position ) {
-        teacherApi.updateFlagGroup(groupId, 0).enqueue(new Callback<UpdateStatus>() {
-            @Override
-            public void onResponse(Call<UpdateStatus> call, Response<UpdateStatus> response) {
-                if (response.body().isResult()) {
-                    Log.d("update", "insert");
-                    arrayList.remove(position);
-                    notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UpdateStatus> call, Throwable t) {
-                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    public int CountGroup(int groupId) {
-
-        teacherApi.getCount(groupId).enqueue(new Callback<CountStudentModel>() {
-            @Override
-            public void onResponse(Call<CountStudentModel> call, Response<CountStudentModel> response) {
-               count = response.body().getCountStudent() ;
-                    Log.d("countGroup", count + "  ");
 
 
-            }
 
-            @Override
-            public void onFailure(Call<CountStudentModel> call, Throwable t) {
-                Toast.makeText(context.getActivity(), "Unable to submit post to API.", Toast.LENGTH_SHORT).show();
 
-            }
-        });
-        return count;
-    }
 }

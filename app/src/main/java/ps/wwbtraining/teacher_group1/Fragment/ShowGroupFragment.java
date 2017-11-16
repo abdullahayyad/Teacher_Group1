@@ -64,8 +64,6 @@ public class ShowGroupFragment extends Fragment {
         teacherApi = ApiTeacher.getAPIService();
         list_group = (RecyclerView) view.findViewById(R.id.list_group);
         addGroup = (FloatingActionButton) view.findViewById(R.id.addGroup);
-        tvCancel = (TextView) view.findViewById(R.id.tvCancel);
-        tvRecreate = (TextView) view.findViewById(R.id.tvRecreate);
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,12 +73,7 @@ public class ShowGroupFragment extends Fragment {
             }
         });
 
-//        tvCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+
         return view;
     }
 
@@ -156,6 +149,11 @@ public class ShowGroupFragment extends Fragment {
     }
 
     private void reloadData() {
+
+
+
+
+
         final Snackbar snackbar;
         snackbar = Snackbar.make(customView, "No Internet Connection:( ", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Reload", new View.OnClickListener() {

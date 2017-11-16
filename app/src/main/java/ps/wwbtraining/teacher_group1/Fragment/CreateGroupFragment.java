@@ -115,76 +115,62 @@ public class CreateGroupFragment extends Fragment {
             @Override
             public void onClick(final View view) {
                 try {
-                    String nameg = name.getText().toString();
-                    String des = description.getText().toString();
-                    if (checkValidation()) {
-                        teacherApi
-                                .addGroup(nameg, des)
-                                .enqueue(new Callback<GroupInsert>() {
-                                    @Override
-                                    public void onResponse(Call<GroupInsert> call, Response<GroupInsert> response) {
-                                        final ProgressDialog pd = new ProgressDialog(getActivity());
-                                        pd.setMessage("Saving Group ....");
-                                        pd.setCancelable(false);
-                                        pd.show();
-                                        if (response.isSuccessful()) {
-                                            if (response.body().isResult()) {
-                                                group_id = response.body().getId();
+                    final String nameg = name.getText().toString();
+                    final String des = description.getText().toString();
+                     if (checkValidation()) {
+                         array1.addAll(userManagementAdapter.getArray().values());
+                        HashMap testMap = new HashMap();
+                        testMap.put("name_group", nameg);
+                        testMap.put("description", des);
+                        testMap.put("user_id", array1);
 
-                                                array1.addAll(userManagementAdapter.getArray().values());
+                        Log.d("testMap", testMap + " ");
+                        JSONObject jsonObject = new JSONObject(testMap);
+                        Log.d("jsonObject", jsonObject + " ");
+                         final ProgressDialog pd = new ProgressDialog(getActivity());
 
-                                                HashMap testMap = new HashMap<String, String>();
-                                                testMap.put("group_id", group_id);
-                                                testMap.put("user_id", array1);
-                                                Log.d("testMap", testMap + " ");
-                                                JSONObject jsonObject = new JSONObject(testMap);
-                                                Log.d("jsonObject", jsonObject + " ");
+                        teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject))).enqueue(new Callback<InsertIntoGroup>() {
+                            @Override
+                            public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
 
-                                                teacherApi.addArrayUserGroup(RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), String.valueOf(jsonObject))).enqueue(new Callback<InsertIntoGroup>() {
-                                                    @Override
-                                                    public void onResponse(Call<InsertIntoGroup> call, Response<InsertIntoGroup> response) {
-                                                        if (response.isSuccessful()) {
+                                if (response.isSuccessful()) {
 
-                                                            name.setText("");
-                                                            description.setText("");
-                                                            userManagementAdapter.check();
+
+                                                            pd.setMessage("Saving Group ....");
+                                                            pd.setCancelable(false);
+                                                            pd.show();
 
                                                             if (pd != null && pd.isShowing())
                                                                 pd.dismiss();
-                                                        } else {
+                                } else {
 
                                                             if (pd != null && pd.isShowing())
                                                                 pd.dismiss();
                                                                 customSnackBare(view, "No Internet Connection ....");
-                                                        }
-                                                    }
+                                }
+                            }
 
-                                                    @Override
-                                                    public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<InsertIntoGroup> call, Throwable t) {
                                                         Log.d("//////", t.toString());
-                                                        if(getView() != null){
+                                                        if(getView() != null) {
                                                             if (pd != null && pd.isShowing())
-                                                            pd.dismiss();
-                                                        NoInternetAlert(getActivity());
-                                                    }}
-                                                });
+                                                                pd.dismiss();
+
+                                }
+                            }
+                        });
                                             } else
                                                 customSnackBare(view, "No Internet Connection ....");
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<GroupInsert> call, Throwable t) {
-                                        if(getView() != null){
-                                        customSnackBare(view, "No Internet Connection ....");}
-                                    }
-                                });
+                        name.setText("");
+                        description.setText("");
+                        userManagementAdapter.check();
+                        array1.clear();
                     }
 
-                } catch (Exception e) {
-                    customSnackBare(view, "Something Error ....");
-                }
+                 catch(Exception e){
+                        customSnackBare(view, "Something Error ....");
+                    }
 
             }
         });

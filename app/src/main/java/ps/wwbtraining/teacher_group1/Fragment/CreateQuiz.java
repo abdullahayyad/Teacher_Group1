@@ -2,6 +2,7 @@ package ps.wwbtraining.teacher_group1.Fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -162,6 +163,9 @@ public class CreateQuiz extends Fragment {
                         tvDeadline.setText(myTime);
                     }
                 }, year, month, day);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                }
                 datePickerDialog.show();
             }
         });

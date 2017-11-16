@@ -4,7 +4,7 @@ package ps.wwbtraining.teacher_group1.Interface;
 import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group1.Model.AnswerAddModel;
 import ps.wwbtraining.teacher_group1.Model.CountStudentModel;
-import ps.wwbtraining.teacher_group1.Model.GroupInsert;
+import ps.wwbtraining.teacher_group1.Model.GradeModel;
 import ps.wwbtraining.teacher_group1.Model.GroupModel;
 import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.InsertIntoGroup;
@@ -16,6 +16,7 @@ import ps.wwbtraining.teacher_group1.Model.StudentModel;
 import ps.wwbtraining.teacher_group1.Model.UpdateStatus;
 import ps.wwbtraining.teacher_group1.Model.User;
 import ps.wwbtraining.teacher_group1.Model.UserFromGroupModel;
+import ps.wwbtraining.teacher_group1.Model.UserHistoryModel;
 import ps.wwbtraining.teacher_group1.Model.Users;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,29 +37,31 @@ public interface TeacherApi {
     Call<Users> checkLogin(@Field("user_email") String user_email,
                            @Field("user_password") String user_password);
 
-
     @GET("showGroup.php")
     Call<GroupModel> showGroup();
 
+    @GET("showGroupHistory.php")
+    Call<GroupModel> showGroupHistory();
 
-    @POST("addGroup.php")
+    @POST("showUserGradeHistory.php")
     @FormUrlEncoded
-    Call<GroupInsert> addGroup(@Field("group_name") String group_name,
-                               @Field("description") String description);
+    Call<UserHistoryModel> showUserHistory(@Field("quiz_id") int quiz_id,
+                                           @Field("group_id") int group_id);
 
 
-    @POST("addUserGroup.php")
+    @POST("showQuizHistory.php")
     @FormUrlEncoded
-    Call<InsertIntoGroup> addUserGroup(@Field("group_id") int group_id,
-                                       @Field("user_id") int user_id);
+    Call<QuizModel> showQuizHistory(@Field("group_id") int group_id);
 
     @POST("addUserGroup.php")
     Call<InsertIntoGroup> addArrayUserGroup(@Body RequestBody requestBody);
 
 
-    @POST("sendQuiz.php")
-    Call<InsertIntoGroup> sendQuiz(@Body RequestBody requestBody);
+    @POST("UpdateGroupFromUsers.php")
+    Call<InsertInToQuiz> UpdateGroupFromUser(@Body RequestBody requestBody);
 
+//    @POST("sendQuiz.php")
+//    Call<InsertIntoGroup> sendQuiz(@Body RequestBody requestBody);
 
     @POST("insert_quiz.php")
     Call <InsertInToQuiz>addArrayQuiz(@Body RequestBody requestBody);
@@ -67,14 +70,22 @@ public interface TeacherApi {
     Call <InsertInToQuiz> updateStatusUser(@Body RequestBody requestBody);
 
 
-    @POST("UpdateGroupFromUser.php")
-    Call <InsertInToQuiz> UpdateGroupFromUser(@Body RequestBody requestBody);
-
-
     @POST("UserFromGroup.php")
     @FormUrlEncoded
     Call<UserFromGroupModel> userFromGroup(@Field("group_id") int group_id);
 
+
+
+    @POST("UpdateInfoQuiz.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> updateQuiz(@Field("quiz_id") int id,
+            @Field("quiz_name") String name,
+                                    @Field("discription") String description,
+                                    @Field("deadline")String deadline
+    );
+    @POST("recreat.php")
+    @FormUrlEncoded
+    Call <UpdateStatus> recreat(@Field("quiz_id") int quiz_id);
 
     @POST("UpdateGroup.php")
     @FormUrlEncoded
@@ -82,15 +93,6 @@ public interface TeacherApi {
                                       @Field("group_name") String group_name,
                                       @Field("description") String description);
 
-    @POST("deleteGroupUser.php")
-    @FormUrlEncoded
-    Call<InsertIntoGroup> deleteGroupUser(@Field("group_id") int group_id);
-
-
-    @POST("updateStatus.php")
-    @FormUrlEncoded
-    Call<UpdateStatus> updateStatus(@Field("user_id") String user_id,
-                                    @Field("status_id") String status_id);
 
     @GET("showQuiz.php")
     Call<QuizModel> showQuiz();
@@ -132,9 +134,17 @@ public interface TeacherApi {
     @FormUrlEncoded
     Call<CountStudentModel> getCount(@Field("group_id") int group_id);
 
+    @POST("countQuiz.php")
+    @FormUrlEncoded
+    Call<CountStudentModel> getCountQuiz(@Field("group_id") int group_id);
+
     @POST("showQues.php")
     @FormUrlEncoded
     Call<ShowQuesModel> showQues(@Field("quiz_id") int quiz_id);
+
+    @POST("showQuestion.php")
+    @FormUrlEncoded
+    Call<ShowQuesModel> showQuestion(@Field("quiz_id") int quiz_id);
 
     @POST("showAnswer.php")
     @FormUrlEncoded
@@ -170,25 +180,14 @@ public interface TeacherApi {
     Call<UpdateStatus> updateFlagQues(@Field("question_id") int question_id,
                                       @Field("flag") int flag);
 
-    @POST("updateAns1.php")
+    @POST("updateAns.php")
     @FormUrlEncoded
-    Call<UpdateStatus> updateAns1(@Field("question_id") int question_id,
-                                  @Field("ans1") String ans1);
-
-    @POST("updateAns2.php")
-    @FormUrlEncoded
-    Call<UpdateStatus> updateAns2(@Field("question_id") int question_id,
-                                  @Field("ans2") String ans2);
-
-    @POST("updateAns3.php")
-    @FormUrlEncoded
-    Call<UpdateStatus> updateAns3(@Field("question_id") int question_id,
-                                  @Field("ans3") String ans3);
-
-    @POST("updateAns4.php")
-    @FormUrlEncoded
-    Call<UpdateStatus> updateAns4(@Field("question_id") int question_id,
+    Call<UpdateStatus> updateAns(@Field("question_id") int question_id,
+                                  @Field("ans1") String ans1,
+                                  @Field("ans2") String ans2,
+                                  @Field("ans3") String ans3,
                                   @Field("ans4") String ans4);
+
 
     @POST("insertQues.php")
     @FormUrlEncoded
@@ -197,6 +196,17 @@ public interface TeacherApi {
                                      @Field("quiz_id") int quiz_id,
                                      @Field("correct_answer") String correct_answer
     );
+    @POST("insertAns.php")
+    @FormUrlEncoded
+
+
+    Call<UpdateStatus> insertAns(@Field("question_id") int question_id,
+                                     @Field("ans1") String ans1,
+                                     @Field("ans2") String ans2,
+                                     @Field("ans3") String ans3,
+                                    @Field("ans4") String ans4
+    );
+
 
     @POST("updateTeacherProfile.php")
     @FormUrlEncoded
@@ -206,5 +216,23 @@ public interface TeacherApi {
                              @Field("user_mobile") String user_mobile,
                              @Field("old_password") String old_password,
                              @Field("new_password") String new_password);
+
+    @POST("showQuizGroup.php")
+    @FormUrlEncoded
+    Call<GroupModel> showQuizGroup(@Field("quiz_id") int quiz_id);
+
+    @POST("apiNotification.php")
+    Call<InsertIntoGroup> sendQuizToGroup(@Body RequestBody requestBody);
+
+
+    @POST("checkQuiz.php")
+    @FormUrlEncoded
+    Call<UpdateStatus> checkQuiz(@Field("quiz_id") int quiz_id);
+
+    @POST("gradeStudent.php")
+    @FormUrlEncoded
+    Call<GradeModel> gradeStudent(@Field("user_id") int user_id,
+                                  @Field("quiz_id") int quiz_id);
+
 
 }
