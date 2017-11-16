@@ -13,7 +13,7 @@ public class ShowQuesModel{
 	@SerializedName("result")
 	private boolean result;
 
-	@SerializedName("User")
+	@SerializedName("quizStudent")
 	private ArrayList<QuesItem> user;
 
 	public void setResult(boolean result){
