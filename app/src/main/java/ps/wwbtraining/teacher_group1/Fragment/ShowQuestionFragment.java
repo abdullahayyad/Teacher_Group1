@@ -29,12 +29,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import ps.wwbtraining.teacher_group1.Adapter.ShowQuestionAdapter;
 import ps.wwbtraining.teacher_group1.Class.ApiTeacher;
 import ps.wwbtraining.teacher_group1.Interface.TeacherApi;
-import ps.wwbtraining.teacher_group1.Model.InsertInToQuiz;
 import ps.wwbtraining.teacher_group1.Model.QuesInsertModel;
 import ps.wwbtraining.teacher_group1.Model.QuesItem;
 import ps.wwbtraining.teacher_group1.Model.ShowQuesModel;
@@ -476,7 +474,7 @@ RecreateQuiz(3);}
             if (response.isSuccessful()) {
                 if (response.body().isResult()) {
                     array = response.body().getUser();
-                    Log.d("arrrrrrrr", array.toString());
+//                    Log.d("arrrrrrrr", array.toString());
                     showQuestionAdapter = new ShowQuestionAdapter(ShowQuestionFragment.this, array);
                     list_question.setAdapter(showQuestionAdapter);
                     list_question.setLayoutManager(new LinearLayoutManager(getActivity()));
